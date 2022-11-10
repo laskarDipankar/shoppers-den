@@ -5,4 +5,8 @@ const getHome = (req, res) => {
   });
 };
 
+// const postUser = (req,res)=>{
+
+// }
+
 module.exports = getHome;

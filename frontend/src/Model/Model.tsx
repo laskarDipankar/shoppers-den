@@ -15,4 +15,7 @@ export interface SignupProp {
   password: string;
   confirmPassword: string;
   dateOfBirth: string;
+  filename: string;
+  Id: Number;
+  Gender: string;
 }

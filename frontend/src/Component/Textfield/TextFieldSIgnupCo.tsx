@@ -33,13 +33,13 @@ const TextFieldSIgnupCo: React.FC<Props> = ({
       <TextField
         // variant={variant}
         sx={{
-          width: 400,
+          width: 340,
         }}
         name={name}
         type={type}
         label={label}
         value={value}
-        size="medium"
+        size="small"
         onChange={(e) =>
           setsingupdata((value) => ({ ...value, [name]: e.target.value }))
         }
