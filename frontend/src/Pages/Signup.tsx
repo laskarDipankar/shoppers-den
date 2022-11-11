@@ -94,7 +94,7 @@ const Signup = ({
               alignItems: "center",
 
               height: "100%",
-              width: "100%",
+              width: "100vw",
               paddingleft: "12px",
               paddingRight: "10px",
               // paddingTop: "5px",
@@ -120,20 +120,51 @@ const Signup = ({
                     flexDirection: "column",
                     // justifyContent: "center",
                     alignItems: "center",
-                    marginTop: "50px",
+                    marginTop: "30px",
                     paddingBottom: "20px",
 
                     // marginLeft: 50,
                     // marginRight: 50,
                   }}
                 >
-                  <Lottie
-                    style={{
-                      height: "180px",
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      // justifyContent: "space-between",
                     }}
-                    animationData={gg}
-                    loop={true}
-                  />
+                  >
+                    <Lottie
+                      style={{
+                        height: "150px",
+                        marginRight: "auto",
+                      }}
+                      animationData={gg}
+                      loop={true}
+                    />
+                    <Typography
+                      sx={{
+                        marginRight: "90px",
+                        fontSize: "20px",
+                        fontWeight: "bold",
+                        color: "#5A5953",
+                      }}
+                    >
+                      Register
+                      <Typography
+                        variant="subtitle1"
+                        component="span"
+                        sx={{
+                          fontSize: "14px",
+                          fontWeight: 200,
+                          marginLeft: "6px",
+                          color: "#42413F",
+                        }}
+                      >
+                        your shop
+                      </Typography>
+                    </Typography>
+                  </Box>
                   <Box
                     sx={{
                       display: "flex",

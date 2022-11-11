@@ -3,6 +3,7 @@ import React from "react";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Feed from "./Pages/Feed";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
               />
             }
           />
+          <Route path="/feed" element={<Feed />} />
         </Routes>
       </BrowserRouter>
     </>
