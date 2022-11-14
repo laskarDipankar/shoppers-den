@@ -3,10 +3,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import { TextField, Box } from "@mui/material";
 import { Value } from "../../Model/Model";
 
-interface initialValues {
-  email: string;
-  password: string;
-}
+// interface initialValues {
+//   email: string;
+//   password: string;
+// }
 
 // type Value = {
 //   email: string;
@@ -17,7 +17,7 @@ interface Props {
   edit: boolean;
   //   setedit: React.Dispatch<React.SetStateAction<boolean>>;
   value: {};
-  setvalues: React.Dispatch<React.SetStateAction<Value>>;
+  setvaluesL: React.Dispatch<React.SetStateAction<Value>>;
   name: string;
   type: string;
   label: string;
@@ -25,22 +25,22 @@ interface Props {
 
 const TextFIeldCO: React.FC<Props> = ({
   edit,
-  setvalues,
+  setvaluesL,
   value,
   name,
   type,
   label,
 }) => {
-  const initialValues: initialValues = { email: "", password: "" };
+  // const initialValues: initialValues = { email: "", password: "" };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
     // name: string
   ) => {
-    setvalues((value) => ({ ...value, [name]: e.target.value }));
+    setvaluesL((valueL) => ({ ...valueL, [name]: e.target.value }));
   };
 
-  console.log(type);
+  // console.log(type);
   return (
     <>
       <Box
@@ -52,18 +52,16 @@ const TextFIeldCO: React.FC<Props> = ({
       >
         <TextField
           sx={{
-            maxWidth: 300,
+            maxWidth: 500,
             border: "2px solid white",
             margin: "2%",
             color: "white",
-            // color: "wheat",
-
-            // marginTop: "4%",
           }}
+          size="small"
           // disabled={!edit}
           onChange={handleChange}
-          // name={name}
-          // value=
+          name={name}
+          value={value}
           type={type}
           label={label}
         />

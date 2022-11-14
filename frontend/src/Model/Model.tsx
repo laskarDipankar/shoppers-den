@@ -19,3 +19,13 @@ export interface SignupProp {
   Id: Number;
   Gender: string;
 }
+
+export interface UserSignup {
+  fName: string;
+  lName: string;
+  email_id: string;
+  Upassword: string;
+  UconfirmPassword: string;
+  UdateOfBirth: string;
+  UGender: string;
+}

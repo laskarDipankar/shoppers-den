@@ -4,6 +4,7 @@ import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./Pages/Feed";
+import Shop from "./Pages/Shop";
 
 function App() {
   return (
@@ -12,7 +13,10 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={<Login email={"email"} password={"password"} />}
+          />
           <Route
             path="/"
             element={
@@ -35,6 +39,7 @@ function App() {
             }
           />
           <Route path="/feed" element={<Feed />} />
+          <Route path="/shop/:id" element={<Shop />} />
         </Routes>
       </BrowserRouter>
     </>
