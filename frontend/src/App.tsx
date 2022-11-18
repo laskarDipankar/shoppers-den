@@ -1,36 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 // import "./App.css";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Feed from "./Pages/Feed";
 import Shop from "./Pages/Shop";
+import Admin from "./Pages/Admin";
+import AdminLogin from "./Pages/AdminLogin";
+
+const user = JSON.parse(localStorage.getItem("admintoken") || "{}");
+const ulogin = JSON.parse(localStorage.getItem("usertoken") || "{}");
 
 function App() {
+  // const [tokenadmin, settokenadmin] = React.useState(
+  //   JSON.parse(localStorage.getItem("admintoken") || "{}")
+  // );
+
+  console.log(user, "admin");
   return (
     <>
       {/* <Login /> */}
 
       <BrowserRouter>
         <Routes>
-          <Route
+          {/* <Route
             path="/login"
             element={<Login email={"email"} password={"password"} />}
-          />
+          /> */}
           <Route
-            path="/"
+            path="/signup"
             element={
               <Signup
-                firstName={""}
-                lastName={""}
-                email={""}
+                ufirstName={""}
+                ulastName={""}
+                uemail={""}
                 shopName={""}
                 State={""}
                 City={""}
                 pincode={0}
                 phoneNumber={0}
-                password={""}
-                confirmPassword={""}
+                upassword={""}
+                uconfirmPassword={""}
                 dateOfBirth={""}
                 filename={""}
                 Gender={""}
@@ -38,8 +48,23 @@ function App() {
               />
             }
           />
-          <Route path="/feed" element={<Feed />} />
+          {ulogin.userlogin ? (
+            <Route path="/" element={<Feed />} />
+          ) : (
+            <Route
+              path="/"
+              element={<Login email={"email"} password={"password"} />}
+            />
+          )}
           <Route path="/shop/:id" element={<Shop />} />
+
+          {user.adminlogin ? (
+            <Route path="/admin" element={<Admin />} />
+          ) : (
+            <Route path="/admin" element={<AdminLogin />} />
+          )}
+          {/* <Route path="/adminlogin" element={<AdminLogin />} /> */}
+          <Route path="*" element={<h1>404: Not Found</h1>} />
         </Routes>
       </BrowserRouter>
     </>

@@ -3,7 +3,14 @@ export const shops = {
     {
       id: 1,
       shopName: "chowmein",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -15,11 +22,21 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: false,
+
+      online: true,
     },
     {
       id: 2,
       shopName: "momowala",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -31,11 +48,20 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: true,
+      online: false,
     },
     {
       id: 3,
       shopName: "chai",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -47,11 +73,21 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: false,
+
+      online: true,
     },
     {
       id: 4,
       shopName: "pizza",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -63,11 +99,21 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: true,
+
+      online: true,
     },
     {
       id: 5,
       shopName: "chicken",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -79,11 +125,21 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: true,
+
+      online: false,
     },
     {
       id: 6,
       shopName: "juice",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -95,11 +151,20 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: false,
+      online: true,
     },
     {
       id: 7,
       shopName: "burger",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -111,11 +176,20 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: true,
+      online: true,
     },
     {
       id: 8,
       shopName: "Thali",
-      shopAddress: "Shop1 Address",
+      shopAddress: [
+        {
+          city: "karachi",
+          street: "gulshan",
+          house: "house no 1",
+          Landmark: "Near Hotel Balouch",
+        },
+      ],
       shopPhoneNumber: 1234567890,
       shopEmail: "Dipankar.laskar45@gmail.com",
       shopState: "West Bengal",
@@ -127,6 +201,9 @@ export const shops = {
       shopDescription: "Shop1 Description",
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
+      verfied: true,
+
+      online: false,
     },
   ],
 };

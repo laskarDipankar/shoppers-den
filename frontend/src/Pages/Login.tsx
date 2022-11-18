@@ -9,6 +9,8 @@ import Lottie from "lottie-react";
 import { Value } from "../Model/Model";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import rocket from "../img/rocket.json";
+import { api } from "../lib/Axios";
+import { useNavigate } from "react-router";
 
 interface MyFormValues {
   email: string;
@@ -21,6 +23,7 @@ const Login = ({ email, password }: MyFormValues) => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   // const initialValues: MyFormValues = { email: "", password: "" };
 
@@ -59,7 +62,7 @@ const Login = ({ email, password }: MyFormValues) => {
                 <Box
                   sx={{
                     // margin: "auto",
-                    minWidth: "30%",
+                    minWidth: "20%",
                     minHeight: 400,
                     border: "2px solid grey",
                     backdropFilter: "blur(23px)",
@@ -68,7 +71,7 @@ const Login = ({ email, password }: MyFormValues) => {
                     flexDirection: "column",
                     marginRight: "48px",
                     // zIndex: 1,
-                    borderRadius: "5%",
+                    // borderRadius: "5%",
                   }}
                 >
                   {" "}
@@ -83,8 +86,33 @@ const Login = ({ email, password }: MyFormValues) => {
                   <Formik
                     initialValues={valueL}
                     onSubmit={(valueL, resetForm) => {
-                      console.log(valueL, resetForm);
+                      api
+                        .post("/login", valueL)
+                        .then((res) => {
+                          try {
+                            console.log(res.data);
+                            if (res.status === 200) {
+                              if (res.data.token) {
+                                localStorage.setItem(
+                                  "usertoken",
+                                  JSON.stringify({
+                                    token: res.data.token,
+                                    userlogin: true,
+                                  })
+                                );
+                                window.location.reload();
+                                // navigate("/feed");
+                              }
+                            }
+                          } catch (error) {
+                            console.log(error);
+                          }
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
                     }}
+                    enableReinitialize={true}
                   >
                     <Form>
                       <Box

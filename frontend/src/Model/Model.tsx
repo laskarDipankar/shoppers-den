@@ -4,16 +4,16 @@ export type Value = {
 };
 
 export interface SignupProp {
-  firstName: string;
-  lastName: string;
-  email: string;
+  ufirstName: string;
+  ulastName: string;
+  uemail: string;
   shopName: string;
   State: string;
   City: string;
   pincode: Number;
   phoneNumber: Number;
-  password: string;
-  confirmPassword: string;
+  upassword: string;
+  uconfirmPassword: string;
   dateOfBirth: string;
   filename: string;
   Id: Number;
@@ -21,11 +21,37 @@ export interface SignupProp {
 }
 
 export interface UserSignup {
-  fName: string;
-  lName: string;
-  email_id: string;
-  Upassword: string;
-  UconfirmPassword: string;
-  UdateOfBirth: string;
-  UGender: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export interface ShopDetails {
+  id: Number;
+  shopName: string;
+
+  State: string;
+  City: string;
+  pincode: Number;
+  landmark: string;
+
+  phoneNumber: Number;
+  shopPhoneNumber: Number;
+  // shopImage: [
+  //   {
+  //     Logo: File;
+  //     shopImage: File;
+  //     OwnerImage: File;
+  //   }
+  // ];
+  shopCategory: string;
+  shopSubCategory: string;
+  shopDescription: string;
+  shopOwnerName: string;
+  shopOwnerPhoneNumber: Number;
+
+  online: boolean;
+  verfied: boolean;
 }

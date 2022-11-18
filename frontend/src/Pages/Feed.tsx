@@ -22,14 +22,16 @@ import {
   TypographyDetail,
   TypoLogo,
 } from "../Component/Typography/TypographyCo";
+import user from "../img/user1.svg";
 
 const Feed = () => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("md"));
   const [layout, setLayout] = useState<string>("");
-  // const [search, setSearch] = useState<string>("");
   const [locationMap, setSearch] = useState<string>("");
   const [search, setInputSearch] = useState<string>("");
+  const [status, setstatus] = useState<any>("");
+  const [userLocation, setUserLocation] = useState<any>();
 
   useEffect(() => {
     matches ? setLayout("70% 1fr") : setLayout("1fr");
@@ -38,7 +40,34 @@ const Feed = () => {
   console.log(layout);
 
   const type = "shop";
-  // console.log(shops);
+
+  const handleStatus = () => {
+    console.log(status);
+    if (status) {
+      setstatus("");
+    } else {
+      setstatus(true);
+    }
+  };
+
+  // useEffect(() => {
+  //   (async function () {
+  //     try {
+  //       navigator.geolocation.getCurrentPosition(
+  //         (data) => {
+  //           setUserLocation(data.coords);
+
+  //           console.log(data);
+  //         },
+  //         (error) => console.log(error)
+  //       );
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   })();
+  // }, []);
+
+  // console.log(userLocation);
   return (
     <Grid container>
       <Grid item xs={12} xl={12}>
@@ -78,15 +107,6 @@ const Feed = () => {
                             // marginRight: "auto",
                           }}
                         />
-                        {/* <TypographyCo>
-                          <NavLink
-                            state={type}
-                            style={{ textDecoration: "none", color: "black" }}
-                            to="/"
-                          >
-                            Register your Shop
-                          </NavLink>
-                        </TypographyCo> */}
                       </Box>
                       <Box
                         sx={{
@@ -117,7 +137,9 @@ const Feed = () => {
                         >
                           <TypographyCo>Filter</TypographyCo>
                           <TypographyCo>Distance</TypographyCo>
-                          <TypographyCo>Available</TypographyCo>
+                          <TypographyCo onClick={handleStatus}>
+                            Available
+                          </TypographyCo>
                           <TypographyCo>Category</TypographyCo>
                         </Box>
                       </Box>
@@ -135,63 +157,67 @@ const Feed = () => {
                 <BodyContent>
                   <Grid item xs={12}>
                     <BodyHeader>
-                      {/* <Navbar> */}
-                      <AppbarContainer
-                        sx={{
-                          // border: "2px solid red",
-                          paddingLeft: "30px",
-                        }}
-                      >
-                        <TypoLogo
+                      <Grid item xs={12}>
+                        <AppbarContainer
                           sx={{
-                            marginLeft: "10%",
-                          }}
-                          color="yellow"
-                        >
-                          SHOPPERS-DEN
-                        </TypoLogo>
-                        <Box
-                          sx={{
-                            marginLeft: "auto",
-                            // marginRight: "10%",
+                            border: "2px solid red",
+                            // paddingLeft: "30px",
                             display: "flex",
-                            gap: "10px",
-                            // border: "2px solid red",
-                            justifyContent: "space-around",
-                            alignItems: "center",
-                            width: "30%",
+                            justifyContent: "center",
+                            // justifyContent: "space-between",
+                            // gap: 70,
                           }}
+                          // display={{ xs: 12 }}
                         >
-                          <TextField
-                            label="Search shops"
-                            size="small"
+                          <TypoLogo
                             sx={{
-                              width: 300,
+                              marginLeft: "5%",
                             }}
-                            onChange={(e) => setInputSearch(e.target.value)}
-                          ></TextField>
-                          <TypographyDetail
+                            // color="yellow"
+                          >
+                            SHOPPERS-DEN
+                          </TypoLogo>
+                          <Box
                             sx={{
-                              height: "5vh",
-                              width: "5vh",
-                              bgcolor: "orange",
-                              borderRadius: "50%",
+                              // marginLeft: "auto",
+                              // marginRight: "5%",
+                              marginLeft: "10%",
                               display: "flex",
-                              justifyContent: "center",
+                              gap: "20px",
+                              // border: "2px solid red",
+                              // justifyContent: "space-between",
+                              justifyItems: "end",
                               alignItems: "center",
-                              marginRight: "20px",
+                              width: "30%",
                             }}
                           >
-                            <NavLink
-                              to="/"
-                              state={type}
-                              style={{ textDecoration: "none", color: "black" }}
-                            >
-                              User
-                            </NavLink>
-                          </TypographyDetail>
-                        </Box>
-                      </AppbarContainer>
+                            <TextField
+                              label="Search shops"
+                              size="small"
+                              sx={{
+                                minWidth: "20vw",
+                                color: "black",
+                              }}
+                              onChange={(e) => setInputSearch(e.target.value)}
+                            ></TextField>
+                            {/* <NavLink state={type} to="/">
+                            <Button>resgiter</Button>
+                          </NavLink> */}
+                            <TypographyDetail>
+                              <NavLink
+                                to="/signup"
+                                state={type}
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                }}
+                              >
+                                <img src={user}></img>
+                              </NavLink>
+                            </TypographyDetail>
+                          </Box>
+                        </AppbarContainer>
+                      </Grid>
                       {/* </Navbar> */}
                     </BodyHeader>
                   </Grid>
@@ -243,7 +269,6 @@ const Feed = () => {
                                         gap: "10px",
                                         maxWidth: "50vw",
                                         height: "68vh",
-
                                         textAlign: "center",
                                         marginLeft: "5px",
                                         scrollbarColor:
@@ -254,12 +279,11 @@ const Feed = () => {
                                     >
                                       {shops.shops
                                         .filter((item) => {
-                                          if (search === "") {
-                                            return item;
-                                          } else if (
+                                          if (
                                             item.shopName
                                               .toLowerCase()
-                                              .includes(search.toLowerCase())
+                                              .includes(search.toLowerCase()) ||
+                                            item.online == status
                                           ) {
                                             return item;
                                           }
@@ -308,14 +332,22 @@ const Feed = () => {
                                                       );
                                                     }}
                                                   >
-                                                    <TypographyDetail
+                                                    <Box
                                                       sx={{
-                                                        fontSize: "1.2rem",
-                                                        // marginTop: "10px",
+                                                        display: "flex",
+                                                        justifyContent:
+                                                          "center",
                                                       }}
                                                     >
-                                                      {item.shopName}
-                                                    </TypographyDetail>
+                                                      <TypographyDetail
+                                                        sx={{
+                                                          fontSize: "1.2rem",
+                                                          // marginTop: "10px",
+                                                        }}
+                                                      >
+                                                        {item.shopName}
+                                                      </TypographyDetail>
+                                                    </Box>
                                                     <Box
                                                       sx={{
                                                         // border: "2px solid red",
@@ -328,10 +360,10 @@ const Feed = () => {
                                                         marginTop: "100px",
                                                       }}
                                                     >
-                                                      <TypographyDetail>
+                                                      {/* <TypographyDetail>
                                                         Address :{" "}
                                                         {item.shopAddress}
-                                                      </TypographyDetail>
+                                                      </TypographyDetail> */}
                                                       <TypographyDetail>
                                                         Phone Number :{" "}
                                                         {item.shopPhoneNumber}

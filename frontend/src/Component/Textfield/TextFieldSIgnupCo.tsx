@@ -31,7 +31,7 @@ const TextFieldSIgnupCo: React.FC<Props> = ({
         ...userSignup,
         [name]: e.target.value,
       }));
-      console.log({ [name]: e.target.value });
+      // console.log({ [name]: e.target.value });
     } else {
       setsingupdata((signupData) => ({
         ...signupData,
@@ -52,7 +52,7 @@ const TextFieldSIgnupCo: React.FC<Props> = ({
       <TextField
         // variant={variant}
         sx={{
-          width: 340,
+          minWidth: "18vw",
         }}
         name={name}
         type={type}

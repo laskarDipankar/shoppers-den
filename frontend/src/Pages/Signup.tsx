@@ -22,45 +22,42 @@ import { useLocation } from "react-router";
 import { NavLink } from "react-router-dom";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import { UserSignup } from "../Model/Model";
+import { useNavigate } from "react-router";
+import axios from "axios";
 // import SelectFIeld from "../Component/Textfield/Selectfield/SelectFIeld";
 const Signup = (
   {
-    firstName,
-    lastName,
-    email,
+    ufirstName,
+    ulastName,
+    uemail,
     shopName,
     State,
     City,
     pincode,
     phoneNumber,
-    password,
-    confirmPassword,
+    upassword,
+    uconfirmPassword,
     dateOfBirth,
     Gender,
     Id,
   }: SignupProp,
-  {
-    fName,
-    lName,
-    email_id,
-    Upassword,
-    UconfirmPassword,
-    UdateOfBirth,
-    UGender,
-  }: UserSignup
+  { firstName, lastName, email, password, confirmPassword }: UserSignup
 ) => {
   // const [sstate, setstate] = useState<string>("");
+
+  const navigate = useNavigate();
+
   const [singupdata, setsingupdata] = useState<SignupProp>({
-    firstName: "",
-    lastName: "Galib",
-    email: "MIrza@galib.com",
+    ufirstName: "",
+    ulastName: "Galib",
+    uemail: "MIrza@galib.com",
     shopName: "YENagma",
     State: "UP",
     City: "Lucknow",
     pincode: 0,
     phoneNumber: 0,
-    password: "",
-    confirmPassword: "",
+    upassword: "",
+    uconfirmPassword: "",
     dateOfBirth: "",
     Gender: "male",
     filename: "",
@@ -68,13 +65,11 @@ const Signup = (
   });
 
   const [userSignup, setuserSignup] = useState<UserSignup>({
-    fName: "Mirza",
-    lName: "Ghalib",
-    email_id: "MirzaGhalib@gmail.com",
-    Upassword: "",
-    UconfirmPassword: "",
-    UdateOfBirth: "",
-    UGender,
+    firstName: "",
+    lastName: "Ghalib",
+    email: "MirzaGhalib@gmail.com",
+    password: "",
+    confirmPassword: "",
   });
   const [sstate, setstate] = useState<string>("");
   const location = useLocation();
@@ -82,11 +77,36 @@ const Signup = (
   const [selectedidImage, setSelectedImage] = useState<File>();
 
   const postData = (data: any) => {
-    console.log(data, "shop data submitted successfully");
+    // console.log(data, "shop data submitted successfully");
+  };
+
+  const UserPostData = (data: any) => {
+    try {
+      axios
+        .post("http://localhost:5000/api/users/signup", {
+          firstName: userSignup.firstName,
+          lastName: userSignup.lastName,
+          email: userSignup.email,
+          password: userSignup.password,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            navigate("/login");
+
+            console.log(res);
+          } else {
+            console.log(res);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const user = location.state;
   const gender = ["male", "female", "others"];
+
+  // console.log(location.state, "location.state");
 
   useEffect(() => {
     setsingupdata((value) => ({
@@ -94,8 +114,6 @@ const Signup = (
       [value.filename]: selectedfiles?.name,
     }));
   }, [selectedfiles]);
-  // console.log(selectedfiles?.name);
-  // console.log(singupdata);
 
   return (
     <>
@@ -112,7 +130,7 @@ const Signup = (
         <Grid item xs={12}>
           <BackgroundBody
             sx={{
-              border: "2px solid red",
+              // border: "2px solid red",
               marginBottom: "12px",
               bottom: "10px",
               overflowX: "hidden",
@@ -138,9 +156,6 @@ const Signup = (
                   width: "100vw",
                   paddingleft: "12px",
                   paddingRight: "10px",
-                  // paddingTop: "5px",
-                  // paddingBottom: "5px",
-                  // border: "2px solid red",
                 }}
               >
                 <Formik
@@ -149,11 +164,15 @@ const Signup = (
                   }
                   onSubmit={(values, actions) => {
                     var len = Object.keys(values).length;
-                    if (len < 10) {
-                      console.log(values, "user Data");
+                    console.log(len, "length");
+                    if (len < 7) {
+                      UserPostData(values);
+                      console.log(len, "small");
+                    } else {
+                      console.log(len, "big");
                     }
 
-                    postData(values);
+                    // postData(values);
                   }}
                   enableReinitialize={true}
                 >
@@ -212,229 +231,234 @@ const Signup = (
                           </Typography>
                         </Typography>
                       </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* <label>First Name</label> */}
-                        <TextFieldSIgnupCo
-                          //  sx={{width: "45%"}}
-                          setsingupdata={setsingupdata}
-                          setuserSignup={setuserSignup}
-                          user={location.state === "shop" ? "shop" : "user"}
-                          type="text"
-                          name={
-                            location.state === "shop" ? "firstName" : "fName"
-                          }
-                          label="First Name"
-                          value={
-                            location.state === "shop"
-                              ? singupdata.firstName
-                              : userSignup.fName
-                          }
-                          size="small"
-                          // variant={"standard"}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* <label>First Name</label> */}
-                        <TextFieldSIgnupCo
-                          setsingupdata={setsingupdata}
-                          setuserSignup={setuserSignup}
-                          user={location.state === "shop" ? "shop" : "user"}
-                          type="text"
-                          name={
-                            location.state === "shop" ? "lastName" : "lName"
-                          }
-                          label="Last Name"
-                          value={
-                            location.state === "shop"
-                              ? singupdata.lastName
-                              : userSignup.lName
-                          }
-                          size="small"
-                          // variant={"standard"}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          // marginLeft: "40px",
-                          marginTop: "10px",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Box>
-                          <InputLabel
-                            sx={
-                              {
-                                // textAlign: "center",
+                      {location.state !== "shop" ? (
+                        <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <TextFieldSIgnupCo
+                              setsingupdata={setsingupdata}
+                              setuserSignup={setuserSignup}
+                              user={location.state === "shop" ? "shop" : "user"}
+                              type="text"
+                              name={
+                                location.state === "shop"
+                                  ? "firstName"
+                                  : "firstName"
                               }
-                            }
-                          >
-                            Date of birth
-                          </InputLabel>
-                          <TextField
+                              label="First Name"
+                              value={
+                                location.state === "shop"
+                                  ? singupdata.ufirstName
+                                  : userSignup.firstName
+                              }
+                              size="small"
+                              // variant={"standard"}
+                            />
+                          </Box>
+                          <Box
                             sx={{
-                              width: 170,
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px",
                             }}
-                            type="date"
-                            onChange={(e) => {
-                              location.state === "shop"
-                                ? setsingupdata({
-                                    ...singupdata,
-                                    dateOfBirth: e.target.value,
-                                  })
-                                : setuserSignup({
-                                    ...userSignup,
-                                    UdateOfBirth: e.target.value,
-                                  });
-                            }}
-                            name={
-                              location.state === "shop"
-                                ? "dateOfBirth"
-                                : "UdateOfBirth"
-                            }
-                            // label="Date of Birth"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.dateOfBirth
-                                : userSignup.UdateOfBirth
-                            }
-                            size="small"
-                            // variant={"standard"}
                           >
-                            {location.state === "shop"
-                              ? singupdata.dateOfBirth
-                              : userSignup.UdateOfBirth}
-                          </TextField>
-                        </Box>
-                        <Box>
-                          <InputLabel>Gender</InputLabel>
-                          <Select
+                            {/* <label>First Name</label> */}
+                            <TextFieldSIgnupCo
+                              setsingupdata={setsingupdata}
+                              setuserSignup={setuserSignup}
+                              user={location.state === "shop" ? "shop" : "user"}
+                              type="text"
+                              name={
+                                location.state === "shop"
+                                  ? "lastName"
+                                  : "lastName"
+                              }
+                              label="Last Name"
+                              value={
+                                location.state === "shop"
+                                  ? singupdata.ulastName
+                                  : userSignup.lastName
+                              }
+                              size="small"
+                              // variant={"standard"}
+                            />
+                          </Box>
+                          <Box
                             sx={{
-                              width: 170,
+                              display: "flex",
+                              // marginLeft: "40px",
+                              marginTop: "10px",
+                              justifyContent: "center",
                             }}
-                            size="small"
-                            value={singupdata.Gender}
                           >
-                            {gender.map((item: string) => (
-                              <MenuItem
-                                onClick={(e) => {
+                            {/* <Box>
+                              <InputLabel
+                                
+                              >
+                                Date of birth
+                              </InputLabel>
+                              <TextField
+                                sx={{
+                                  width: 170,
+                                }}
+                                type="date"
+                                onChange={(e) => {
                                   location.state === "shop"
                                     ? setsingupdata({
                                         ...singupdata,
-                                        Gender: item,
+                                        dateOfBirth: e.target.value,
                                       })
                                     : setuserSignup({
                                         ...userSignup,
-                                        UGender: item,
+                                        UdateOfBirth: e.target.value,
                                       });
                                 }}
-                                value={item}
+                                name={
+                                  location.state === "shop"
+                                    ? "dateOfBirth"
+                                    : "UdateOfBirth"
+                                }
+                           
+                                value={
+                                  location.state === "shop"
+                                    ? singupdata.dateOfBirth
+                                    : userSignup.UdateOfBirth
+                                }
+                                size="small"
+                                
                               >
-                                {item}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          // marginLeft: "40px",
-                          marginTop: "10px",
-                          justifyContent: "center",
-                          // border: "2px solid black",
-                        }}
-                      >
-                        {/* <label>Email</label> */}
-                        <TextFieldSIgnupCo
-                          // sx={{
-                          //   width: "45%",
-                          // }}
-                          setsingupdata={setsingupdata}
-                          setuserSignup={setuserSignup}
-                          user={location.state === "shop" ? "shop" : "user"}
-                          type="email"
-                          name={
-                            location.state === "shop" ? "email" : "email_id"
-                          }
-                          label="Email"
-                          value={
-                            location.state === "shop"
-                              ? singupdata.email
-                              : userSignup.email_id
-                          }
-                          size="medium"
-                          // variant={"standard"}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* <label>First Name</label> */}
-                        <TextFieldSIgnupCo
-                          // sx={{
-                          //   width: "45%",
-                          // }}
-                          setsingupdata={setsingupdata}
-                          setuserSignup={setuserSignup}
-                          user={location.state === "shop" ? "shop" : "user"}
-                          type="password"
-                          name={
-                            location.state === "shop" ? "password" : "Upassword"
-                          }
-                          label="password"
-                          value={
-                            location.state === "shop"
-                              ? singupdata.password
-                              : userSignup.Upassword
-                          }
-                          size="small"
-                          // variant={"standard"}
-                        />
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* <label>First Name</label> */}
-                        <TextFieldSIgnupCo
-                          // sx={{
-                          //   width: "45%",
-                          // }}
-                          setsingupdata={setsingupdata}
-                          setuserSignup={setuserSignup}
-                          user={location.state === "shop" ? "shop" : "user"}
-                          type="password"
-                          name="confirmPassword"
-                          label="confirmPassword"
-                          value={
-                            location.state === "shop"
-                              ? singupdata.confirmPassword
-                              : userSignup.UconfirmPassword
-                          }
-                          size="small"
-                          // variant={"standard"}
-                        />
-                      </Box>
+                                {location.state === "shop"
+                                  ? singupdata.dateOfBirth
+                                  : userSignup.UdateOfBirth}
+                              </TextField>
+                            </Box>
+                            <Box>
+                              <InputLabel>Gender</InputLabel>
+                              <Select
+                                sx={{
+                                  width: 170,
+                                }}
+                                size="small"
+                                value={singupdata.Gender}
+                              >
+                                {gender.map((item: string) => (
+                                  <MenuItem
+                                    onClick={(e) => {
+                                      location.state === "shop"
+                                        ? setsingupdata({
+                                            ...singupdata,
+                                            Gender: item,
+                                          })
+                                        : setuserSignup({
+                                            ...userSignup,
+                                            UGender: item,
+                                          });
+                                    }}
+                                    value={item}
+                                  >
+                                    {item}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </Box> */}
+                          </Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+
+                              marginTop: "10px",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {/* <label>Email</label> */}
+                            <TextFieldSIgnupCo
+                              // sx={{
+                              //   width: "45%",
+                              // }}
+                              setsingupdata={setsingupdata}
+                              setuserSignup={setuserSignup}
+                              user={location.state === "shop" ? "shop" : "user"}
+                              type="email"
+                              name={
+                                location.state === "shop" ? "email" : "email"
+                              }
+                              label="Email"
+                              value={
+                                location.state === "shop"
+                                  ? singupdata.uemail
+                                  : userSignup.email
+                              }
+                              size="medium"
+                              // variant={"standard"}
+                            />
+                          </Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px",
+                            }}
+                          >
+                            {/* <label>First Name</label> */}
+                            <TextFieldSIgnupCo
+                              // sx={{
+                              //   width: "45%",
+                              // }}
+                              setsingupdata={setsingupdata}
+                              setuserSignup={setuserSignup}
+                              user={location.state === "shop" ? "shop" : "user"}
+                              type="password"
+                              name={
+                                location.state === "shop"
+                                  ? "password"
+                                  : "password"
+                              }
+                              label="password"
+                              value={
+                                location.state === "shop"
+                                  ? singupdata.upassword
+                                  : userSignup.password
+                              }
+                              size="small"
+                              // variant={"standard"}
+                            />
+                          </Box>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              marginTop: "10px",
+                            }}
+                          >
+                            {/* <label>First Name</label> */}
+                            <TextFieldSIgnupCo
+                              // sx={{
+                              //   width: "45%",
+                              // }}
+                              setsingupdata={setsingupdata}
+                              setuserSignup={setuserSignup}
+                              user={location.state === "shop" ? "shop" : "user"}
+                              type="password"
+                              name="confirmPassword"
+                              label="confirmPassword"
+                              value={
+                                location.state === "shop"
+                                  ? singupdata.uconfirmPassword
+                                  : userSignup.confirmPassword
+                              }
+                              size="small"
+                              // variant={"standard"}
+                            />
+                          </Box>
+                        </>
+                      ) : (
+                        ""
+                      )}
 
                       {location.state === "shop" ? (
                         <>
@@ -466,10 +490,11 @@ const Signup = (
                             sx={{
                               // display: "flex",
                               // border: "2px solid black",
-                              display: "grid",
+                              display: "flex",
                               justifyContent: "center",
-                              gridTemplateColumns: "1fr 1fr",
-                              width: 340,
+                              // gridTemplateColumns: "1fr 1fr",
+                              minWidth: "100%",
+                              // border: "1px solid black",
                             }}
                           >
                             <Box
@@ -481,7 +506,7 @@ const Signup = (
                               <InputLabel>Select State</InputLabel>
                               <Select
                                 sx={{
-                                  width: 173,
+                                  minWidth: "9vw",
                                   // marginTop: "10px",
                                 }}
                                 value={singupdata.State}
@@ -514,7 +539,7 @@ const Signup = (
                               <InputLabel>Select City</InputLabel>
                               <Select
                                 sx={{
-                                  width: 173,
+                                  minWidth: "9vw",
                                   // marginTop: "10px",
                                 }}
                                 value={singupdata.City}
@@ -612,7 +637,7 @@ const Signup = (
                             >
                               <Button
                                 sx={{
-                                  width: "21.5rem",
+                                  minWidth: "240px",
                                 }}
                                 size="small"
                                 variant="outlined"
@@ -635,11 +660,12 @@ const Signup = (
                           <Box
                             sx={{
                               bottom: "0px",
-                              marginTop: "10px",
+                              marginTop: "20px",
+                              gap: "10px",
                               display: "flex",
-                              justifyContent: "center",
-                              // alignItems: "center",
-                              // flexDirection: "column",
+                              // justifyContent: "center",
+                              alignItems: "center",
+                              flexDirection: "column",
                             }}
                           >
                             <Button
@@ -650,9 +676,14 @@ const Signup = (
                               size="small"
                               type="submit"
                             >
-                              signup
-                              {/* <NavLink to="#">Signup</NavLink> */}
+                              {/* signup */}
+                              <NavLink to="/feed">Signup</NavLink>
                             </Button>
+
+                            <Typography>
+                              Already have an account?
+                              <NavLink to="/">Login</NavLink>
+                            </Typography>
                           </Box>
                         </>
                       ) : (
@@ -677,11 +708,8 @@ const Signup = (
                           >
                             <Typography>
                               Already have an account?
-                              <NavLink to="/login">Login</NavLink>
+                              <NavLink to="/">Login</NavLink>
                             </Typography>
-                            {/* <Button>
-                              <NavLink to="/login">Login</NavLink>
-                            </Button> */}
                           </Box>
                         </>
                       )}

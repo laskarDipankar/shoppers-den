@@ -40,7 +40,7 @@ export const BodyContent = styled(Box)({
 export const BodyHeader = styled(Box)({
   // border: "2px solid grey",
   height: "15vh",
-  width: "82vw",
+  width: "96vw",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -48,8 +48,8 @@ export const BodyHeader = styled(Box)({
 
 export const Navbar = styled(Box)({
   height: "10vh",
-  width: "100%",
-  border: "2px solid purple",
+  width: "80vw",
+  // border: "2px solid purple",
 });
 
 export const BodyMain = styled(Box)({
@@ -67,8 +67,8 @@ export const ActionIconsMobile = styled(Box)(() => ({
   width: "100%",
   alignItems: "center",
   zIndex: 99,
-  borderTop: "1px solid yellow",
-  border: "2px solid red",
+  // borderTop: "1px solid yellow",
+  // border: "2px solid red",
 }));
 
 export const AppbarContainer = styled(Box)(() => ({
@@ -76,11 +76,14 @@ export const AppbarContainer = styled(Box)(() => ({
   // marginTop: 4,
   marginBottom: 32,
   // justifyContent: "center",
+  borderTopLeftRadius: 16,
+  borderTopRightRadius: 16,
   justifyContent: "space-around",
   alignItems: "center",
   height: "10vh",
   width: "100%",
   boxShadow: "rgba(17, 17, 26, 0.1) 0px 0px 16px",
+
   // padding : '2px 8px'
-  // backgroundColor: "rgba(193, 209, 214,0.3)",
+  backgroundColor: "rgba(233, 198, 20,0.8)",
 }));

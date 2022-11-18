@@ -24,12 +24,12 @@ export const TypographyDetail = styled(Typography)({
 });
 
 export const TypoLogo = styled(Typography)({
-  color: "#E14D2A",
+  color: "#A33213",
   fontWeight: "bold",
   minFontSize: "40px",
   fontFamily: "Roboto",
-  textAlign: "center",
-  marginLeft: "5px",
+  textAlign: "start",
+  // marginLeft: "5px",
 });
 
 export const TypoShopDetail = styled(Typography)({
