@@ -7,6 +7,9 @@ import Feed from "./Pages/Feed";
 import Shop from "./Pages/Shop";
 import Admin from "./Pages/Admin";
 import AdminLogin from "./Pages/AdminLogin";
+import AppbarMain from "./Component/Appbar";
+import Home from "./Pages/Home";
+import "leaflet/dist/leaflet.css";
 
 const user = JSON.parse(localStorage.getItem("admintoken") || "{}");
 const ulogin = JSON.parse(localStorage.getItem("usertoken") || "{}");
@@ -22,6 +25,10 @@ function App() {
       {/* <Login /> */}
 
       <BrowserRouter>
+        {/* {user.token ? <AppbarMain /> : <AppbarMain />}
+         */}
+        <AppbarMain />
+
         <Routes>
           {/* <Route
             path="/login"
@@ -64,6 +71,7 @@ function App() {
             <Route path="/admin" element={<AdminLogin />} />
           )}
           {/* <Route path="/adminlogin" element={<AdminLogin />} /> */}
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<h1>404: Not Found</h1>} />
         </Routes>
       </BrowserRouter>

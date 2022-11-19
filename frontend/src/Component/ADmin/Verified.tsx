@@ -36,7 +36,6 @@ const Verified = () => {
               return item;
             }
           })
-
           .map((item) => {
             return (
               <>
