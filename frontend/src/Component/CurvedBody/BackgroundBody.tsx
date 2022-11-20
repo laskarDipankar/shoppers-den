@@ -2,10 +2,11 @@ import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
 export const BackgroundBody = styled(Box)({
-  minWidth: "60%",
-  height: "94vh",
+  // minWidth: "60%",
+  // height: "94vh",
+  margin: "0 auto",
   bottom: "12px",
-  borderRadius: "50px",
+  // borderRadius: "50px",
   marginTop: "30px",
   marginLeft: "30px",
   marginRight: "30px",

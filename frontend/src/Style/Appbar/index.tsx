@@ -39,6 +39,7 @@ export const ActionIconsContainerDesktop = styled(Box)(() => ({
 }));
 
 export const ActionIconsMobile = styled(Box)(() => ({
+  marginTop: "4px",
   display: "flex",
   position: "fixed",
   // top:'100%',

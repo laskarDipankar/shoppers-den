@@ -19,7 +19,7 @@ const ShopSchema = new Schema({
   },
   ShopDetails: {
     isActive: {
-      type: String,
+      type: Boolean,
     },
     landmark: {
       type: String,
@@ -41,6 +41,16 @@ const ShopSchema = new Schema({
         type: String,
       },
     ],
+    timings: {
+      openingTime: {
+        type: String,
+        required: true,
+      },
+      closingTIme: {
+        type: String,
+        required: true,
+      },
+    },
   },
   Type: {
     type: String,

@@ -13,12 +13,14 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import Person from "@mui/icons-material/Person2Outlined";
+import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 import {
   ActionIconsMobile,
   AppbarContainer,
   AppHeader,
 } from "../../Style/Appbar/index";
 import Actions from "../Appbar/Action";
+import { NavLink } from "react-router-dom";
 
 interface Props {
   matches: boolean;
@@ -27,6 +29,7 @@ interface Props {
 const array = ["HOME", "PRODUCT", "CONTACT", "BLOG"];
 
 const AppbarMobile = ({ matches }: Props) => {
+  const type = "shop";
   const [val, setopen] = useState(false);
   console.log(val);
   return (
@@ -95,14 +98,27 @@ const AppbarMobile = ({ matches }: Props) => {
             </List>
           </Collapse>
         </List>
-        <AppHeader textAlign="center">SHOPPERS-DEN</AppHeader>
-        <IconButton>
-          <Person
-            sx={{
-              marginRight: "2rem",
+        <AppHeader textAlign="center">
+          <NavLink
+            style={{
+              textDecoration: "none",
+              color: "white",
             }}
-          />
-        </IconButton>
+            to="/"
+          >
+            SHOPPERS-DEN
+          </NavLink>
+        </AppHeader>
+
+        <NavLink state={type} to="/signup">
+          <IconButton>
+            <AddBusinessSharpIcon
+              sx={{
+                marginRight: "2rem",
+              }}
+            />
+          </IconButton>
+        </NavLink>
         <Actions matches={matches} />
       </AppbarContainer>
     </>

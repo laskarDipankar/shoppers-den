@@ -5,9 +5,10 @@ import {
   ActionIconsMobile,
   Mylist,
 } from "../../Style/Appbar/index";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Person from "@mui/icons-material/Person2Outlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import StoreSharpIcon from "@mui/icons-material/StoreSharp";
+import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 
 interface Props {
   matches: boolean;
@@ -44,33 +45,9 @@ const Actions = ({ matches }: Props) => {
                 justifyContent: "center",
               }}
             >
-              <ShoppingCartIcon />
+              <StoreSharpIcon />
             </ListItemIcon>
           </ListItemButton>
-
-          {/* <Divider
-            variant="middle"
-            orientation="vertical"
-            flexItem
-            sx={{
-              color: "red",
-            }}
-          />
-          <ListItemButton
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <ListItemIcon
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <Person />
-            </ListItemIcon>
-          </ListItemButton> */}
 
           <Divider variant="middle" orientation="vertical" flexItem />
 
@@ -86,7 +63,7 @@ const Actions = ({ matches }: Props) => {
                 justifyContent: "center",
               }}
             >
-              <FavoriteIcon />
+              <Person />
             </ListItemIcon>
           </ListItemButton>
           <Divider variant="middle" orientation="vertical" flexItem />

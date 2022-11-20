@@ -7,6 +7,7 @@ import {
 import React from "react";
 import { AppbarContainer, AppHeader, Mylist } from "../../Style/Appbar/index";
 import SearchIcon from "@mui/icons-material/Search";
+import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import Actions from "../Appbar/Action";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
 
@@ -40,9 +41,19 @@ const AppbarPC = ({ matches }: Props) => {
           // border: "1px solid red",
         }}
       >
-        <AppHeader>SHOPPERS-DEN</AppHeader>
+        <AppHeader>
+          <NavLink
+            style={{
+              textDecoration: "none",
+              color: "white",
+            }}
+            to="/"
+          >
+            SHOPPERS-DEN
+          </NavLink>
+        </AppHeader>
         <Mylist type="row">
-          {navItem.map((item) => {
+          {/* {navItem.map((item) => {
             return (
               <>
                 <ListItemButton>
@@ -59,22 +70,18 @@ const AppbarPC = ({ matches }: Props) => {
                 </ListItemButton>
               </>
             );
-          })}
-          {/* {location.pathname === "/home" ? (
-            <ListItemButton>
-              <ListItemIcon
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <SearchIcon />
-                <TextField placeholder="Search shops"></TextField>
-              </ListItemIcon>
-            </ListItemButton>
-          ) : (
-            ""
-          )} */}
+          })} */}
+
+          <ListItemButton>
+            <ListItemIcon
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <StoreSharpIcon />
+            </ListItemIcon>
+          </ListItemButton>
 
           <Actions matches={matches} />
         </Mylist>

@@ -37,21 +37,24 @@ const Login = ({ email, password }: MyFormValues) => {
         <Grid
           item
           xs={12}
-          sx={{
-            marginRight: "100px",
-          }}
+          sx={
+            {
+              // marginRight: "100px",
+            }
+          }
           position="fixed"
         >
-          <BackgroundBody
+          <Box
             sx={{
               textAlign: "center",
-              border: "2px solid blue",
+              // border: "2px solid blue",
+              marginLeft: "30px",
             }}
           >
             <Grid item xs={12}>
               <Box
                 sx={{
-                  height: "94vh",
+                  height: "80vh",
                   width: "97vw",
                   display: "flex",
                   justifyContent: "center",
@@ -157,7 +160,7 @@ const Login = ({ email, password }: MyFormValues) => {
                 {/* </Grid> */}
               </Box>
             </Grid>
-          </BackgroundBody>
+          </Box>
         </Grid>
       </Grid>
     </>

@@ -120,29 +120,28 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
                   {/* <CircleMarker
-                 
+                    center={[coordinates.lat, coordinates.lng]}
                     pathOptions={{ color: "red" }}
                     radius={50}
                   /> */}
                   <HandleClickMap />
-                  {position === null ? null : (
-                    <Marker
-                      position={[position.lat, position.lng]}
-                      icon={
-                        new Icon({
-                          iconUrl: markerIconPng,
-                          iconSize: [25, 41],
-                          iconAnchor: [10, 41],
-                          popupAnchor: [2, -40],
-                        })
-                      }
-                      draggable={true}
-                    >
-                      <Popup>
-                        {coordinates.shopName} <br /> location.
-                      </Popup>
-                    </Marker>
-                  )}
+                  {/* {position === null ? null : ( */}
+                  <Marker
+                    position={[coordinates.lat, coordinates.lng]}
+                    icon={
+                      new Icon({
+                        iconUrl: markerIconPng,
+                        iconSize: [25, 41],
+                        iconAnchor: [10, 41],
+                        popupAnchor: [2, -40],
+                      })
+                    }
+                    draggable={true}
+                  >
+                    <Popup>
+                      {coordinates.shopName} <br /> location.
+                    </Popup>
+                  </Marker>
                 </MapContainer>
               </Box>
             </div>

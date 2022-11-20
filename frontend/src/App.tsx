@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import "./App.css";
+import "./App.css";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -25,9 +25,9 @@ function App() {
       {/* <Login /> */}
 
       <BrowserRouter>
-        {/* {user.token ? <AppbarMain /> : <AppbarMain />}
-         */}
-        <AppbarMain />
+        {user.token ? <AppbarMain /> : <AppbarMain />}
+
+        {/* <AppbarMain /> */}
 
         <Routes>
           {/* <Route
@@ -56,7 +56,7 @@ function App() {
             }
           />
           {ulogin.userlogin ? (
-            <Route path="/" element={<Feed />} />
+            <Route path="/" element={<Home />} />
           ) : (
             <Route
               path="/"
@@ -71,7 +71,7 @@ function App() {
             <Route path="/admin" element={<AdminLogin />} />
           )}
           {/* <Route path="/adminlogin" element={<AdminLogin />} /> */}
-          <Route path="/home" element={<Home />} />
+          <Route path="/home" element={<Feed />} />
           <Route path="*" element={<h1>404: Not Found</h1>} />
         </Routes>
       </BrowserRouter>

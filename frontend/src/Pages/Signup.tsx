@@ -127,176 +127,183 @@ const Signup = (
         }}
         position="fixed"
       >
-        <Grid item xs={12}>
-          <BackgroundBody
-            sx={{
-              // border: "2px solid red",
+        {/* <Grid item xs={12}> */}
+        {/* {/* <BackgroundBody */}
+        {/* sx={{
+              border: "2px solid red",
               marginBottom: "12px",
               bottom: "10px",
               overflowX: "hidden",
-              // height: "90vh",
+              height: "90vh",
             }}
             overflow="scroll"
+          >  */}
+        <Box
+          sx={{
+            display: "grid",
+            justifyContent: "center",
+            width: "100%",
+            marginLeft: "30px",
+          }}
+        >
+          <Grid
+            sx={{
+              textAlign: "center",
+              // border: "2px solid blue",
+            }}
+            item
+            xs={12}
           >
-            <Grid
+            <Box
               sx={{
-                textAlign: "center",
-                // border: "2px solid blue",
+                display: "grid",
+                justifyContent: "center",
+                alignItems: "center",
+
+                height: "94vh",
+                width: "100vw",
+                paddingleft: "12px",
+                paddingRight: "10px",
               }}
-              item
-              xs={12}
             >
-              <Box
-                sx={{
-                  display: "grid",
-                  justifyContent: "center",
-                  alignItems: "center",
-
-                  height: "94vh",
-                  width: "100vw",
-                  paddingleft: "12px",
-                  paddingRight: "10px",
-                }}
-              >
-                <Formik
-                  initialValues={
-                    location.state === "shop" ? singupdata : userSignup
+              <Formik
+                initialValues={
+                  location.state === "shop" ? singupdata : userSignup
+                }
+                onSubmit={(values, actions) => {
+                  var len = Object.keys(values).length;
+                  console.log(len, "length");
+                  if (len < 7) {
+                    UserPostData(values);
+                    console.log(len, "small");
+                  } else {
+                    console.log(len, "big");
                   }
-                  onSubmit={(values, actions) => {
-                    var len = Object.keys(values).length;
-                    console.log(len, "length");
-                    if (len < 7) {
-                      UserPostData(values);
-                      console.log(len, "small");
-                    } else {
-                      console.log(len, "big");
-                    }
 
-                    // postData(values);
-                  }}
-                  enableReinitialize={true}
-                >
-                  <Form>
+                  // postData(values);
+                }}
+                enableReinitialize={true}
+              >
+                <Form>
+                  <Box
+                    sx={{
+                      minHeight: 650,
+                      width: 500,
+                      border: "2px solid grey",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      // marginTop: "30px",
+                      // paddingBottom: "20px",
+                      marginLeft: "30px",
+                      marginRight: "90px",
+                    }}
+                  >
                     <Box
                       sx={{
-                        minHeight: 700,
-                        width: 500,
-                        border: "2px solid grey",
                         display: "flex",
-                        flexDirection: "column",
                         alignItems: "center",
-                        // marginTop: "30px",
-                        // paddingBottom: "20px",
-                        marginLeft: "30px",
-                        marginRight: "90px",
                       }}
                     >
-                      <Box
+                      <Lottie
+                        style={{
+                          height: "150px",
+                          marginRight: "auto",
+                        }}
+                        animationData={gg}
+                        loop={true}
+                      />
+                      <Typography
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          // justifyContent: "space-between",
+                          marginRight: "90px",
+                          fontSize: "20px",
+                          fontWeight: "bold",
+                          color: "#5A5953",
                         }}
                       >
-                        <Lottie
-                          style={{
-                            height: "150px",
-                            marginRight: "auto",
-                          }}
-                          animationData={gg}
-                          loop={true}
-                        />
+                        Register
                         <Typography
+                          variant="subtitle1"
+                          component="span"
                           sx={{
-                            marginRight: "90px",
-                            fontSize: "20px",
-                            fontWeight: "bold",
-                            color: "#5A5953",
+                            fontSize: "14px",
+                            fontWeight: 200,
+                            marginLeft: "6px",
+                            color: "#42413F",
                           }}
                         >
-                          Register
-                          <Typography
-                            variant="subtitle1"
-                            component="span"
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 200,
-                              marginLeft: "6px",
-                              color: "#42413F",
-                            }}
-                          >
-                            {location.state === "shop"
-                              ? "your shop"
-                              : "as a user"}
-                          </Typography>
+                          {location.state === "shop"
+                            ? "your shop"
+                            : "as a user"}
                         </Typography>
-                      </Box>
-                      {location.state !== "shop" ? (
-                        <>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "10px",
-                            }}
-                          >
-                            <TextFieldSIgnupCo
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="text"
-                              name={
-                                location.state === "shop"
-                                  ? "firstName"
-                                  : "firstName"
-                              }
-                              label="First Name"
-                              value={
-                                location.state === "shop"
-                                  ? singupdata.ufirstName
-                                  : userSignup.firstName
-                              }
-                              size="small"
-                              // variant={"standard"}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "10px",
-                            }}
-                          >
-                            {/* <label>First Name</label> */}
-                            <TextFieldSIgnupCo
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="text"
-                              name={
-                                location.state === "shop"
-                                  ? "lastName"
-                                  : "lastName"
-                              }
-                              label="Last Name"
-                              value={
-                                location.state === "shop"
-                                  ? singupdata.ulastName
-                                  : userSignup.lastName
-                              }
-                              size="small"
-                              // variant={"standard"}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              // marginLeft: "40px",
-                              marginTop: "10px",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {/* <Box>
+                      </Typography>
+                    </Box>
+                    {location.state !== "shop" ? (
+                      <>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          <TextFieldSIgnupCo
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="text"
+                            name={
+                              location.state === "shop"
+                                ? "firstName"
+                                : "firstName"
+                            }
+                            label="First Name"
+                            value={
+                              location.state === "shop"
+                                ? singupdata.ufirstName
+                                : userSignup.firstName
+                            }
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="text"
+                            name={
+                              location.state === "shop"
+                                ? "lastName"
+                                : "lastName"
+                            }
+                            label="Last Name"
+                            value={
+                              location.state === "shop"
+                                ? singupdata.ulastName
+                                : userSignup.lastName
+                            }
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            // marginLeft: "40px",
+                            marginTop: "10px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {/* <Box>
                               <InputLabel
                                 
                               >
@@ -366,360 +373,359 @@ const Signup = (
                                 ))}
                               </Select>
                             </Box> */}
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
 
-                              marginTop: "10px",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {/* <label>Email</label> */}
-                            <TextFieldSIgnupCo
-                              // sx={{
-                              //   width: "45%",
-                              // }}
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="email"
-                              name={
-                                location.state === "shop" ? "email" : "email"
-                              }
-                              label="Email"
-                              value={
-                                location.state === "shop"
-                                  ? singupdata.uemail
-                                  : userSignup.email
-                              }
-                              size="medium"
-                              // variant={"standard"}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "10px",
-                            }}
-                          >
-                            {/* <label>First Name</label> */}
-                            <TextFieldSIgnupCo
-                              // sx={{
-                              //   width: "45%",
-                              // }}
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="password"
-                              name={
-                                location.state === "shop"
-                                  ? "password"
-                                  : "password"
-                              }
-                              label="password"
-                              value={
-                                location.state === "shop"
-                                  ? singupdata.upassword
-                                  : userSignup.password
-                              }
-                              size="small"
-                              // variant={"standard"}
-                            />
-                          </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              justifyContent: "center",
-                              marginTop: "10px",
-                            }}
-                          >
-                            {/* <label>First Name</label> */}
-                            <TextFieldSIgnupCo
-                              // sx={{
-                              //   width: "45%",
-                              // }}
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="password"
-                              name="confirmPassword"
-                              label="confirmPassword"
-                              value={
-                                location.state === "shop"
-                                  ? singupdata.uconfirmPassword
-                                  : userSignup.confirmPassword
-                              }
-                              size="small"
-                              // variant={"standard"}
-                            />
-                          </Box>
-                        </>
-                      ) : (
-                        ""
-                      )}
+                            marginTop: "10px",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {/* <label>Email</label> */}
+                          <TextFieldSIgnupCo
+                            // sx={{
+                            //   width: "45%",
+                            // }}
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="email"
+                            name={location.state === "shop" ? "email" : "email"}
+                            label="Email"
+                            value={
+                              location.state === "shop"
+                                ? singupdata.uemail
+                                : userSignup.email
+                            }
+                            size="medium"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            // sx={{
+                            //   width: "45%",
+                            // }}
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="password"
+                            name={
+                              location.state === "shop"
+                                ? "password"
+                                : "password"
+                            }
+                            label="password"
+                            value={
+                              location.state === "shop"
+                                ? singupdata.upassword
+                                : userSignup.password
+                            }
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            // sx={{
+                            //   width: "45%",
+                            // }}
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="password"
+                            name="confirmPassword"
+                            label="confirmPassword"
+                            value={
+                              location.state === "shop"
+                                ? singupdata.uconfirmPassword
+                                : userSignup.confirmPassword
+                            }
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                      </>
+                    ) : (
+                      ""
+                    )}
 
-                      {location.state === "shop" ? (
-                        <>
+                    {location.state === "shop" ? (
+                      <>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            // sx={{
+                            //   width: "45%",
+                            // }}
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="text"
+                            name="shopName"
+                            label="Shop Name"
+                            value={singupdata.shopName}
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+
+                        <Box
+                          sx={{
+                            // display: "flex",
+                            // border: "2px solid black",
+                            display: "flex",
+                            justifyContent: "center",
+                            // gridTemplateColumns: "1fr 1fr",
+                            minWidth: "100%",
+                            // border: "1px solid black",
+                          }}
+                        >
                           <Box
                             sx={{
-                              display: "flex",
-                              justifyContent: "center",
+                              // width: 150,
                               marginTop: "10px",
                             }}
                           >
-                            {/* <label>First Name</label> */}
-                            <TextFieldSIgnupCo
-                              // sx={{
-                              //   width: "45%",
-                              // }}
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="text"
-                              name="shopName"
-                              label="Shop Name"
-                              value={singupdata.shopName}
-                              size="small"
-                              // variant={"standard"}
-                            />
-                          </Box>
-
-                          <Box
-                            sx={{
-                              // display: "flex",
-                              // border: "2px solid black",
-                              display: "flex",
-                              justifyContent: "center",
-                              // gridTemplateColumns: "1fr 1fr",
-                              minWidth: "100%",
-                              // border: "1px solid black",
-                            }}
-                          >
-                            <Box
+                            <InputLabel>Select State</InputLabel>
+                            <Select
                               sx={{
-                                // width: 150,
-                                marginTop: "10px",
+                                minWidth: "9vw",
+                                // marginTop: "10px",
                               }}
+                              value={singupdata.State}
+                              size="small"
                             >
-                              <InputLabel>Select State</InputLabel>
-                              <Select
-                                sx={{
-                                  minWidth: "9vw",
-                                  // marginTop: "10px",
-                                }}
-                                value={singupdata.State}
-                                size="small"
-                              >
-                                {state.map((item: string) => {
-                                  return (
-                                    <MenuItem
-                                      onClick={() => {
-                                        setsingupdata({
-                                          ...singupdata,
-                                          State: item,
-                                        });
-                                        // setstate(item);
-                                      }}
-                                      value={item}
-                                    >
-                                      {item}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </Select>
-                            </Box>
-                            <Box
-                              sx={{
-                                // width: 150,
-                                marginTop: "10px",
-                              }}
-                            >
-                              <InputLabel>Select City</InputLabel>
-                              <Select
-                                sx={{
-                                  minWidth: "9vw",
-                                  // marginTop: "10px",
-                                }}
-                                value={singupdata.City}
-                                size="small"
-                              >
-                                {Cities.map((item: string) => {
-                                  return (
-                                    <MenuItem
-                                      onClick={() => {
-                                        setsingupdata({
-                                          ...singupdata,
-                                          City: item,
-                                        });
-                                        // setstate(item);
-                                      }}
-                                      value={item}
-                                    >
-                                      {item}
-                                    </MenuItem>
-                                  );
-                                })}
-                              </Select>
-                            </Box>
+                              {state.map((item: string) => {
+                                return (
+                                  <MenuItem
+                                    onClick={() => {
+                                      setsingupdata({
+                                        ...singupdata,
+                                        State: item,
+                                      });
+                                      // setstate(item);
+                                    }}
+                                    value={item}
+                                  >
+                                    {item}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
                           </Box>
+                          <Box
+                            sx={{
+                              // width: 150,
+                              marginTop: "10px",
+                            }}
+                          >
+                            <InputLabel>Select City</InputLabel>
+                            <Select
+                              sx={{
+                                minWidth: "9vw",
+                                // marginTop: "10px",
+                              }}
+                              value={singupdata.City}
+                              size="small"
+                            >
+                              {Cities.map((item: string) => {
+                                return (
+                                  <MenuItem
+                                    onClick={() => {
+                                      setsingupdata({
+                                        ...singupdata,
+                                        City: item,
+                                      });
+                                      // setstate(item);
+                                    }}
+                                    value={item}
+                                  >
+                                    {item}
+                                  </MenuItem>
+                                );
+                              })}
+                            </Select>
+                          </Box>
+                        </Box>
+                        <Typography
+                          sx={{
+                            // border: "2px solid black",
+                            marginTop: "10px",
+                          }}
+                        >
+                          Verify your Shop
+                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            flexDirection: "column",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="text"
+                            name="Id"
+                            label="Enter your Government ID"
+                            value={singupdata.Id}
+                            size="small"
+                            // variant={"standard"}
+                          />
+                          <Button
+                            sx={{
+                              marginTop: "4px",
+                            }}
+                            size="small"
+                            variant="outlined"
+                            component="label"
+                          >
+                            {selectedidImage?.name == undefined
+                              ? "upload ID Image"
+                              : selectedidImage?.name}
+                            <input
+                              accept="image/*"
+                              onChange={(e) =>
+                                setSelectedImage(e.target.files?.[0])
+                              }
+                              type="file"
+                              hidden
+                            />
+                          </Button>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
                           <Typography
                             sx={{
                               // border: "2px solid black",
                               marginTop: "10px",
                             }}
                           >
-                            Verify your Shop
+                            Upload your photo along with your shop
                           </Typography>
                           <Box
                             sx={{
                               display: "flex",
                               justifyContent: "center",
-                              flexDirection: "column",
-                              marginTop: "10px",
+                              marginTop: "4px",
+                              // width: 400,
                             }}
                           >
-                            {/* <label>First Name</label> */}
-                            <TextFieldSIgnupCo
-                              setsingupdata={setsingupdata}
-                              setuserSignup={setuserSignup}
-                              user={location.state === "shop" ? "shop" : "user"}
-                              type="text"
-                              name="Id"
-                              label="Enter your Government ID"
-                              value={singupdata.Id}
-                              size="small"
-                              // variant={"standard"}
-                            />
                             <Button
                               sx={{
-                                marginTop: "4px",
+                                minWidth: "240px",
                               }}
                               size="small"
                               variant="outlined"
                               component="label"
                             >
-                              {selectedidImage?.name == undefined
-                                ? "upload ID Image"
-                                : selectedidImage?.name}
+                              {selectedfiles?.name == undefined
+                                ? "upload Image"
+                                : selectedfiles?.name}
                               <input
                                 accept="image/*"
                                 onChange={(e) =>
-                                  setSelectedImage(e.target.files?.[0])
+                                  setSelected(e.target.files?.[0])
                                 }
                                 type="file"
                                 hidden
                               />
                             </Button>
                           </Box>
-                          <Box
-                            sx={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Typography
-                              sx={{
-                                // border: "2px solid black",
-                                marginTop: "10px",
-                              }}
-                            >
-                              Upload your photo along with your shop
-                            </Typography>
-                            <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                marginTop: "4px",
-                                // width: 400,
-                              }}
-                            >
-                              <Button
-                                sx={{
-                                  minWidth: "240px",
-                                }}
-                                size="small"
-                                variant="outlined"
-                                component="label"
-                              >
-                                {selectedfiles?.name == undefined
-                                  ? "upload Image"
-                                  : selectedfiles?.name}
-                                <input
-                                  accept="image/*"
-                                  onChange={(e) =>
-                                    setSelected(e.target.files?.[0])
-                                  }
-                                  type="file"
-                                  hidden
-                                />
-                              </Button>
-                            </Box>
-                          </Box>
-                          <Box
-                            sx={{
-                              bottom: "0px",
-                              marginTop: "20px",
-                              gap: "10px",
-                              display: "flex",
-                              // justifyContent: "center",
-                              alignItems: "center",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <Button
-                              variant="contained"
-                              sx={{
-                                marginBottom: "0px",
-                              }}
-                              size="small"
-                              type="submit"
-                            >
-                              {/* signup */}
-                              <NavLink to="/feed">Signup</NavLink>
-                            </Button>
-
-                            <Typography>
-                              Already have an account?
-                              <NavLink to="/">Login</NavLink>
-                            </Typography>
-                          </Box>
-                        </>
-                      ) : (
-                        <>
+                        </Box>
+                        <Box
+                          sx={{
+                            bottom: "0px",
+                            marginTop: "20px",
+                            gap: "10px",
+                            display: "flex",
+                            // justifyContent: "center",
+                            alignItems: "center",
+                            flexDirection: "column",
+                          }}
+                        >
                           <Button
-                            sx={{
-                              marginTop: "40px",
-                            }}
-                            type="submit"
                             variant="contained"
-                          >
-                            signup
-                            {/* <NavLink to="">Signup</NavLink> */}
-                          </Button>
-                          <Box
                             sx={{
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "space-between",
-                              marginTop: "20px",
+                              marginBottom: "0px",
                             }}
+                            size="small"
+                            type="submit"
                           >
-                            <Typography>
-                              Already have an account?
-                              <NavLink to="/">Login</NavLink>
-                            </Typography>
-                          </Box>
-                        </>
-                      )}
-                    </Box>
-                  </Form>
-                </Formik>
-              </Box>
-            </Grid>
-          </BackgroundBody>
-        </Grid>
+                            {/* signup */}
+                            <NavLink to="/feed">Signup</NavLink>
+                          </Button>
+
+                          <Typography>
+                            Already have an account?
+                            <NavLink to="/">Login</NavLink>
+                          </Typography>
+                        </Box>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          sx={{
+                            marginTop: "40px",
+                          }}
+                          type="submit"
+                          variant="contained"
+                        >
+                          signup
+                          {/* <NavLink to="">Signup</NavLink> */}
+                        </Button>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginTop: "20px",
+                          }}
+                        >
+                          <Typography>
+                            Already have an account?
+                            <NavLink to="/">Login</NavLink>
+                          </Typography>
+                        </Box>
+                      </>
+                    )}
+                  </Box>
+                </Form>
+              </Formik>
+            </Box>
+          </Grid>
+        </Box>
+        {/* </BackgroundBody> */}
+        {/* </Grid> */}
       </Grid>
     </>
   );
