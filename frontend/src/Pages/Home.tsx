@@ -48,10 +48,10 @@ const Home = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="subtitle1">Available</Typography>
-          <Typography variant="subtitle1">Time</Typography>
-          <Typography variant="subtitle1">Filter</Typography>
-          <Typography variant="subtitle1">Filter</Typography>
+          <Typography variant="h6">Available</Typography>
+          <Typography variant="h6">Tme</Typography>
+          <Typography variant="h6">Filter</Typography>
+          <Typography variant="h6">Filter</Typography>
           <TextField
             sx={{
               borderBottom: "1px solid black",
