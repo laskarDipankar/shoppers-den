@@ -14,14 +14,16 @@ const getAdmin_route = require("./Routes/RHome");
 const loginAdmin_route = require("./Routes/RHome");
 const loginUser_route = require("./Routes/RHome");
 const shopRegistration_route = require("./Routes/RHome");
-const auth_route = require("./Routes/Auhthenticate");
 const cors = require("cors");
 connectDB();
 
 app.use(cors());
 app.use(express.json());
 // app.use(morgan("dev"));
-app.use("/auth", auth_route);
+app.use((req, res, next) => {
+  console.log("method", +req.method + ", URl:" + req.url);
+  next();
+});
 app.use("/api/users", Home_route);
 app.use("/api/users", signup_route);
 app.use("/api/users", getUsers_route);
@@ -33,16 +35,6 @@ app.use("/api/users", shopRegistration_route);
 
 app.use(async (req, res, next) => {
   next(createError.NotFound());
-});
-
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.send({
-    error: {
-      status: err.status || 500,
-      message: err.message,
-    },
-  });
 });
 
 app.listen(port, () => {

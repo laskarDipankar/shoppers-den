@@ -175,9 +175,9 @@ const Signup = (
                   console.log(len, "length");
                   if (len < 7) {
                     UserPostData(values);
-                    console.log(len, "small");
+                    console.log(values);
                   } else {
-                    console.log(len, "big");
+                    console.log(values, "signup");
                   }
 
                   // postData(values);
@@ -511,8 +511,11 @@ const Signup = (
                             <InputLabel>Select State</InputLabel>
                             <Select
                               sx={{
-                                minWidth: "9vw",
-                                // marginTop: "10px",
+                                width: {
+                                  xs: "7.5rem",
+                                  lg: "8rem",
+                                  xl: "10.5rem",
+                                },
                               }}
                               value={singupdata.State}
                               size="small"
@@ -544,8 +547,11 @@ const Signup = (
                             <InputLabel>Select City</InputLabel>
                             <Select
                               sx={{
-                                minWidth: "9vw",
-                                // marginTop: "10px",
+                                width: {
+                                  xs: "7.5rem",
+                                  lg: "8rem",
+                                  xl: "10.5rem",
+                                },
                               }}
                               value={singupdata.City}
                               size="small"
@@ -682,7 +688,7 @@ const Signup = (
                             type="submit"
                           >
                             {/* signup */}
-                            <NavLink to="/feed">Signup</NavLink>
+                            Signup
                           </Button>
 
                           <Typography>

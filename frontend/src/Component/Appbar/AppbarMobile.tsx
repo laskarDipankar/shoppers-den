@@ -36,7 +36,10 @@ const AppbarMobile = ({ matches }: Props) => {
     <>
       <AppbarContainer
         width={{
-          xs: "100%",
+          xs: "96%",
+        }}
+        borderRadius={{
+          xs: "0px",
         }}
         overflow="show"
       >

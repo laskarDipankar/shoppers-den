@@ -9,8 +9,9 @@ export const AppbarContainer = styled(Box)(() => ({
   display: "flex",
   marginTop: "8px",
   // justifyContent: "center",
-  background: "#0D4C92",
-  justifyContent: "space-around",
+  background: "#d4d2d2",
+
+  justifyContent: "space-between",
   alignItems: "center",
   width: "96%",
   height: "8vh",
@@ -18,6 +19,11 @@ export const AppbarContainer = styled(Box)(() => ({
   marginLeft: "auto",
   marginRight: "auto",
   borderRadius: "10px",
+  // borderBottom: "2px solid black",
+  boxShadow:
+    " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+  // borderLeft: "2px solid black",
+  // borderRight: "2px solid black",
 }));
 
 export const AppHeader = styled(Typography)(() => ({
@@ -25,7 +31,7 @@ export const AppHeader = styled(Typography)(() => ({
   // flexGrow: 1,
   frontSize: "6em",
   fontWeight: "bolder",
-  color: "white",
+  color: "black",
 }));
 
 export const Mylist = styled(List)(({ type }: TYpe) => ({

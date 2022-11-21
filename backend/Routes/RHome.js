@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const userAuth = require("../MIddleware/userAuth");
 const {
   getHome,
   getUsers,
@@ -16,6 +17,6 @@ router.post("/admin", admin);
 router.get("/admin", getAdmin);
 router.post("/admin/login", loginAdmin);
 router.post("/login", loginUser);
-router.post("/registration", shopRegistration);
+router.post("/registration", userAuth, shopRegistration);
 
 module.exports = router;

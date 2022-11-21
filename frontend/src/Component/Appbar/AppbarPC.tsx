@@ -53,7 +53,9 @@ const AppbarPC = ({ matches }: Props) => {
           <NavLink
             style={{
               textDecoration: "none",
-              color: "white",
+              color: "black",
+              fontSize: "1.1rem",
+              marginRight: "10px",
             }}
             to="/"
           >
