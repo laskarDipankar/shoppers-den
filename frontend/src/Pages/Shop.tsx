@@ -15,7 +15,9 @@ import { shops } from "../Data/Dummy/DUmmyjson";
 import { useParams } from "react-router";
 import { useFormik, FormikProvider, Form, useField } from "formik";
 import { Details } from "../Data/Dummy/Detail";
+import bg from "../img/bg.json";
 import * as Yup from "yup";
+import Lottie from "lottie-react";
 import { api } from "../lib/Axios";
 
 const Shop = () => {
@@ -24,7 +26,7 @@ const Shop = () => {
   const [edit, setEdit] = useState<boolean>(false);
 
   // console.log(state);
-  console.log(Details[0].shopName);
+  // console.log(Details[0].shopName);
   // console.log(params.id);
 
   const formik = useFormik({
@@ -94,7 +96,6 @@ const Shop = () => {
     <>
       <Box
         sx={{
-          // backgroundColor: "red",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -105,38 +106,52 @@ const Shop = () => {
             <Grid item xs={12}>
               <BodyContent
                 sx={{
-                  width: "90vw",
+                  width: "92vw",
                   height: "90vh",
-                  marginRight: "30px",
-
-                  // marginTop: "20px",
-
-                  // border: "1px solid black",
+                  marginRight: "15px",
                 }}
               >
                 <Box
                   sx={{
-                    border: "1px solid black",
                     width: "100%",
                     height: "5vh",
-                    marginTop: "20px",
+                    marginTop: "60px",
 
                     // margin: "0,auto",
                     marginLeft: "20px",
                   }}
                 >
-                  <Button size="small" onClick={() => setgallery(!gallery)}>
+                  <Button size="small" onClick={() => setgallery(true)}>
                     Gallery
                   </Button>
+                  <Button size="small" onClick={() => setgallery(false)}>
+                    Detail
+                  </Button>
                 </Box>
+                {/* <Box
+                  sx={{
+                    zIndex: -1,
+                  }}
+                > */}
+
+                {/* </Box> */}
 
                 <Grid item xs={12}>
                   <BodyMain
                     sx={{
-                      border: "1px solid black",
-                      // marginRigth: "20px",
+                      // border: "1px solid black",
+                      // display: "flex",
+                      // justifyContent: "center",
+                      // backgroundImage: `url(
+                      //   <Lotti>
+                      //   ${bg})`,
+
+                      // backgroundRepeat: "no-repeat",
+                      // backgroundSize: "cover",
+                      // backgroundPosition: "center",
                       paddingBotton: "60px",
-                      height: "80vh",
+
+                      height: "60vh",
                     }}
                   >
                     {!gallery ? (
@@ -149,11 +164,12 @@ const Shop = () => {
                                   <Box
                                     sx={{
                                       display: "flex",
-                                      gap: "5px",
+                                      gap: "16px",
                                       flexDirection: "column",
                                       alignItems: "center",
                                       justifyContent: "center",
                                       // marginTop: "20px",
+
                                       marginLeft: "50px",
                                     }}
                                   >
@@ -176,7 +192,39 @@ const Shop = () => {
                                         }
                                       />
                                     ) : (
-                                      <Typography>{item.shopName}</Typography>
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Shop Name:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopName}
+                                        </Typography>
+                                      </Typography>
                                     )}
                                     {edit ? (
                                       <TextField
@@ -194,8 +242,38 @@ const Shop = () => {
                                         name="shopDetails.address"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.address}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Address:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.address}
+                                        </Typography>
                                       </Typography>
                                     )}
 
@@ -213,8 +291,38 @@ const Shop = () => {
                                         name="shopDetails.email"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.email}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Email:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.email}
+                                        </Typography>
                                       </Typography>
                                     )}
                                     {edit ? (
@@ -231,8 +339,38 @@ const Shop = () => {
                                         name="shopDetails.phone"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.phone}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Phone:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.phone}
+                                        </Typography>
                                       </Typography>
                                     )}
 
@@ -254,9 +392,22 @@ const Shop = () => {
                                         name="gallery.shopLogo"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.gallery.shopLogo}
-                                      </Typography>
+                                      ""
+                                      // <Typography
+                                      //   component="div"
+                                      //   sx={{
+                                      //     fontSize: "20px",
+                                      //     fontWeight: "bold",
+                                      //     // backgroundColor: "red",
+                                      //     height: "100%",
+                                      //     width: "88vw",
+                                      //     display: "flex",
+                                      //
+                                      //   }}
+                                      // >
+                                      //   Shop Logo:{item.shopDetails.gallery.shopLogo}
+
+                                      // </Typography>
                                     )}
 
                                     {edit ? (
@@ -277,8 +428,38 @@ const Shop = () => {
                                         name="shopDetails.timings.openingTime"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.timings.openingTime}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Opening Time:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.timings.openingTime}
+                                        </Typography>
                                       </Typography>
                                     )}
                                     {edit ? (
@@ -299,8 +480,38 @@ const Shop = () => {
                                         name="shopDetails.timings.closingTime"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.timings.closingTime}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Closing Time:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.timings.closingTime}
+                                        </Typography>
                                       </Typography>
                                     )}
 
@@ -320,8 +531,38 @@ const Shop = () => {
                                         name="landmark"
                                       />
                                     ) : (
-                                      <Typography>
-                                        {item.shopDetails.landmark}
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Landmark:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.shopDetails.landmark}
+                                        </Typography>
                                       </Typography>
                                     )}
 
@@ -344,7 +585,39 @@ const Shop = () => {
                                         }
                                       />
                                     ) : (
-                                      <Typography>{item.State}</Typography>
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        State:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.State}
+                                        </Typography>
+                                      </Typography>
                                     )}
                                     {edit ? (
                                       <TextField
@@ -365,7 +638,39 @@ const Shop = () => {
                                         }
                                       />
                                     ) : (
-                                      <Typography>{item.city}</Typography>
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        City:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.city}
+                                        </Typography>
+                                      </Typography>
                                     )}
                                     {edit ? (
                                       <TextField
@@ -386,7 +691,39 @@ const Shop = () => {
                                         }
                                       />
                                     ) : (
-                                      <Typography>{item.Type}</Typography>
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Type:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.Type}
+                                        </Typography>
+                                      </Typography>
                                     )}
                                     {edit ? (
                                       <TextField
@@ -407,13 +744,46 @@ const Shop = () => {
                                         }
                                       />
                                     ) : (
-                                      <Typography>{item.Category}</Typography>
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "30%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Category:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "7%",
+
+                                              lg: "30%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {item.Category}
+                                        </Typography>
+                                      </Typography>
                                     )}
 
                                     <Box
                                       sx={{
                                         display: "flex",
                                         // backgroundColor: "green",
+                                        marginBottom: "4rem",
                                       }}
                                     >
                                       <Button size="small" type="submit">
@@ -421,15 +791,25 @@ const Shop = () => {
                                       </Button>
 
                                       {edit ? (
-                                        <Button onClick={() => setEdit(false)}>
+                                        <Button
+                                          size="small"
+                                          sx={
+                                            {
+                                              // marginBottom: "4rem",
+                                            }
+                                          }
+                                          onClick={() => setEdit(false)}
+                                        >
                                           save
                                         </Button>
                                       ) : (
                                         <Button
                                           size="small"
-                                          sx={{
-                                            marginBottom: "20px",
-                                          }}
+                                          sx={
+                                            {
+                                              // marginBottom: "20rem",
+                                            }
+                                          }
                                           onClick={() => setEdit(true)}
                                         >
                                           edit

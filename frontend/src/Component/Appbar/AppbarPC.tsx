@@ -34,14 +34,22 @@ const AppbarPC = ({ matches }: Props) => {
   return (
     <>
       <AppbarContainer
-        sx={{
-          justifyContent: "space-around",
-          // gap: "0.5rem",
-          // background: "yellow",
-          // border: "1px solid red",
-        }}
+        sx={
+          {
+            // justifyContent: "center",
+            // gap: "0.5rem",
+            // background: "yellow",
+            // border: "1px solid red",
+          }
+        }
       >
-        <AppHeader>
+        <AppHeader
+          sx={
+            {
+              // marginRight: "auto",
+            }
+          }
+        >
           <NavLink
             style={{
               textDecoration: "none",
@@ -52,26 +60,8 @@ const AppbarPC = ({ matches }: Props) => {
             SHOPPERS-DEN
           </NavLink>
         </AppHeader>
-        <Mylist type="row">
-          {/* {navItem.map((item) => {
-            return (
-              <>
-                <ListItemButton>
-                  <NavLink
-                    style={{
-                      textDecoration: "none",
-                      color: "black",
-                    }}
-                    state={type}
-                    to={item.link}
-                  >
-                    <ListItemText primary={item.name} />
-                  </NavLink>
-                </ListItemButton>
-              </>
-            );
-          })} */}
-
+        {/* <Mylist type="row"> */}
+        {/*
           <ListItemButton>
             <ListItemIcon
               sx={{
@@ -81,10 +71,10 @@ const AppbarPC = ({ matches }: Props) => {
             >
               <StoreSharpIcon />
             </ListItemIcon>
-          </ListItemButton>
+          </ListItemButton> */}
 
-          <Actions matches={matches} />
-        </Mylist>
+        <Actions matches={matches} />
+        {/* </Mylist> */}
       </AppbarContainer>
     </>
   );

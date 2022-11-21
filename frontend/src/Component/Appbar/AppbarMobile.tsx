@@ -26,7 +26,7 @@ interface Props {
   matches: boolean;
 }
 
-const array = ["HOME", "PRODUCT", "CONTACT", "BLOG"];
+const array = ["SETTINGS", "FEEDBACKS", "CONTACT", "CREATEDBY"];
 
 const AppbarMobile = ({ matches }: Props) => {
   const type = "shop";
@@ -48,7 +48,7 @@ const AppbarMobile = ({ matches }: Props) => {
         >
           <ListItem
             sx={{
-              width: "5.4rem",
+              width: "7 .4rem",
               //   background: "red",
               zIndex: 1,
             }}

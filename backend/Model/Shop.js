@@ -58,7 +58,7 @@ const ShopSchema = new Schema({
   Category: {
     type: String,
   },
-  GovernmentID: {
+  governmentId: {
     type: String,
     required: true,
     trim: true,

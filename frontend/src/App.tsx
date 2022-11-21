@@ -9,6 +9,8 @@ import Admin from "./Pages/Admin";
 import AdminLogin from "./Pages/AdminLogin";
 import AppbarMain from "./Component/Appbar";
 import Home from "./Pages/Home";
+import bg from "./img/bg.json";
+import Lottie from "lottie-react";
 import "leaflet/dist/leaflet.css";
 
 const user = JSON.parse(localStorage.getItem("admintoken") || "{}");
@@ -74,6 +76,17 @@ function App() {
           <Route path="/home" element={<Feed />} />
           <Route path="*" element={<h1>404: Not Found</h1>} />
         </Routes>
+        {/* <Lottie
+          style={{
+            zIndex: -1,
+            height: "30vh",
+            width: "100vw",
+            marginBottom: "auto",
+            transform: "rotate(180deg)",
+          }}
+          animationData={bg}
+          loop={true}
+        /> */}
       </BrowserRouter>
     </>
   );

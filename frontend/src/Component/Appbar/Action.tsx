@@ -29,10 +29,10 @@ const Actions = ({ matches }: Props) => {
             display: "flex",
             justifyContent: "space-around",
             justiyfContent: "center",
-            paddingLeft: "24px",
+            // paddingLeft: "24px",
           }}
         >
-          <Divider variant="middle" orientation="vertical" flexItem />
+          {/* <Divider variant="middle" orientation="vertical" flexItem /> */}
           <ListItemButton
             sx={{
               display: "flex",
@@ -66,7 +66,7 @@ const Actions = ({ matches }: Props) => {
               <Person />
             </ListItemIcon>
           </ListItemButton>
-          <Divider variant="middle" orientation="vertical" flexItem />
+          {/* <Divider variant="middle" orientation="vertical" flexItem /> */}
         </Mylist>
       </Components>
     </>

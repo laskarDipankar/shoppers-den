@@ -43,16 +43,18 @@ const Home = () => {
             // border: "1px solid black",
             display: "flex",
             gap: "2.4vw",
-            // justifyContent: "space-around",
-            justifyContent: "center",
+            justifyContent: "space-around",
+            // justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <Typography variant="subtitle2">Filter</Typography>
-          <Typography variant="subtitle2">Filter</Typography>
+          <Typography variant="subtitle1">Available</Typography>
+          <Typography variant="subtitle1">Time</Typography>
+          <Typography variant="subtitle1">Filter</Typography>
+          <Typography variant="subtitle1">Filter</Typography>
           <TextField
             sx={{
-              //   borderBottom: "1px solid black",
+              borderBottom: "1px solid black",
               minWidth: "15%",
             }}
             onChange={(e) => setInputSearch(e.target.value)}
@@ -60,14 +62,12 @@ const Home = () => {
             variant="outlined"
             size="small"
           ></TextField>
-          <Typography variant="subtitle2">Filter</Typography>
-          <Typography variant="subtitle2">Filter</Typography>
         </Box>
         <Box
           sx={{
             marginTop: "2rem",
             height: "70vh",
-            overflow: "scroll",
+            // overflow: "scroll",
           }}
         >
           <Grid
@@ -87,18 +87,20 @@ const Home = () => {
               .map((item) => {
                 return (
                   <>
-                    <Grid item xs={12} sm={6} md={4} lg={3} spacing={0}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} pl={4} pr={4}>
                       <Box
                         sx={{
                           maxWidth: 365,
                           marginLeft: "auto",
                           marginRight: "auto",
                           padding: "2rem",
+                          marginBottom: "2rem",
 
                           boxShadow:
                             " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
 
-                          border: "1px solid black",
+                          borderRadius: "10px",
+                          // border: "1px solid black",
                         }}
                       >
                         <Card

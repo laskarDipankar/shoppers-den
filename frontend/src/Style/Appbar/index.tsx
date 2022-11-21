@@ -7,21 +7,22 @@ interface TYpe {
 
 export const AppbarContainer = styled(Box)(() => ({
   display: "flex",
-  marginTop: "4px",
-  justifyContent: "center",
+  marginTop: "8px",
+  // justifyContent: "center",
   background: "#0D4C92",
-  // justifyContent:'space-around',
+  justifyContent: "space-around",
   alignItems: "center",
-  width: "80%",
+  width: "96%",
   height: "8vh",
   padding: "2px 8px",
   marginLeft: "auto",
   marginRight: "auto",
+  borderRadius: "10px",
 }));
 
 export const AppHeader = styled(Typography)(() => ({
   padding: "4px",
-  flexGrow: 1,
+  // flexGrow: 1,
   frontSize: "6em",
   fontWeight: "bolder",
   color: "white",
