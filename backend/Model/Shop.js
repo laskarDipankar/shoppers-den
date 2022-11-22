@@ -7,17 +7,17 @@ const ShopSchema = new Schema({
     required: true,
     trim: true,
   },
-  State: {
+  state: {
     type: String,
     required: true,
     trim: true,
   },
-  City: {
+  city: {
     type: String,
     required: true,
     trim: true,
   },
-  ShopDetails: {
+  shopDetails: {
     isActive: {
       type: Boolean,
     },
@@ -36,7 +36,7 @@ const ShopSchema = new Schema({
     email: {
       type: String,
     },
-    Gallery: [
+    gallery: [
       {
         type: String,
       },
@@ -44,36 +44,34 @@ const ShopSchema = new Schema({
     timings: {
       openingTime: {
         type: String,
-        required: true,
       },
       closingTIme: {
         type: String,
-        required: true,
       },
     },
   },
-  Type: {
+  type: {
     type: String,
   },
-  Category: {
+  category: {
     type: String,
   },
-  governmentId: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  GovernmentIDImage: {
+  governmentID: {
     type: String,
     required: true,
     trim: true,
   },
-  ShopImage: {
+  governmentIDImage: {
     type: String,
     required: true,
     trim: true,
   },
-  UserID: {
+  shopImage: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  userID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
@@ -82,3 +80,6 @@ const ShopSchema = new Schema({
     default: false,
   },
 });
+
+const Shop = new model("Shop", ShopSchema);
+module.exports = Shop;

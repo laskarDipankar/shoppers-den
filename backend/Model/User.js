@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     required: true,
     trim: true,
   },
-  shops: {
+  shop: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shop",
   },
