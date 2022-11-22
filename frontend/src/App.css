@@ -5,3 +5,8 @@
 .label{
   color: blue;
 }
+
+.image{
+  height: 70vh;
+  width: 40vw;
+}

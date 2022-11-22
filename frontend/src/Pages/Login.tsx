@@ -7,121 +7,159 @@ import bg4 from "../img/bg4.jpg";
 import bg3 from "../img/bg3.json";
 import Lottie from "lottie-react";
 import { Value } from "../Model/Model";
+import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
+import rocket from "../img/rocket.json";
+import { api } from "../lib/Axios";
+import { useNavigate } from "react-router";
+
 interface MyFormValues {
   email: string;
   password: string;
 }
 
-const Login = () => {
+const Login = ({ email, password }: MyFormValues) => {
   const [edit, setedit] = useState<boolean>(false);
-  const [value, setvalues] = useState<Value>({
+  const [valueL, setvaluesL] = useState<MyFormValues>({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
-  const initialValues: MyFormValues = { email: "", password: "" };
+  // const initialValues: MyFormValues = { email: "", password: "" };
 
-  console.log(value);
+  console.log(valueL);
   return (
     <>
       {/* <Box
         
       > */}
-      <Grid
-        container
-        sx={{
-          backgroundImage: `url(${bg4})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundAttachment: "fixed",
-          backgroundBlendMode: "darken",
-          textAlign: "center",
-          paddingLeft: "40px",
-          paddingRight: "40px",
-          backdropFilter: "blur(10px)",
-          // opacity: 0.5,
-        }}
-      >
-        <Grid item xs={12}>
+      <Grid container xs={12}>
+        <Grid
+          item
+          xs={12}
+          sx={
+            {
+              // marginRight: "100px",
+            }
+          }
+          position="fixed"
+        >
           <Box
             sx={{
-              height: "100vh",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-
-              // bgcolor: "primary.main",
+              textAlign: "center",
+              // border: "2px solid blue",
+              marginLeft: "30px",
             }}
           >
-            <Box
-              sx={{
-                // margin: "auto",
-                minWidth: "30%",
-                minHeight: 400,
-                // bgcolor: "lightgreen",
-                // backgroundColor: "rgba(32,32,32,0.2)",
-                backdropFilter: "blur(23px)",
-                display: "flex",
-                justifyContent: "center",
-                zIndex: 1,
-                borderRadius: "5%",
-                backgroundColor: "rgba(173,216,230,0.3)",
-                boxShadow: "4px 2px 25px #202020",
-                "&:hover": {
-                  // boxShadow: "4px 2px 25px #202020",
-                  backgroundColor: "rgba(173,216,230,0.7)",
-                },
-                // marginTop: "%",
-              }}
-            >
-              <Formik
-                initialValues={initialValues}
-                onSubmit={(values, actions) => {
-                  console.log(values, actions);
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  height: "80vh",
+                  width: "97vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <Form>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      marginTop: "25%",
-                      // backgroundColor: "red",
-                      // padding: "5%",
-                      // width: "25%",
+                {/* <Grid item xs={12}> */}
+                <Box
+                  sx={{
+                    // margin: "auto",
+                    minWidth: "20%",
+                    minHeight: 400,
+                    border: "2px solid grey",
+                    backdropFilter: "blur(23px)",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    marginRight: "48px",
+                    // zIndex: 1,
+                    // borderRadius: "5%",
+                  }}
+                >
+                  {" "}
+                  <Lottie
+                    style={{
+                      height: "150px",
+                      marginBottom: "auto",
                     }}
+                    animationData={rocket}
+                    loop={true}
+                  />
+                  <Formik
+                    initialValues={valueL}
+                    onSubmit={(valueL, resetForm) => {
+                      api
+                        .post("/login", valueL)
+                        .then((res) => {
+                          try {
+                            console.log(res.data);
+                            if (res.status === 200) {
+                              if (res.data.token) {
+                                localStorage.setItem(
+                                  "usertoken",
+                                  JSON.stringify({
+                                    token: res.data.token,
+                                    userlogin: true,
+                                  })
+                                );
+                                window.location.reload();
+                                // navigate("/feed");
+                              }
+                            }
+                          } catch (error) {
+                            console.log(error);
+                          }
+                        })
+                        .catch((err) => {
+                          console.log(err);
+                        });
+                    }}
+                    enableReinitialize={true}
                   >
-                    <TextFIeldCO
-                      edit={edit}
-                      value={value.email}
-                      setvalues={setvalues}
-                      type="email"
-                      name="email"
-                      label="email"
-                    />
+                    <Form>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
 
-                    <TextFIeldCO
-                      edit={edit}
-                      value={value.password}
-                      setvalues={setvalues}
-                      name="password"
-                      type="password"
-                      label="password"
-                    />
-                    <Button type="submit">Login</Button>
-                    <Lottie
-                      style={{
-                        height: "100px",
-                      }}
-                      animationData={bg3}
-                      loop={true}
-                    />
-                  </Box>
-                </Form>
-              </Formik>
-              {/* <Button onClick={() => setedit(!edit)}>EDIT</Button> */}
-            </Box>
+                          marginBottom: "25%",
+                        }}
+                      >
+                        <TextFIeldCO
+                          edit={edit}
+                          value={valueL.email}
+                          setvaluesL={setvaluesL}
+                          type="email"
+                          name="email"
+                          label="email"
+                        />
+
+                        <TextFIeldCO
+                          edit={edit}
+                          value={valueL.password}
+                          setvaluesL={setvaluesL}
+                          name="password"
+                          type="password"
+                          label="password"
+                        />
+                        <Box>
+                          <Button
+                            variant="contained"
+                            size="small"
+                            type="submit"
+                          >
+                            Login
+                          </Button>
+                        </Box>
+                      </Box>
+                    </Form>
+                  </Formik>
+                  {/* <Button onClick={() => setedit(!edit)}>EDIT</Button> */}
+                </Box>
+                {/* </Grid> */}
+              </Box>
+            </Grid>
           </Box>
         </Grid>
       </Grid>
