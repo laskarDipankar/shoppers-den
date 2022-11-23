@@ -9,7 +9,7 @@ export const AppbarContainer = styled(Box)(() => ({
   display: "flex",
   marginTop: "8px",
   // justifyContent: "center",
-  background: "#d4d2d2",
+  // background: "white",
 
   justifyContent: "space-between",
   alignItems: "center",
@@ -20,8 +20,11 @@ export const AppbarContainer = styled(Box)(() => ({
   marginRight: "auto",
   borderRadius: "10px",
   // borderBottom: "2px solid black",
-  boxShadow:
-    " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+  boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
+  backgroundColor: " rgba(255, 255, 255, 0.45)",
+  // backdropFilter: " blur(15px)",
+  // boxShadow:
+  //   " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
   // borderLeft: "2px solid black",
   // borderRight: "2px solid black",
 }));
@@ -51,7 +54,10 @@ export const ActionIconsMobile = styled(Box)(() => ({
   position: "fixed",
   // top:'100%',
 
-  background: "#0D4C92",
+  // background: "#0D4C92",
+  backgroundColor: " rgba(255, 255, 255, 0.45)",
+  boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
+  backdropFilter: " blur(px)",
 
   bottom: 0,
   left: 0,

@@ -105,7 +105,7 @@ const AppbarMobile = ({ matches }: Props) => {
           <NavLink
             style={{
               textDecoration: "none",
-              color: "white",
+              color: "black",
             }}
             to="/"
           >
@@ -122,7 +122,11 @@ const AppbarMobile = ({ matches }: Props) => {
             />
           </IconButton>
         </NavLink>
-        <Actions matches={matches} />
+        <Actions
+          // className="glass"
+
+          matches={matches}
+        />
       </AppbarContainer>
     </>
   );

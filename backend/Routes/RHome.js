@@ -8,8 +8,18 @@ const {
   signup,
   loginUser,
 } = require("../Controllers/CHome");
-const { admin, getAdmin, loginAdmin } = require("../Controllers/Admin");
-const { shopRegistration, updatedShopDetails } = require("../Controllers/Shop");
+const {
+  admin,
+  getAdmin,
+  verifyShop,
+  loginAdmin,
+} = require("../Controllers/Admin");
+const {
+  shopRegistration,
+  updatedShopDetails,
+  getShopDetails,
+  getAllShopsDetails,
+} = require("../Controllers/Shop");
 
 router.get("/home", getHome);
 router.post("/signup", signup);
@@ -20,5 +30,8 @@ router.post("/admin/login", loginAdmin);
 router.post("/login", loginUser);
 router.post("/registration", userAuth, shopRegistration);
 router.patch("/shop/:id", userAuth, updatedShopDetails);
+router.patch("/admin/shop/:id", adminAuth, verifyShop);
+router.get("/shop/:id", getShopDetails);
+router.get("/shops", getAllShopsDetails);
 
 module.exports = router;

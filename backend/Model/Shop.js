@@ -4,17 +4,18 @@ const { Schema, model } = mongoose;
 const ShopSchema = new Schema({
   shopName: {
     type: String,
-    required: true,
+    trim: true,
+  },
+  phoneNumber: {
+    type: Number,
     trim: true,
   },
   state: {
     type: String,
-    required: true,
     trim: true,
   },
   city: {
     type: String,
-    required: true,
     trim: true,
   },
   shopDetails: {
@@ -45,9 +46,27 @@ const ShopSchema = new Schema({
       openingTime: {
         type: String,
       },
-      closingTIme: {
+      closingTime: {
         type: String,
       },
+    },
+    delivery: {
+      type: Boolean,
+      default: false,
+    },
+    location: {
+      lat: {
+        type: Number,
+      },
+      lng: {
+        type: Number,
+      },
+    },
+    type: {
+      type: String,
+    },
+    category: {
+      type: String,
     },
   },
   type: {
@@ -58,17 +77,15 @@ const ShopSchema = new Schema({
   },
   governmentID: {
     type: String,
-    required: true,
+
     trim: true,
   },
   governmentIDImage: {
     type: String,
-    required: true,
     trim: true,
   },
   shopImage: {
     type: String,
-    required: true,
     trim: true,
   },
   userID: {

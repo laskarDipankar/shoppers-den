@@ -27,7 +27,7 @@ const Login = ({ email, password }: MyFormValues) => {
 
   // const initialValues: MyFormValues = { email: "", password: "" };
 
-  console.log(valueL);
+  // console.log(valueL);
   return (
     <>
       {/* <Box
@@ -98,10 +98,7 @@ const Login = ({ email, password }: MyFormValues) => {
                               if (res.data.token) {
                                 localStorage.setItem(
                                   "usertoken",
-                                  JSON.stringify({
-                                    token: res.data.token,
-                                    userlogin: true,
-                                  })
+                                  JSON.stringify(res.data.token)
                                 );
                                 window.location.reload();
                                 // navigate("/feed");

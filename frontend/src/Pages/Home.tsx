@@ -55,6 +55,13 @@ const Home = () => {
     lng: 0,
     shopName: "",
   });
+  const getCoords = (data: any) => {
+    setCoordinates({
+      lat: data.lat,
+      lng: data.lng,
+    });
+  };
+  const page = "home";
 
   console.log(open);
 
@@ -142,11 +149,10 @@ const Home = () => {
                             marginRight: "auto",
                             padding: "2rem",
                             marginBottom: "2rem",
-                            bgcolor: "#d4d2d2",
+                            backgroundColor: " rgba(255, 255, 255, 0.45)",
                             boxShadow:
                               " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                             borderRadius: "10px",
-                            // border: "1px solid black",
                           }}
                         >
                           <Card
@@ -154,7 +160,7 @@ const Home = () => {
                               maxWidth: 345,
                               marginTop: "1rem",
                               boxShadow: "none",
-                              bgcolor: "#d4d2d2",
+                              backgroundColor: " rgba(255, 255, 255, 0.45)",
                             }}
                           >
                             <CardMedia
@@ -236,6 +242,8 @@ const Home = () => {
                               setOpen={setOpen}
                               coordinates={coordinates}
                               open={open}
+                              page={page}
+                              getCoords={getCoords}
                             />
                           </Card>
                         </Box>

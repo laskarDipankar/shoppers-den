@@ -3,6 +3,9 @@ const Users = require("../Model/User");
 
 const userAuth = async (req, res, next) => {
   const bearer = req.headers.authorization;
+  // console.lo
+
+  console.log(bearer, "bearer");
 
   if (!bearer) {
     return res.status(401).send({ error: "Unauthorized User jai mata di" });

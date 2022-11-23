@@ -2,13 +2,16 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../Model/Admin");
 
 const verifyAdminAuth = async (req, res, next) => {
-  const adminToken = req.header.Authorization;
+  const bearer = req.headers.authorization;
 
-  if (!adminToken) {
+  // console.log(adminToken);
+
+  if (!bearer) {
     return res.status(401).send({ error: "Unauthorized" });
   } else {
     try {
-      adminToken = adminToken.split(" ")[1];
+      // console.log(req.admin);
+      const adminToken = bearer.split(" ")[1];
       const payload = jwt.verify(adminToken, process.env.JWT_SECRET);
       const admin = await Admin.findById(payload.id);
       if (!admin)

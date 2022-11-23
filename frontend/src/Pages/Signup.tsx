@@ -23,45 +23,39 @@ import { NavLink } from "react-router-dom";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import { UserSignup } from "../Model/Model";
 import { useNavigate } from "react-router";
-import axios from "axios";
+
+import { api } from "../lib/Axios";
 // import SelectFIeld from "../Component/Textfield/Selectfield/SelectFIeld";
+// const user = JSON.parse(localStorage.getItem("admintoken") || "{}");
+// console.log(user.token);
 const Signup = (
   {
-    ufirstName,
-    ulastName,
-    uemail,
     shopName,
     State,
     City,
-    pincode,
     phoneNumber,
-    upassword,
-    uconfirmPassword,
-    dateOfBirth,
-    Gender,
-    Id,
+    governmentID,
+    governmentIDImage,
+    shopImage,
   }: SignupProp,
   { firstName, lastName, email, password, confirmPassword }: UserSignup
 ) => {
   // const [sstate, setstate] = useState<string>("");
+  const [sstate, setstate] = useState<string>("");
+  const location = useLocation();
+  const [selectedfiles, setSelected] = useState<File>();
+  const [selectedidImage, setSelectedImage] = useState<File>();
 
   const navigate = useNavigate();
 
   const [singupdata, setsingupdata] = useState<SignupProp>({
-    ufirstName: "",
-    ulastName: "Galib",
-    uemail: "MIrza@galib.com",
     shopName: "YENagma",
     State: "UP",
     City: "Lucknow",
-    pincode: 0,
     phoneNumber: 0,
-    upassword: "",
-    uconfirmPassword: "",
-    dateOfBirth: "",
-    Gender: "male",
-    filename: "",
-    Id,
+    governmentIDImage: `imageid`,
+    shopImage: `image`,
+    governmentID,
   });
 
   const [userSignup, setuserSignup] = useState<UserSignup>({
@@ -71,27 +65,54 @@ const Signup = (
     password: "",
     confirmPassword: "",
   });
-  const [sstate, setstate] = useState<string>("");
-  const location = useLocation();
-  const [selectedfiles, setSelected] = useState<File>();
-  const [selectedidImage, setSelectedImage] = useState<File>();
 
   const postData = (data: any) => {
-    // console.log(data, "shop data submitted successfully");
+    console.log(data);
+    try {
+      console.log(data, "register");
+      const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
+
+      api
+        .post(
+          "/registration",
+          {
+            shopName: data.shopName,
+            phoneNumber: data.phoneNumber,
+            state: data.State,
+            city: data.City,
+            governmentID: data.governmentID,
+            governmentIDImage: data.governmentIDImage,
+            shopImage: data.shopImage,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res: any) => {
+          if (res.status === 201) {
+            console.log(res.data);
+            navigate("/");
+          } else {
+            console.log(res);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const UserPostData = (data: any) => {
     try {
-      axios
-        .post("http://localhost:5000/api/users/signup", {
+      api
+        .post("/signup", {
           firstName: userSignup.firstName,
           lastName: userSignup.lastName,
           email: userSignup.email,
           password: userSignup.password,
         })
-        .then((res) => {
+        .then((res: any) => {
           if (res.status === 201) {
-            navigate("/login");
+            navigate("/");
 
             console.log(res);
           } else {
@@ -106,14 +127,14 @@ const Signup = (
   const user = location.state;
   const gender = ["male", "female", "others"];
 
-  // console.log(location.state, "location.state");
+  // console.log(selectedidImage?.name, "location.state");
 
-  useEffect(() => {
-    setsingupdata((value) => ({
-      ...value,
-      [value.filename]: selectedfiles?.name,
-    }));
-  }, [selectedfiles]);
+  // useEffect(() => {
+  //   setsingupdata((value) => ({
+  //     ...value,
+  //     ]: selectedfiles?.name,
+  //   }));
+  // }, [selectedfiles]);
 
   return (
     <>
@@ -127,17 +148,6 @@ const Signup = (
         }}
         position="fixed"
       >
-        {/* <Grid item xs={12}> */}
-        {/* {/* <BackgroundBody */}
-        {/* sx={{
-              border: "2px solid red",
-              marginBottom: "12px",
-              bottom: "10px",
-              overflowX: "hidden",
-              height: "90vh",
-            }}
-            overflow="scroll"
-          >  */}
         <Box
           sx={{
             display: "grid",
@@ -172,15 +182,14 @@ const Signup = (
                 }
                 onSubmit={(values, actions) => {
                   var len = Object.keys(values).length;
-                  console.log(len, "length");
-                  if (len < 7) {
+                  // console.log(len, "length");
+                  if (len < 6) {
                     UserPostData(values);
-                    console.log(values);
+                    // console.log(values);
                   } else {
-                    console.log(values, "signup");
+                    // console.log(values, "signup");
+                    postData(values);
                   }
-
-                  // postData(values);
                 }}
                 enableReinitialize={true}
               >
@@ -252,17 +261,9 @@ const Signup = (
                             setuserSignup={setuserSignup}
                             user={location.state === "shop" ? "shop" : "user"}
                             type="text"
-                            name={
-                              location.state === "shop"
-                                ? "firstName"
-                                : "firstName"
-                            }
+                            name="firstName"
                             label="First Name"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.ufirstName
-                                : userSignup.firstName
-                            }
+                            value={userSignup.firstName}
                             size="small"
                             // variant={"standard"}
                           />
@@ -286,13 +287,8 @@ const Signup = (
                                 : "lastName"
                             }
                             label="Last Name"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.ulastName
-                                : userSignup.lastName
-                            }
+                            value={userSignup.lastName}
                             size="small"
-                            // variant={"standard"}
                           />
                         </Box>
                         <Box
@@ -302,78 +298,7 @@ const Signup = (
                             marginTop: "10px",
                             justifyContent: "center",
                           }}
-                        >
-                          {/* <Box>
-                              <InputLabel
-                                
-                              >
-                                Date of birth
-                              </InputLabel>
-                              <TextField
-                                sx={{
-                                  width: 170,
-                                }}
-                                type="date"
-                                onChange={(e) => {
-                                  location.state === "shop"
-                                    ? setsingupdata({
-                                        ...singupdata,
-                                        dateOfBirth: e.target.value,
-                                      })
-                                    : setuserSignup({
-                                        ...userSignup,
-                                        UdateOfBirth: e.target.value,
-                                      });
-                                }}
-                                name={
-                                  location.state === "shop"
-                                    ? "dateOfBirth"
-                                    : "UdateOfBirth"
-                                }
-                           
-                                value={
-                                  location.state === "shop"
-                                    ? singupdata.dateOfBirth
-                                    : userSignup.UdateOfBirth
-                                }
-                                size="small"
-                                
-                              >
-                                {location.state === "shop"
-                                  ? singupdata.dateOfBirth
-                                  : userSignup.UdateOfBirth}
-                              </TextField>
-                            </Box>
-                            <Box>
-                              <InputLabel>Gender</InputLabel>
-                              <Select
-                                sx={{
-                                  width: 170,
-                                }}
-                                size="small"
-                                value={singupdata.Gender}
-                              >
-                                {gender.map((item: string) => (
-                                  <MenuItem
-                                    onClick={(e) => {
-                                      location.state === "shop"
-                                        ? setsingupdata({
-                                            ...singupdata,
-                                            Gender: item,
-                                          })
-                                        : setuserSignup({
-                                            ...userSignup,
-                                            UGender: item,
-                                          });
-                                    }}
-                                    value={item}
-                                  >
-                                    {item}
-                                  </MenuItem>
-                                ))}
-                              </Select>
-                            </Box> */}
-                        </Box>
+                        ></Box>
                         <Box
                           sx={{
                             display: "flex",
@@ -393,11 +318,7 @@ const Signup = (
                             type="email"
                             name={location.state === "shop" ? "email" : "email"}
                             label="Email"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.uemail
-                                : userSignup.email
-                            }
+                            value={userSignup.email}
                             size="medium"
                             // variant={"standard"}
                           />
@@ -424,13 +345,8 @@ const Signup = (
                                 : "password"
                             }
                             label="password"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.upassword
-                                : userSignup.password
-                            }
+                            value={userSignup.password}
                             size="small"
-                            // variant={"standard"}
                           />
                         </Box>
                         <Box
@@ -451,13 +367,8 @@ const Signup = (
                             type="password"
                             name="confirmPassword"
                             label="confirmPassword"
-                            value={
-                              location.state === "shop"
-                                ? singupdata.uconfirmPassword
-                                : userSignup.confirmPassword
-                            }
+                            value={userSignup.confirmPassword}
                             size="small"
-                            // variant={"standard"}
                           />
                         </Box>
                       </>
@@ -486,6 +397,29 @@ const Signup = (
                             name="shopName"
                             label="Shop Name"
                             value={singupdata.shopName}
+                            size="small"
+                            // variant={"standard"}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            marginTop: "10px",
+                          }}
+                        >
+                          {/* <label>First Name</label> */}
+                          <TextFieldSIgnupCo
+                            // sx={{
+                            //   width: "45%",
+                            // }}
+                            setsingupdata={setsingupdata}
+                            setuserSignup={setuserSignup}
+                            user={location.state === "shop" ? "shop" : "user"}
+                            type="text"
+                            name="phoneNumber"
+                            label="phone No"
+                            value={singupdata.phoneNumber}
                             size="small"
                             // variant={"standard"}
                           />
@@ -540,7 +474,6 @@ const Signup = (
                           </Box>
                           <Box
                             sx={{
-                              // width: 150,
                               marginTop: "10px",
                             }}
                           >
@@ -597,9 +530,9 @@ const Signup = (
                             setuserSignup={setuserSignup}
                             user={location.state === "shop" ? "shop" : "user"}
                             type="text"
-                            name="Id"
+                            name="governmentID"
                             label="Enter your Government ID"
-                            value={singupdata.Id}
+                            value={singupdata.governmentID}
                             size="small"
                             // variant={"standard"}
                           />

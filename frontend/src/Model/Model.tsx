@@ -4,20 +4,13 @@ export type Value = {
 };
 
 export interface SignupProp {
-  ufirstName: string;
-  ulastName: string;
-  uemail: string;
   shopName: string;
   State: string;
   City: string;
-  pincode: Number;
   phoneNumber: Number;
-  upassword: string;
-  uconfirmPassword: string;
-  dateOfBirth: string;
-  filename: string;
-  Id: Number;
-  Gender: string;
+  governmentIDImage: string;
+  shopImage: string;
+  governmentID: Number;
 }
 
 export interface UserSignup {

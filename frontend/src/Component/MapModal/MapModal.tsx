@@ -16,29 +16,21 @@ interface Props {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   coordinates: any;
+  page: String;
+  getCoords: any;
   // onClose: () => void;
 }
 
-const MapModal = ({ open, setOpen, coordinates }: Props) => {
+const MapModal = ({ open, setOpen, coordinates, page, getCoords }: Props) => {
   //   const [state, setstate] = useState(open);
   const [position, setPosition] = useState<any>(null);
-  // console.log(coordinates);
 
-  // console.log(open);
-  // const LocationMarker = () => {
-  //   // const [position, setPosition] = useState<any>();
-  //   console.log(position, "hello");
-  //   const map = useMapEvents({
-  //     click() {
-  //       map.locate();
-  //     },
-  //     locationfound(e) {
-  //       setPosition(e.latlng);
-  //       map.flyTo(e.latlng, map.getZoom());
-  //     },
-  //   });
+  const handleLocation = () => {
+    getCoords(position);
+    setOpen(false);
+  };
 
-  console.log(position);
+  // console.log(position);
 
   //   return <h1>notting to see</h1>;
 
@@ -68,11 +60,13 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
         // console.log(e, "hello");
 
         setPosition(e.latlng);
+
+        handleLocation();
         map.locate();
       },
       locationfound(e) {
         map.flyTo(e.latlng, map.getZoom());
-        console.log(position, "lead");
+        // console.log(position, "lead");
       },
     });
     return null;
@@ -87,7 +81,7 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
             setOpen(false);
           }}
           sx={{
-            background: "rgba(255,255,255,0.2)",
+            background: "rgba(255,255,255,0.6)",
             opacity: 0.6,
           }}
         >
@@ -95,7 +89,7 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
             sx={{
               width: "60vw",
               height: "60vh",
-              background: "white",
+              background: "black",
               margin: "auto",
               marginTop: "20vh",
             }}
@@ -127,7 +121,12 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
                   <HandleClickMap />
                   {/* {position === null ? null : ( */}
                   <Marker
-                    position={[coordinates.lat, coordinates.lng]}
+                    // position={position}
+                    position={
+                      position === null
+                        ? [coordinates.lat, coordinates.lng]
+                        : [position.lat, position.lng]
+                    }
                     icon={
                       new Icon({
                         iconUrl: markerIconPng,
@@ -139,7 +138,13 @@ const MapModal = ({ open, setOpen, coordinates }: Props) => {
                     draggable={true}
                   >
                     <Popup>
-                      {coordinates.shopName} <br /> location.
+                      {page === "home" ? (
+                        <>
+                          <span>location</span>
+                        </>
+                      ) : (
+                        <span>click on the location to set the marker</span>
+                      )}
                     </Popup>
                   </Marker>
                 </MapContainer>

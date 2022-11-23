@@ -3,11 +3,20 @@ const User = require("../Model/User");
 
 const shopRegistration = async (req, res) => {
   const user = req.user;
-  const { shopName, state, city, governmentID, governmentIDImage, shopImage } =
-    req.body;
+  const {
+    shopName,
+    phoneNumber,
+    state,
+    city,
+    governmentID,
+    governmentIDImage,
+    shopImage,
+  } = req.body;
+  console.log(req.body);
 
   if (
     !shopName ||
+    !phoneNumber ||
     !state ||
     !city ||
     !governmentID ||
@@ -16,10 +25,12 @@ const shopRegistration = async (req, res) => {
   ) {
     return res.status(400).json({ error: "please fill all the fields" });
   }
+  console.log("in try");
 
   try {
     const shop = new Shop({
       shopName,
+      phoneNumber,
       state,
       city,
       governmentID,
@@ -66,5 +77,43 @@ const updatedShopDetails = async (req, res) => {
     return res.status(error.status || 500).json({ error: error.message });
   }
 };
+const getAllShopsDetails = async (req, res) => {
+  try {
+    const shops = await Shop.find();
+    res.status(200).json({
+      data: shops,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
-module.exports = { shopRegistration, updatedShopDetails };
+const getShopDetails = async (req, res) => {
+  const shopid = req.params.id;
+
+  if (!shopid)
+    return res.status(400).json({
+      error: "Shop id is required.",
+    });
+
+  try {
+    const shop = await Shop.findById(shopid).populate(
+      "userID",
+      "firstName lastName email phoneNumber -_id"
+    );
+    console.log(req.query);
+
+    if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
+
+    return res.status(200).json({ success: true, shop });
+  } catch (error) {
+    return res.status(error.status || 500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  shopRegistration,
+  updatedShopDetails,
+  getShopDetails,
+  getAllShopsDetails,
+};

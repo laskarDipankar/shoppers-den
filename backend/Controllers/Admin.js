@@ -1,6 +1,7 @@
 const Admin = require("../Model/Admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Shop = require("../Model/Shop");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -68,8 +69,33 @@ const getAdmin = async (req, res) => {
   }
 };
 
+const verifyShop = async (req, res) => {
+  console.log(req.admin);
+  const shopId = req.params.id;
+  const verify = req.body.verify;
+
+  if (!shopId) {
+    return res.status(400).json({
+      error: "Shop id is required.",
+    });
+  }
+  try {
+    const shop = await Shop.findById(shopId);
+
+    if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
+
+    shop.verified = verify;
+    await shop.save();
+
+    return res.status(200).json({ success: true, shop });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   admin,
   getAdmin,
   loginAdmin,
+  verifyShop,
 };
