@@ -14,6 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 import Person from "@mui/icons-material/Person2Outlined";
 import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
+import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import {
   ActionIconsMobile,
   AppbarContainer,
@@ -25,11 +26,21 @@ import { NavLink } from "react-router-dom";
 interface Props {
   matches: boolean;
 }
+const getUserFromLocalStorage = (key: "user") => {
+  try {
+    const user = localStorage.getItem(key);
+    if (user) return JSON.parse(user);
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
 
 const array = ["SETTINGS", "FEEDBACKS", "CONTACT", "CREATEDBY"];
 
 const AppbarMobile = ({ matches }: Props) => {
   const type = "shop";
+  const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   const [val, setopen] = useState(false);
   console.log(val);
   return (
@@ -43,7 +54,7 @@ const AppbarMobile = ({ matches }: Props) => {
         }}
         overflow="show"
       >
-        <List
+        {/* <List
           sx={{
             // background: "yellow",
             width: "3rem",
@@ -100,7 +111,7 @@ const AppbarMobile = ({ matches }: Props) => {
               ))}
             </List>
           </Collapse>
-        </List>
+        </List> */}
         <AppHeader textAlign="center">
           <NavLink
             style={{
@@ -112,16 +123,30 @@ const AppbarMobile = ({ matches }: Props) => {
             SHOPPERS-DEN
           </NavLink>
         </AppHeader>
+        {userId.shop ? (
+          <>
+            <NavLink state={type} to={`/shop/${userId.shop}`}>
+              <IconButton>
+                <StoreSharpIcon
+                  sx={{
+                    marginRight: "2rem",
+                  }}
+                />
+              </IconButton>
+            </NavLink>
+          </>
+        ) : (
+          <NavLink state={type} to="/signup">
+            <IconButton>
+              <AddBusinessSharpIcon
+                sx={{
+                  marginRight: "2rem",
+                }}
+              />
+            </IconButton>
+          </NavLink>
+        )}
 
-        <NavLink state={type} to="/signup">
-          <IconButton>
-            <AddBusinessSharpIcon
-              sx={{
-                marginRight: "2rem",
-              }}
-            />
-          </IconButton>
-        </NavLink>
         <Actions
           // className="glass"
 

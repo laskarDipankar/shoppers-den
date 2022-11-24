@@ -59,6 +59,7 @@ const loginUser = async (req, res) => {
     const token = generateToken(user._id);
     res.status(200).send({
       ok: "success",
+      user,
       token,
     });
   } catch (err) {
@@ -67,8 +68,10 @@ const loginUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
+  console.log(req.query);
+
   try {
-    const users = await Users.find();
+    const users = await Users.find(req.query);
     res.status(200).send(users);
   } catch (err) {
     console.log(err);

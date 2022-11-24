@@ -71,6 +71,8 @@ const getAdmin = async (req, res) => {
 
 const verifyShop = async (req, res) => {
   console.log(req.admin);
+  console.log(req.body);
+
   const shopId = req.params.id;
   const verify = req.body.verify;
 

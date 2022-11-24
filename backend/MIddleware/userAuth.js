@@ -11,9 +11,11 @@ const userAuth = async (req, res, next) => {
     return res.status(401).send({ error: "Unauthorized User jai mata di" });
   } else {
     try {
+      console.log("here 1");
       const userToken = bearer.split(" ")[1];
       const payload = jwt.verify(userToken, process.env.JWT_SECRET);
       const user = await Users.findById(payload.id);
+      console.log("here 2");
 
       if (!user) return res.status(403).json({ error: "User doesn't exist." });
 
@@ -24,6 +26,7 @@ const userAuth = async (req, res, next) => {
 
       req.user = user;
       next();
+      console.log("here 3");
     } catch (err) {
       console.log(err);
       res.status(401).send({ error: "Unauthorized" });

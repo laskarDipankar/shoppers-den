@@ -91,6 +91,8 @@ const Signup = (
         .then((res: any) => {
           if (res.status === 201) {
             console.log(res.data);
+            localStorage.removeItem("usertoken");
+            window.location.reload();
             navigate("/");
           } else {
             console.log(res);

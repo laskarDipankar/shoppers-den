@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Layout,
   SideBar,
@@ -10,113 +10,208 @@ import {
   AppbarContainer,
 } from "../Component/Layout/Layout";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
-import { Grid, Box, Typography, Button } from "@mui/material";
-import Pending from "../Component/ADmin/Pending";
-import Verified from "../Component/ADmin/Verified";
+import {
+  Grid,
+  Box,
+  Typography,
+  Button,
+  MenuItem,
+  TextField,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+} from "@mui/material";
+import { api } from "../lib/Axios";
+import { boolean } from "yup/lib/locale";
+
+// const [userToken, setUserToken] = useState(() =>
+//   getTokenFromLocalStorage("usertoken")
+// );
 
 const Admin = () => {
   const [pending, setpending] = useState<boolean>(false);
+  const [verified, setverified] = useState<any>();
+  const [shopId, setShopId] = useState<any>();
+
   const handleCLick = () => {
-    setpending(!pending);
+    setpending(true);
   };
+  const handlpending = () => {
+    setpending(false);
+  };
+
+  useEffect(() => {
+    api
+      .get(`/shops?verified=${pending}`)
+      .then((res) => {
+        setverified(res.data.data);
+        console.log(res.data.data);
+        // window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [pending]);
+  // console.log(verified.city);
+
+  const handleVerify = (id: any) => {
+    const token: string = JSON.parse(localStorage.getItem("admintoken") || "");
+    api
+      .patch(
+        `/admin/shop/${id}`,
+        {
+          verify: true,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleReject = (id: any) => {
+    const token: string = JSON.parse(localStorage.getItem("admintoken") || "");
+    api
+      .delete(`/admin/shops/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <>
-      <BackgroundBody
+      <Grid
+        container
+        xl={12}
         sx={{
-          paddingRight: "10px",
+          display: "flex",
+          marginLeft: "5%",
+          // width: "95%",
+          width: "88%",
+          justifyContent: "center",
+          // border: "1px solid black",
         }}
       >
-        <Grid item xs={12}>
-          <Layout
-            display={{
-              xs: "none",
+        <Grid item xs={12} xl={12}>
+          <BackgroundBody
+            sx={{
+              border: "1px solid black",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            <Grid>
-              <SideBar></SideBar>
-            </Grid>
-          </Layout>
+            <Box
+              sx={{
+                height: "100%",
+                width: "88vw",
+                border: "1px solid black",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  height: "10vh",
+                  width: "28vw",
+                  // border: "1px solid black",
+                }}
+              >
+                <TextField select fullWidth>
+                  {/* <MenuItem onClick={handleCLick} value="All">
+                    All
+                  </MenuItem> */}
+                  <MenuItem onClick={handleCLick} value="Verified">
+                    Verified
+                  </MenuItem>
+                  <MenuItem onClick={handlpending} value="Pending">
+                    Pending
+                  </MenuItem>
+                </TextField>
+              </Box>
+              <Box
+                sx={{
+                  height: "60vh",
+                  width: "80vw",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {verified?.map((item: any) => {
+                  return (
+                    <>
+                      <Grid container xs={12}>
+                        <Grid item xs={12} xl={6}>
+                          <Card
+                            sx={{
+                              height: "20vh",
+                              margin: "1rem",
+                            }}
+                          >
+                            <CardHeader
+                              title={item.shopName}
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                              }}
+                            />
+
+                            <CardActions
+                              sx={{
+                                display: "flex",
+                                justifyContent: "space-around",
+                              }}
+                            >
+                              <Button
+                                onClick={() => {
+                                  handleVerify(item._id);
+                                }}
+                                sx={{
+                                  bgcolor:
+                                    item.verified === "true"
+                                      ? "greenyellow"
+                                      : "yellow",
+                                  color: "black",
+                                }}
+                              >
+                                {item.verified === true ? "verified" : "verify"}
+                              </Button>
+                              <Button
+                                sx={{
+                                  bgcolor: "orange",
+                                }}
+                                onClick={() => {
+                                  handleReject(item._id);
+                                }}
+                              >
+                                Delete
+                              </Button>
+                            </CardActions>
+                          </Card>
+                        </Grid>
+                      </Grid>
+                    </>
+                  );
+                })}
+              </Box>
+            </Box>
+          </BackgroundBody>
         </Grid>
-        <Grid>
-          <Body
-            display={{
-              xs: "block",
-            }}
-          >
-            <Grid>
-              <BodyContent>
-                <BodyHeader>
-                  <Navbar
-                  // sx={{
-                  //   display: "flex",
-                  //   justifyContent: "center",
-                  //   border: "2px solid red",
-                  //   width: "96vw",
-                  // }}
-                  >
-                    <AppbarContainer></AppbarContainer>
-                  </Navbar>
-                </BodyHeader>
-                <BodyMain>
-                  <Box
-                    sx={{
-                      height: "100%",
-                      width: "100%",
-                      //   border: "2px solid red",
-                      display: "Grid",
-                      //   alignItems: "center",
-                      justifyContent: "center",
-                      gridTemplateRows: "10vh 1fr",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        height: "10vh",
-                        width: "80vw",
-                        // border: "2px solid red",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Button
-                        size="small"
-                        onClick={() => {
-                          setpending(true);
-                        }}
-                        variant="outlined"
-                        sx={{
-                          marginRight: "10px",
-                        }}
-                      >
-                        "Pending"
-                      </Button>
-                      <Button
-                        size="small"
-                        onClick={() => {
-                          setpending(false);
-                        }}
-                        variant="outlined"
-                      >
-                        Verified
-                      </Button>
-                    </Box>
-                    <Box
-                      sx={{
-                        height: "64vh",
-                        width: "80vw",
-                        // border: "2px solid red",
-                      }}
-                    >
-                      {pending ? <Pending /> : <Verified />}
-                    </Box>
-                  </Box>
-                </BodyMain>
-              </BodyContent>
-            </Grid>
-          </Body>
-        </Grid>
-      </BackgroundBody>
+      </Grid>
     </>
   );
 };

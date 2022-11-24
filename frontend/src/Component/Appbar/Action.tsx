@@ -24,10 +24,20 @@ interface TYpe {
   type: string;
 }
 
+const getUserFromLocalStorage = (key: "user") => {
+  try {
+    const user = localStorage.getItem(key);
+    if (user) return JSON.parse(user);
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
+
 const Actions = ({ matches }: Props) => {
   const Components = matches ? ActionIconsMobile : ActionIconsContainerDesktop;
   const [drawer, setType] = useState<boolean>(false);
-
+  const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   return (
     <>
       <Components>
@@ -47,14 +57,16 @@ const Actions = ({ matches }: Props) => {
               justifyContent: "center",
             }}
           >
-            <ListItemIcon
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <StoreSharpIcon />
-            </ListItemIcon>
+            <NavLink to={`/shop/${userId.shop}`}>
+              <ListItemIcon
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <StoreSharpIcon />
+              </ListItemIcon>
+            </NavLink>
           </ListItemButton>
 
           <Divider variant="middle" orientation="vertical" flexItem />
@@ -74,7 +86,20 @@ const Actions = ({ matches }: Props) => {
               <Person onClick={() => setType(!drawer)} />
               <Menu
                 sx={{
-                  marginLeft: "32%",
+                  marginLeft: {
+                    xs: "65%",
+                    md: "86%",
+                    lg: "90%",
+                    xl: "92%",
+                  },
+                  marginTop: {
+                    xs: "70vh",
+                    sm: "70vh",
+                    md: "1vh",
+                    lg: "1vh",
+                    xl: "1vh",
+                  },
+
                   marginBottom: "2rem",
                 }}
                 // horizontal="bottom"
@@ -87,12 +112,16 @@ const Actions = ({ matches }: Props) => {
                 }}
               >
                 <MenuItem onClick={() => setType(false)}>
-                  <NavLink to="/profile">Profile</NavLink>
+                  <NavLink to={`/profile/${userId.user}`}>Profile</NavLink>
                 </MenuItem>
-                <MenuItem onClick={() => setType(false)}>My account</MenuItem>
+                {/* <MenuItem onClick={() => setType(false)}>My account</MenuItem> */}
                 <MenuItem
                   onClick={() => {
-                    setType(false);
+                    localStorage.removeItem("usertoken");
+                    window.location.href = "/";
+                    {
+                      setType(false);
+                    }
                   }}
                 >
                   Logout

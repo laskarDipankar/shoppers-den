@@ -22,11 +22,9 @@ const AdminLogin = () => {
             if (res.data.token) {
               localStorage.setItem(
                 "admintoken",
-                JSON.stringify({
-                  token: res.data.token,
-                  adminlogin: true,
-                })
+                JSON.stringify(res.data.token)
               );
+
               window.location.reload();
               navigate("/admin");
             }

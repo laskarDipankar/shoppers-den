@@ -4,7 +4,7 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import { AppbarContainer, AppHeader, Mylist } from "../../Style/Appbar/index";
 import SearchIcon from "@mui/icons-material/Search";
 import StoreSharpIcon from "@mui/icons-material/StoreSharp";
@@ -20,6 +20,15 @@ interface Props {
 interface TYpe {
   type: String;
 }
+const getUserFromLocalStorage = (key: "user") => {
+  try {
+    const user = localStorage.getItem(key);
+    if (user) return JSON.parse(user);
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
 
 const navItem = [
   { name: "FEED", link: "/home" },
@@ -30,6 +39,7 @@ const navItem = [
 ];
 
 const AppbarPC = ({ matches }: Props) => {
+  const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   const location = useLocation();
   return (
     <>

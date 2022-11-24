@@ -100,6 +100,13 @@ const Login = ({ email, password }: MyFormValues) => {
                                   "usertoken",
                                   JSON.stringify(res.data.token)
                                 );
+                                localStorage.setItem(
+                                  "user",
+                                  JSON.stringify({
+                                    user: res.data.user._id,
+                                    shop: res.data.user.shop,
+                                  })
+                                );
                                 window.location.reload();
                                 // navigate("/feed");
                               }

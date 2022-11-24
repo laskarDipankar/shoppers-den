@@ -19,6 +19,7 @@ const {
   updatedShopDetails,
   getShopDetails,
   getAllShopsDetails,
+  deleteShop,
 } = require("../Controllers/Shop");
 
 router.get("/home", getHome);
@@ -33,5 +34,7 @@ router.patch("/shop/:id", userAuth, updatedShopDetails);
 router.patch("/admin/shop/:id", adminAuth, verifyShop);
 router.get("/shop/:id", getShopDetails);
 router.get("/shops", getAllShopsDetails);
+router.delete("/shop/:id", userAuth, deleteShop);
+router.delete("/admin/shop/:id", adminAuth, deleteShop);
 
 module.exports = router;
