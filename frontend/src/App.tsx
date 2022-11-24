@@ -1,33 +1,50 @@
-import React, { useState } from "react";
+import "leaflet/dist/leaflet.css";
+import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./Pages/Login";
-import Signup from "./Pages/Signup";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Feed from "./Pages/Feed";
-import Shop from "./Pages/Shop";
+import AppbarMain from "./Component/Appbar";
 import Admin from "./Pages/Admin";
 import AdminLogin from "./Pages/AdminLogin";
-import AppbarMain from "./Component/Appbar";
+import Feed from "./Pages/Feed";
 import Home from "./Pages/Home";
-import bg from "./img/bg.json";
-import Lottie from "lottie-react";
-import "leaflet/dist/leaflet.css";
+import Login from "./Pages/Login";
+import Shop from "./Pages/Shop";
+import Signup from "./Pages/Signup";
+import Profile from "./Pages/Profile";
 
-const user = JSON.parse(localStorage.getItem("admintoken") || "{}");
-const ulogin = JSON.parse(localStorage.getItem("usertoken") || "{}");
+const getTokenFromLocalStorage = (key: "usertoken" | "admintoken") => {
+  try {
+    const token = localStorage.getItem(key);
+    if (token) return JSON.parse(token);
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
 
 function App() {
-  // const [tokenadmin, settokenadmin] = React.useState(
-  //   JSON.parse(localStorage.getItem("admintoken") || "{}")
-  // );
+  const [userToken, setUserToken] = useState(() =>
+    getTokenFromLocalStorage("usertoken")
+  );
 
-  console.log(user, "admin");
+  const [adminToken, setAdminToken] = useState(() =>
+    getTokenFromLocalStorage("admintoken")
+  );
+
+  useEffect(() => {
+    setUserToken(getTokenFromLocalStorage("usertoken"));
+    setAdminToken(getTokenFromLocalStorage("admintoken"));
+  }, []);
+
+  console.log({ userToken });
+  console.log({ adminToken });
+
   return (
     <>
       {/* <Login /> */}
 
       <BrowserRouter>
-        {user.token ? <AppbarMain /> : <AppbarMain />}
+        {adminToken ? <AppbarMain /> : <AppbarMain />}
 
         {/* <AppbarMain /> */}
 
@@ -40,24 +57,17 @@ function App() {
             path="/signup"
             element={
               <Signup
-                ufirstName={""}
-                ulastName={""}
-                uemail={""}
                 shopName={""}
                 State={""}
                 City={""}
-                pincode={0}
                 phoneNumber={0}
-                upassword={""}
-                uconfirmPassword={""}
-                dateOfBirth={""}
-                filename={""}
-                Gender={""}
-                Id={0}
+                governmentIDImage={""}
+                shopImage={""}
+                governmentID={0}
               />
             }
           />
-          {ulogin.userlogin ? (
+          {userToken ? (
             <Route path="/" element={<Home />} />
           ) : (
             <Route
@@ -67,7 +77,7 @@ function App() {
           )}
           <Route path="/shop/:id" element={<Shop />} />
 
-          {user.adminlogin ? (
+          {adminToken ? (
             <Route path="/admin" element={<Admin />} />
           ) : (
             <Route path="/admin" element={<AdminLogin />} />
@@ -75,18 +85,15 @@ function App() {
           {/* <Route path="/adminlogin" element={<AdminLogin />} /> */}
           <Route path="/home" element={<Feed />} />
           <Route path="*" element={<h1>404: Not Found</h1>} />
+          {userToken ? (
+            <Route path="/profile" element={<Profile />} />
+          ) : (
+            <Route
+              path="/Profile"
+              element={<Login email={"email"} password={"password"} />}
+            />
+          )}
         </Routes>
-        {/* <Lottie
-          style={{
-            zIndex: -1,
-            height: "30vh",
-            width: "100vw",
-            marginBottom: "auto",
-            transform: "rotate(180deg)",
-          }}
-          animationData={bg}
-          loop={true}
-        /> */}
       </BrowserRouter>
     </>
   );

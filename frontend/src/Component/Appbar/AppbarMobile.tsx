@@ -36,7 +36,10 @@ const AppbarMobile = ({ matches }: Props) => {
     <>
       <AppbarContainer
         width={{
-          xs: "100%",
+          xs: "96%",
+        }}
+        borderRadius={{
+          xs: "0px",
         }}
         overflow="show"
       >
@@ -102,7 +105,7 @@ const AppbarMobile = ({ matches }: Props) => {
           <NavLink
             style={{
               textDecoration: "none",
-              color: "white",
+              color: "black",
             }}
             to="/"
           >
@@ -119,7 +122,11 @@ const AppbarMobile = ({ matches }: Props) => {
             />
           </IconButton>
         </NavLink>
-        <Actions matches={matches} />
+        <Actions
+          // className="glass"
+
+          matches={matches}
+        />
       </AppbarContainer>
     </>
   );

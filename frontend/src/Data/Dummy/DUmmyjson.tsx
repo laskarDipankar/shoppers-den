@@ -23,8 +23,8 @@ export const shops = {
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
       location: {
-        lat: 22.5726,
-        lng: 88.3639,
+        lat: 25.4968,
+        lng: 90.2808,
       },
       verfied: false,
 
@@ -53,8 +53,8 @@ export const shops = {
       shopOwnerName: "Rakesh Adani",
       shopOwnerPhoneNumber: 1234567890,
       location: {
-        lat: 22.5726,
-        lng: 88.3639,
+        lat: 24.8333,
+        lng: 92.7789,
       },
       verfied: true,
       online: false,
