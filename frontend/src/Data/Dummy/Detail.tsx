@@ -1,4 +1,4 @@
-export const Details = [
+export let Details = [
   {
     shopName: "Chai",
     State: "punjab",

@@ -1,4 +1,5 @@
 import {
+  Button,
   Divider,
   ListItemButton,
   ListItemIcon,
@@ -15,7 +16,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 interface Props {
   matches: boolean;
@@ -38,6 +41,9 @@ const Actions = ({ matches }: Props) => {
   const Components = matches ? ActionIconsMobile : ActionIconsContainerDesktop;
   const [drawer, setType] = useState<boolean>(false);
   const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
+  const type = "shop";
+
+  const location = useLocation();
   return (
     <>
       <Components>
@@ -57,16 +63,48 @@ const Actions = ({ matches }: Props) => {
               justifyContent: "center",
             }}
           >
-            <NavLink to={`/shop/${userId.shop}`}>
-              <ListItemIcon
-                sx={{
+            {!userId ? (
+              <NavLink
+                to="/admin"
+                style={{
+                  textDecoration: "none",
+                  color: "black",
                   display: "flex",
-                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                <StoreSharpIcon />
-              </ListItemIcon>
-            </NavLink>
+                {location.pathname === "/admin" ? (
+                  <ListItemIcon>
+                    <AdminPanelSettingsIcon />
+                    <Button>DashBoard</Button>
+                  </ListItemIcon>
+                ) : (
+                  <NavLink to={`/signup`}>SIgnup</NavLink>
+                )}
+              </NavLink>
+            ) : userId.shop ? (
+              <NavLink to={`/shop/${userId?.shop}`}>
+                <ListItemIcon
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <StoreSharpIcon />
+                </ListItemIcon>
+              </NavLink>
+            ) : (
+              <NavLink state={type} to={`/signup`}>
+                <ListItemIcon
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <AddBusinessSharpIcon />
+                </ListItemIcon>
+              </NavLink>
+            )}
           </ListItemButton>
 
           <Divider variant="middle" orientation="vertical" flexItem />
@@ -111,21 +149,51 @@ const Actions = ({ matches }: Props) => {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={() => setType(false)}>
-                  <NavLink to={`/profile/${userId.user}`}>Profile</NavLink>
-                </MenuItem>
+                {!userId ? (
+                  <MenuItem>
+                    <NavLink
+                      to="/admin"
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                      }}
+                    >
+                      dashBoard
+                    </NavLink>
+                  </MenuItem>
+                ) : (
+                  <MenuItem onClick={() => setType(false)}>
+                    <NavLink to={`/profile/${userId.user}`}>Profile</NavLink>
+                  </MenuItem>
+                )}
                 {/* <MenuItem onClick={() => setType(false)}>My account</MenuItem> */}
-                <MenuItem
-                  onClick={() => {
-                    localStorage.removeItem("usertoken");
-                    window.location.href = "/";
-                    {
-                      setType(false);
-                    }
-                  }}
-                >
-                  Logout
-                </MenuItem>
+                {!userId ? (
+                  <MenuItem
+                    onClick={() => {
+                      localStorage.removeItem("admintoken");
+                      // localStorage.removeItem("user");
+                      window.location.href = "/admin";
+                      {
+                        setType(false);
+                      }
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                ) : (
+                  <MenuItem
+                    onClick={() => {
+                      localStorage.removeItem("usertoken");
+                      localStorage.removeItem("user");
+                      window.location.href = "/";
+                      {
+                        setType(false);
+                      }
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                )}
               </Menu>
             </ListItemIcon>
           </ListItemButton>

@@ -11,9 +11,16 @@ import {
   RadioGroup,
   FormControlLabel,
   MenuItem,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Dialog,
 } from "@mui/material";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import { useState, useEffect } from "react";
+
+import high from "../img/high.json";
 import {
   Layout,
   SideBar,
@@ -35,9 +42,12 @@ import { api } from "../lib/Axios";
 import { fromValues } from "../Data/Dummy/formValues";
 import TextFieldShopForm from "../Component/Textfield/TextFieldShopForm";
 import MapModal from "../Component/MapModal/MapModal";
+import Switch from "@mui/material/Switch";
 // import { Radio } from "@mui/icons-material";
 
 // import { Container } from "@mui/system";
+
+const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const myvalidationSchema = Yup.object({
   shopName: Yup.string().required("Required"),
@@ -76,61 +86,87 @@ const getUserFromLocalStorage = (key: "user") => {
   }
 };
 
+// const shopDelete = () => {
+//   const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
+
+//   api
+//     .delete(`/shops/${id}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     })
+//     .then((res) => {
+//       console.log(res);
+//       window.location.reload();
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// };
+
 const Shop = () => {
   const params = useParams();
   const [gallery, setgallery] = useState<boolean>(false);
-  const [shopDetail, setshop] = useState<any>({
-    delivery: false,
-  });
+  const [shopDetail, setshop] = useState<any>();
   const [edit, setEdit] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [online, setOnline] = useState<boolean>(false);
+  const [dialog, setdialog] = useState<boolean>(false);
   const [mapLoc, setmapLoc] = useState<any>({
     lat: 0,
     lng: 0,
   });
-  const coordinates = {
-    lat: 26.1913,
-    lng: 91.7514,
-  };
+
   const page = "shop";
   const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   // console.log(userId.shop, params.id);
 
+  console.log({ shopDetail });
+  const handleClose = () => {
+    setdialog(false);
+  };
+
   useEffect(() => {
     api
-      .get(`/shop/${!userId.shop ? params.id : userId.shop}`)
+      .get(`/shop/${params.id ? params.id : userId.shop}`)
       .then((res) => {
-        console.log(res.data.shop);
-        setshop(res.data.shop);
+        console.log(res.data.data);
+        setshop(res.data.data);
       })
       .catch((err) => console.log(err));
-  }, [params.id, userId.shop]);
+  }, [params.id, userId.shop, dialog]);
   // console.log(shopDetail.shopName);
+  // console.log(shopDetail?.shopDetails?.location?.lat);
+
+  const coordinates = {
+    lat: shopDetail?.shopDetails?.location?.lat,
+    lng: shopDetail?.shopDetails?.location?.lng,
+  };
 
   const formik = useFormik({
     // validationSchema: myvalidationSchema,
     initialValues: {
-      shopName: `${shopDetail.shopName}`,
-      state: `${Details[0].State}`,
-      city: `${Details[0].city}`,
-      isActive: false,
-      landmark: `${Details[0].landmark}`,
-      pincode: `${Details[0].pincode}`,
-      address: `${Details[0].address}`,
-      phone: `${Details[0].phone}`,
-      email: `${Details[0].email}`,
-      shopLogo: "images",
-      shopServicesImage: "images",
-      openingTime: `${Details[0].openingTime}`,
-      closingTime: `${Details[0].closingTime}`,
-      type: `${Details[0].Type}`,
-      category: `${Details[0].Category}`,
-      governmentID: `${Details[0].governmentID}`,
-      governmentIDImage: `${Details[0].governmentIDImage}`,
-      shopImage: `${Details[0].shopImage}`,
-      userID: `${Details[0].userID}`,
-      verified: `${Details[0].verified}`,
-      delivery: `${shopDetail.delivery}`,
+      shopName: shopDetail?.shopName || "",
+      state: shopDetail?.State || "",
+      city: shopDetail?.city || "",
+      isActive: false || "",
+      landmark: shopDetail?.shopDetails?.landmark || "",
+      pincode: shopDetail?.shopDetails?.pincode || "",
+      address: shopDetail?.shopDetails?.address || "",
+      phone: shopDetail?.shopDetails?.phone || "",
+      email: shopDetail?.shopDetails?.email || "",
+      shopLogo: "images" || "",
+      shopServicesImage: "images" || "",
+      openingTime: shopDetail?.shopDetails?.timings?.openingTime || "",
+      closingTime: shopDetail?.shopDetails?.timings?.closingTime || "",
+      type: shopDetail?.type || "",
+      category: shopDetail?.Category || "",
+      governmentID: shopDetail?.governmentID || "",
+      governmentIDImage: shopDetail?.governmentIDImage || "",
+      shopImage: shopDetail?.shopImage || "",
+      userID: shopDetail?.userID || "",
+      verified: shopDetail?.verified || "",
+      delivery: shopDetail?.shopDetails?.delivery || "",
     },
     onSubmit: (values) => {
       console.log(JSON.stringify(values, null, 2));
@@ -138,14 +174,62 @@ const Shop = () => {
     },
   });
 
+  // console.log(shopDetail.shopDetails.isActive);
+
   const getCoords = (data: any) => {
     setmapLoc({
       lat: data.lat,
       lng: data.lng,
     });
   };
-  // console.log(mapLoc);
-  // console.log(shopDetail.shopName);
+
+  const handleActive = () => {
+    const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
+    api
+      .patch(
+        `/shop/active/${params.id}`,
+        {
+          shopImage: "https://source.unsplash.com/random?boutique",
+          shopDetails: {
+            isActive: !shopDetail?.shopDetails?.isActive,
+            landmark: shopDetail?.shopDetails?.landmark,
+            pincode: shopDetail?.shopDetails?.pincode,
+            address: shopDetail?.shopDetails?.address,
+            phone: shopDetail?.shopDetails?.phone,
+            email: shopDetail?.shopDetails?.email,
+            timings: {
+              openingTime: shopDetail?.shopDetails?.timings.openingTime,
+              closingTime: shopDetail?.shopDetails?.timings.closingTime,
+            },
+            location: {
+              lat: shopDetail?.shopDetails?.location?.lat,
+              lng: shopDetail?.shopDetails?.location?.lng,
+            },
+          },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data.shop);
+          setdialog(false);
+          alert(
+            `have a great time ahead,you are know ${
+              shopDetail?.shopDetails?.isActive === true ? "offline" : "online"
+            }`
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  if (shopDetail?.verified === "false") {
+    console.log("first");
+  }
 
   const patchShopData = (values: any) => {
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
@@ -192,16 +276,20 @@ const Shop = () => {
       .then((res) => {
         if (res.status === 200) {
           window.location.reload();
-          alert("Shop Updated Successfully");
         }
-        // console.log(res)
       });
   };
 
-  console.log(shopDetail);
-  return (
+  const handleSwicth = () => {
+    setOnline(!online);
+    setdialog(true);
+  };
+
+  return !shopDetail ? (
+    <h1>Loading....</h1>
+  ) : (
     <>
-      {shopDetail.verified ? (
+      {shopDetail?.verified === "false" ? (
         <Box
           sx={{
             display: "flex",
@@ -213,6 +301,83 @@ const Shop = () => {
           position="fixed"
         >
           <Grid item xs={12}>
+            <BackgroundBody>
+              <Box
+                sx={{
+                  height: "80vh",
+                  width: "60vw",
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  justifyContent: "center",
+
+                  gap: "3rem",
+                }}
+              >
+                <Typography variant="h4">
+                  {shopDetail.shopName.toUpperCase()}
+                </Typography>
+
+                <Typography variant="h6">
+                  {shopDetail.userID.firstName +
+                    " " +
+                    shopDetail.userID.lastName}
+
+                  <Typography variant="subtitle2">
+                    Thank you for choosing us , your shop is being Verified.
+                  </Typography>
+                </Typography>
+
+                <Lottie
+                  style={{
+                    height: "150px",
+                  }}
+                  animationData={high}
+                  loop={true}
+                />
+                <Typography>verifying.....</Typography>
+              </Box>
+            </BackgroundBody>
+          </Grid>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingLeft: "10px",
+            width: "100%",
+          }}
+          position="fixed"
+        >
+          <Grid item xs={12}>
+            <Dialog
+              open={dialog}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {/* {"Use Google's location service?"} */}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  {online
+                    ? "let your customers know you are online"
+                    : "Are you sure you want to go offline?"}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleActive} color="primary">
+                  Change Status
+                </Button>
+                {/* <Button onClick={handleClose}>Disagree</Button>
+                <Button onClick={handleClose} autoFocus> */}
+                {/* Agree
+                </Button> */}
+              </DialogActions>
+            </Dialog>
             <Body>
               <Grid item xs={12}>
                 <BackgroundBody overflow="scroll">
@@ -227,17 +392,96 @@ const Shop = () => {
                         width: "100%",
                         height: "5vh",
                         marginTop: "60px",
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: "10px",
                       }}
                     >
-                      <Button size="small" onClick={() => setgallery(true)}>
+                      {shopDetail?.shopDetails?.location?.lat && !edit ? (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            background: " rgb(255,232,185)",
+
+                            border: "2px solid rgb(255,232,185)",
+                          }}
+                          onClick={() => {
+                            setOpen(true);
+                            getCoords({
+                              lat: shopDetail.shopDetails.location.lat,
+                              lng: shopDetail.shopDetails.location.lng,
+                              shopName: shopDetail.shopName,
+                            });
+                          }}
+                        >
+                          View Location
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                      {shopDetail._id === userId.shop ? (
+                        <>
+                          <Switch
+                            {...label}
+                            defaultChecked={shopDetail.shopDetails.isActive}
+                            // defaultChecked={
+                            //   shopDetail.shopDetails.isActive === "true"
+                            //     ? true
+                            //     : false
+                            // }
+                            checked={shopDetail.shopDetails.isActive}
+                            onChange={handleSwicth}
+                          />
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          background: " rgb(255,232,185)",
+                          border: "2px solid rgb(255,232,185)",
+                        }}
+                        size="small"
+                        onClick={() => setgallery(true)}
+                      >
                         Gallery
                       </Button>
-                      <Button size="small" onClick={() => setgallery(false)}>
+                      <Button
+                        variant="outlined"
+                        sx={{
+                          background: " rgb(255,232,185)",
+                          border: "2px solid rgb(255,232,185)",
+                        }}
+                        size="small"
+                        onClick={() => setgallery(false)}
+                      >
                         Detail
                       </Button>
-                      <Button size="small" onClick={() => setOpen(true)}>
-                        Set-shop-location
-                      </Button>
+                      {shopDetail._id === userId.shop ? (
+                        <>
+                          {edit ? (
+                            <Button
+                              variant="outlined"
+                              sx={{
+                                background: " rgb(255,232,185)",
+
+                                border: "2px solid rgb(255,232,185)",
+                              }}
+                              // background=" rgb(255,232,185)"
+                              size="small"
+                              onClick={() => setOpen(true)}
+                            >
+                              Set-shop-location
+                            </Button>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      ) : (
+                        ""
+                      )}
 
                       <MapModal
                         open={open}
@@ -320,6 +564,45 @@ const Shop = () => {
                                           component="span"
                                         >
                                           {shopDetail.shopName}
+                                        </Typography>
+                                      </Typography>
+                                    )}
+                                    {edit ? (
+                                      ""
+                                    ) : (
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "45%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Owner:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "10%",
+
+                                              lg: "45%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {shopDetail.userID.firstName +
+                                            " " +
+                                            shopDetail.userID.lastName}
                                         </Typography>
                                       </Typography>
                                     )}
@@ -414,7 +697,7 @@ const Shop = () => {
                                           }}
                                           component="span"
                                         >
-                                          {shopDetail.shopDetails.email}
+                                          {shopDetail.userID.email}
                                         </Typography>
                                       </Typography>
                                     )}
@@ -574,10 +857,10 @@ const Shop = () => {
                                           }}
                                           component="span"
                                         >
-                                          {/* {
+                                          {
                                             shopDetail.shopDetails.timings
-                                              .openingTime
-                                          } */}
+                                              ?.openingTime
+                                          }
                                         </Typography>
                                       </Typography>
                                     )}
@@ -625,10 +908,10 @@ const Shop = () => {
                                           }}
                                           component="span"
                                         >
-                                          {/* {
+                                          {
                                             shopDetail.shopDetails.timings
-                                              .closingTime
-                                          } */}
+                                              ?.closingTime
+                                          }
                                         </Typography>
                                       </Typography>
                                     )}
@@ -792,7 +1075,7 @@ const Shop = () => {
                                         value={formik.values.type}
                                         onChange={formik.handleChange}
                                         name="type"
-                                        helperText={formik.errors.type}
+                                        // helperText={formik.errors.type}
                                         error={
                                           formik.touched.type &&
                                           Boolean(formik.errors.type)
@@ -902,7 +1185,7 @@ const Shop = () => {
                                         value={formik.values.delivery}
                                         onChange={formik.handleChange}
                                         name="delivery"
-                                        helperText={formik.errors.delivery}
+                                        // helperText={formik.errors.delivery}
                                         error={
                                           formik.touched.delivery &&
                                           Boolean(formik.errors.delivery)
@@ -968,32 +1251,55 @@ const Shop = () => {
                                       </Typography>
                                     )}
 
-                                    <Box
-                                      sx={{
-                                        display: "flex",
-                                        // backgroundColor: "green",
-                                        marginBottom: "4rem",
-                                      }}
-                                    >
-                                      {edit ? (
-                                        <>
+                                    {!userId ? (
+                                      ""
+                                    ) : shopDetail._id === userId.shop ? (
+                                      <Box
+                                        sx={{
+                                          display: "flex",
+                                          // backgroundColor: "green",
+                                          marginBottom: "4rem",
+                                        }}
+                                      >
+                                        <Button type="submit">submit</Button>
+                                        {edit ? (
+                                          <>
+                                            <Button
+                                              size="small"
+                                              onClick={() => setEdit(false)}
+                                            >
+                                              save
+                                            </Button>
+                                          </>
+                                        ) : (
                                           <Button
                                             size="small"
-                                            onClick={() => setEdit(false)}
+                                            // type="submit"
+                                            onClick={() => {
+                                              setEdit(true);
+                                              formik.setValues({
+                                                ...shopDetail,
+                                                ...shopDetail.shopDetails,
+                                                ...shopDetail.shopDetails
+                                                  .timings,
+                                                ...shopDetail.shopDetails
+                                                  .gallery,
+                                              });
+                                            }}
                                           >
-                                            save
+                                            edit
                                           </Button>
-                                        </>
-                                      ) : (
+                                        )}
                                         <Button
                                           size="small"
-                                          type="submit"
-                                          onClick={() => setEdit(true)}
+                                          onClick={() => setEdit(false)}
                                         >
-                                          edit
+                                          Delete
                                         </Button>
-                                      )}
-                                    </Box>
+                                      </Box>
+                                    ) : (
+                                      ""
+                                    )}
                                   </Box>
                                 </>
                               </Form>
@@ -1017,20 +1323,6 @@ const Shop = () => {
             </Body>
           </Grid>
         </Box>
-      ) : (
-        <BackgroundBody>
-          <Box
-            sx={{
-              height: "100vh",
-              width: "100vw",
-              flexGrow: 1,
-            }}
-          >
-            <Typography>{shopDetail.shopName}</Typography>
-
-            <Typography>Loading...</Typography>
-          </Box>
-        </BackgroundBody>
       )}
     </>
   );

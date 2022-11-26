@@ -22,6 +22,7 @@ import {
 } from "../../Style/Appbar/index";
 import Actions from "../Appbar/Action";
 import { NavLink } from "react-router-dom";
+import logo from "../../img/logo.png";
 
 interface Props {
   matches: boolean;
@@ -112,7 +113,14 @@ const AppbarMobile = ({ matches }: Props) => {
             </List>
           </Collapse>
         </List> */}
-        <AppHeader textAlign="center">
+        <AppHeader
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            // justifyContent: "space-between",
+          }}
+        >
+          <img className="logo" src={logo} alt="BigCo Inc. logo" />
           <NavLink
             style={{
               textDecoration: "none",

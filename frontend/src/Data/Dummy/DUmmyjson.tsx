@@ -16,7 +16,7 @@ export const shops = {
       shopState: "West Bengal",
       shopCity: "Kolkata",
       shopPincode: 700001,
-      shopImage: "https://source.unsplash.com/random?shoe",
+      shopImage: "https://source.unsplash.com/random?pharmacy",
       shopCategory: "Grocery",
       shopSubCategory: "Grocery",
       shopDescription: "Shop1 Description",
