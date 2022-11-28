@@ -11,6 +11,7 @@ import Login from "./Pages/Login";
 import Shop from "./Pages/Shop";
 import Signup from "./Pages/Signup";
 import Profile from "./Pages/Profile";
+import Pic from "./Pages/Pic";
 
 const getTokenFromLocalStorage = (key: "usertoken" | "admintoken") => {
   try {
@@ -63,7 +64,7 @@ function App() {
                 phoneNumber={0}
                 governmentIDImage={""}
                 shopImage={""}
-                governmentID={0}
+                governmentID={""}
               />
             }
           />
@@ -93,6 +94,7 @@ function App() {
               element={<Login email={"email"} password={"password"} />}
             />
           )}
+          <Route path="/pic" element={<Pic />} />
         </Routes>
       </BrowserRouter>
     </>

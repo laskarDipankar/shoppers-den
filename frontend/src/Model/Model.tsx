@@ -10,7 +10,7 @@ export interface SignupProp {
   phoneNumber: Number;
   governmentIDImage: string;
   shopImage: string;
-  governmentID: Number;
+  governmentID: string;
 }
 
 export interface UserSignup {

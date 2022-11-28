@@ -16,9 +16,12 @@ import {
   DialogContentText,
   DialogActions,
   Dialog,
+  Select,
+  Menu,
 } from "@mui/material";
 import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import { useState, useEffect } from "react";
+import { Category } from "../Data/Dummy/Category";
 
 import high from "../img/high.json";
 import {
@@ -43,9 +46,7 @@ import { fromValues } from "../Data/Dummy/formValues";
 import TextFieldShopForm from "../Component/Textfield/TextFieldShopForm";
 import MapModal from "../Component/MapModal/MapModal";
 import Switch from "@mui/material/Switch";
-// import { Radio } from "@mui/icons-material";
-
-// import { Container } from "@mui/system";
+import SelectField from "../Component/Select/SelectField";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -68,9 +69,9 @@ const myvalidationSchema = Yup.object({
   // closingTime: Yup.date().required("Required"),
 
   type: Yup.string().required("Required"),
-  category: Yup.string().required("Required"),
+  // category: Yup.string().required("Required"),
   governmentID: Yup.string().required("Required"),
-  governmentIDImage: Yup.string().required("Required"),
+  // governmentIDImage: Yup.string().required("Required"),
   shopImage: Yup.string().required("Required"),
   userID: Yup.string().required("Required"),
   verified: Yup.string().required("Required"),
@@ -86,24 +87,6 @@ const getUserFromLocalStorage = (key: "user") => {
   }
 };
 
-// const shopDelete = () => {
-//   const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
-
-//   api
-//     .delete(`/shops/${id}`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     })
-//     .then((res) => {
-//       console.log(res);
-//       window.location.reload();
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
-// };
-
 const Shop = () => {
   const params = useParams();
   const [gallery, setgallery] = useState<boolean>(false);
@@ -111,7 +94,13 @@ const Shop = () => {
   const [edit, setEdit] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [online, setOnline] = useState<boolean>(false);
+  const [cat, setcategory] = useState<any>({
+    Delivery: "",
+    CCat: "",
+  });
   const [dialog, setdialog] = useState<boolean>(false);
+  const [selectedfiles, setSelected] = useState<any>();
+  const [selectedidImage, setSelectedImage] = useState<any>();
   const [mapLoc, setmapLoc] = useState<any>({
     lat: 0,
     lng: 0,
@@ -126,6 +115,15 @@ const Shop = () => {
     setdialog(false);
   };
 
+  const getData = (data: any) => {
+    console.log(data, "categor");
+    setcategory({ ...cat, CCat: data });
+  };
+
+  console.log(cat.typeCat, "cat.typeCat");
+
+  // getData(data)
+
   useEffect(() => {
     api
       .get(`/shop/${params.id ? params.id : userId.shop}`)
@@ -135,13 +133,32 @@ const Shop = () => {
       })
       .catch((err) => console.log(err));
   }, [params.id, userId.shop, dialog]);
-  // console.log(shopDetail.shopName);
-  // console.log(shopDetail?.shopDetails?.location?.lat);
 
+  const handleImageChange = (e: any) => {
+    // console.log(e.target.name);
+
+    console.log(e.target.files[0]);
+    let file = e.target.files[0];
+    const reader = new FileReader();
+
+    console.log(reader.result);
+
+    console.log(e.target.name);
+    reader.onloadend = () => {
+      if (e.target.name === "shopLogo") {
+        setSelectedImage(reader.result);
+      }
+
+      setSelected(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
   const coordinates = {
     lat: shopDetail?.shopDetails?.location?.lat,
     lng: shopDetail?.shopDetails?.location?.lng,
   };
+  console.log(setSelected);
 
   const formik = useFormik({
     // validationSchema: myvalidationSchema,
@@ -155,12 +172,13 @@ const Shop = () => {
       address: shopDetail?.shopDetails?.address || "",
       phone: shopDetail?.shopDetails?.phone || "",
       email: shopDetail?.shopDetails?.email || "",
-      shopLogo: "images" || "",
-      shopServicesImage: "images" || "",
+      shopLogo: shopDetail?.shopDetails?.gallery?.shopLogo || "",
+      shopServicesImage:
+        shopDetail?.shopDetails?.gallery?.shopServicesImage || "",
       openingTime: shopDetail?.shopDetails?.timings?.openingTime || "",
       closingTime: shopDetail?.shopDetails?.timings?.closingTime || "",
       type: shopDetail?.type || "",
-      category: shopDetail?.Category || "",
+      category: shopDetail?.category || "",
       governmentID: shopDetail?.governmentID || "",
       governmentIDImage: shopDetail?.governmentIDImage || "",
       shopImage: shopDetail?.shopImage || "",
@@ -169,7 +187,7 @@ const Shop = () => {
       delivery: shopDetail?.shopDetails?.delivery || "",
     },
     onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+      // console.log(JSON.stringify(values, null, 2));
       patchShopData(values);
     },
   });
@@ -189,7 +207,7 @@ const Shop = () => {
       .patch(
         `/shop/active/${params.id}`,
         {
-          shopImage: "https://source.unsplash.com/random?boutique",
+          shopImage: "https://source.unsplash.com/random?Departmental",
           shopDetails: {
             isActive: !shopDetail?.shopDetails?.isActive,
             landmark: shopDetail?.shopDetails?.landmark,
@@ -197,6 +215,11 @@ const Shop = () => {
             address: shopDetail?.shopDetails?.address,
             phone: shopDetail?.shopDetails?.phone,
             email: shopDetail?.shopDetails?.email,
+            gallery: {
+              shopServicesImage:
+                shopDetail?.shopDetails?.gallery?.shopServicesImage,
+              shopLogo: shopDetail?.shopDetails?.gallery?.shopLogo,
+            },
             timings: {
               openingTime: shopDetail?.shopDetails?.timings.openingTime,
               closingTime: shopDetail?.shopDetails?.timings.closingTime,
@@ -226,12 +249,31 @@ const Shop = () => {
         console.log(err);
       });
   };
+  const shopDelete = () => {
+    const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
+
+    api
+      .delete(`/shop/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   if (shopDetail?.verified === "false") {
     console.log("first");
   }
+  console.log("cat", cat);
 
   const patchShopData = (values: any) => {
+    console.log(values);
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
     api
       .patch(
@@ -247,27 +289,33 @@ const Shop = () => {
             address: values.address,
             phone: values.phone,
             email: values.email,
+            delivery: cat.Delivery,
             gallery: {
-              shopServicesImage: values.shopServicesImage,
-              shopLogo: values.shopLogo,
+              shopServicesImage: selectedfiles,
+              shopLogo: selectedidImage,
             },
             timings: {
               openingTime: values.openingTime,
               closingTime: values.closingTime,
             },
             location: {
-              lat: mapLoc.lat,
-              lng: mapLoc.lng,
+              lat:
+                shopDetail.shopDetails.location.lat === 0
+                  ? mapLoc.lat
+                  : shopDetail.shopDetails.location.lat,
+              lng:
+                shopDetail.shopDetails.location.lng === 0
+                  ? mapLoc.lng
+                  : shopDetail.shopDetails.location.lng,
             },
           },
 
           type: values.type,
-          category: values.category,
+          category: cat.CCat,
           governmentID: values.governmentID,
           governmentIDImage: values.governmentIDImage,
           shopImage: values.shopImage,
           verified: values.verified,
-          delivery: shopDetail.delivery,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -275,10 +323,14 @@ const Shop = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          console.log(res.data.shop);
+
           window.location.reload();
+          console.log(res);
         }
       });
   };
+  console.log(selectedidImage, "data");
 
   const handleSwicth = () => {
     setOnline(!online);
@@ -796,20 +848,47 @@ const Shop = () => {
                                         </Typography>
                                       </Typography>
                                     )}
+                                    {/* <Box></Box> */}
 
                                     {edit ? (
-                                      <TextFieldShopForm
-                                        type="text"
-                                        label="shopLogo"
-                                        value={formik.values.shopLogo}
-                                        onChange={formik.handleChange}
-                                        name="gallery.shopLogo"
-                                        helperText={formik.errors.shopLogo}
-                                        error={
-                                          formik.touched.shopLogo &&
-                                          Boolean(formik.errors.shopLogo)
-                                        }
-                                      />
+                                      <Button
+                                        sx={{
+                                          minWidth: "240px",
+                                        }}
+                                        size="small"
+                                        variant="outlined"
+                                        component="label"
+                                      >
+                                        Upload shop logo
+                                        <input
+                                          name="shopLogo"
+                                          accept="image/*"
+                                          onChange={handleImageChange}
+                                          type="file"
+                                          hidden
+                                        />
+                                      </Button>
+                                    ) : (
+                                      ""
+                                    )}
+                                    {edit ? (
+                                      <Button
+                                        sx={{
+                                          minWidth: "240px",
+                                        }}
+                                        size="small"
+                                        variant="outlined"
+                                        component="label"
+                                      >
+                                        Upload service image
+                                        <input
+                                          name="shopServiceImage"
+                                          accept="image/*"
+                                          onChange={handleImageChange}
+                                          type="file"
+                                          hidden
+                                        />
+                                      </Button>
                                     ) : (
                                       ""
                                     )}
@@ -1124,18 +1203,19 @@ const Shop = () => {
                                       </Typography>
                                     )}
                                     {edit ? (
-                                      <TextFieldShopForm
+                                      <SelectField
                                         type="text"
-                                        label="Category"
-                                        value={formik.values.category}
+                                        label="Type"
+                                        value={formik.values.type}
                                         onChange={formik.handleChange}
-                                        name="category"
+                                        name="type"
                                         helperText={formik.errors.category}
                                         error={
-                                          formik.touched.category &&
-                                          Boolean(formik.errors.category)
+                                          formik.touched.type &&
+                                          Boolean(formik.errors.type)
                                         }
-                                      />
+                                        getData={getData}
+                                      ></SelectField>
                                     ) : (
                                       <Typography
                                         component="div"
@@ -1171,6 +1251,67 @@ const Shop = () => {
                                         </Typography>
                                       </Typography>
                                     )}
+                                    {/* {edit ? (
+                                      <>
+                                        <Select
+                                          sx={{
+                                            width: {
+                                              lg: "600px",
+                                              xs: "300px",
+                                            },
+                                          }}
+                                        >
+                                          {Category.map((category: string) => {
+                                            return (
+                                              <MenuItem
+                                                value={category}
+                                                onClick={(e: any) => {
+                                                  setcategory({
+                                                    [cat.typeCat]: category,
+                                                  });
+                                                }}
+                                              >
+                                                {category}
+                                              </MenuItem>
+                                            );
+                                          })}
+                                        </Select>
+                                      </>
+                                    ) : (
+                                      <Typography
+                                        component="div"
+                                        sx={{
+                                          fontSize: "20px",
+                                          fontWeight: "bold",
+                                          // backgroundColor: "red",
+                                          height: "100%",
+                                          width: "88vw",
+                                          display: "flex",
+                                          marginLeft: {
+                                            xs: "7%",
+
+                                            lg: "45%",
+                                          },
+                                          justifyContent: "space-between",
+                                          alignItems: "center",
+                                        }}
+                                      >
+                                        Category:
+                                        <Typography
+                                          sx={{
+                                            marginLeft: "auto",
+                                            marginRight: {
+                                              xs: "10%",
+
+                                              lg: "45%",
+                                            },
+                                          }}
+                                          component="span"
+                                        >
+                                          {shopDetail.category}
+                                        </Typography>
+                                      </Typography>
+                                    )} */}
                                     {edit ? (
                                       <TextField
                                         sx={{
@@ -1178,6 +1319,7 @@ const Shop = () => {
                                             lg: "600px",
                                             xs: "300px",
                                           },
+                                          marginBottom: "20px",
                                         }}
                                         select
                                         type="text"
@@ -1193,8 +1335,9 @@ const Shop = () => {
                                       >
                                         <MenuItem
                                           onClick={() => {
-                                            setshop({
-                                              [shopDetail.delivery]: false,
+                                            setcategory({
+                                              ...cat,
+                                              Delivery: false,
                                             });
                                           }}
                                           value="false"
@@ -1203,8 +1346,9 @@ const Shop = () => {
                                         </MenuItem>
                                         <MenuItem
                                           onClick={() => {
-                                            setshop({
-                                              [shopDetail.delivery]: true,
+                                            setcategory({
+                                              ...cat,
+                                              Delivery: true,
                                             });
                                           }}
                                           value="true"
@@ -1243,10 +1387,10 @@ const Shop = () => {
                                           }}
                                           component="span"
                                         >
-                                          {shopDetail.shopDetails.delivery ==
-                                          "true"
+                                          {shopDetail.shopDetails.delivery ===
+                                          true
                                             ? "yes"
-                                            : "no"}
+                                            : "No"}
                                         </Typography>
                                       </Typography>
                                     )}
@@ -1292,7 +1436,7 @@ const Shop = () => {
                                         )}
                                         <Button
                                           size="small"
-                                          onClick={() => setEdit(false)}
+                                          onClick={shopDelete}
                                         >
                                           Delete
                                         </Button>
@@ -1309,7 +1453,10 @@ const Shop = () => {
                           <>
                             <Box>
                               <img
-                                src={Details[0].shopImage}
+                                src={
+                                  shopDetail.shopDetails.gallery
+                                    .shopServicesImage
+                                }
                                 className="image"
                               />
                             </Box>

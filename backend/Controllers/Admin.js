@@ -2,6 +2,7 @@ const Admin = require("../Model/Admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Shop = require("../Model/Shop");
+const Users = require("../Model/User");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -95,9 +96,34 @@ const verifyShop = async (req, res) => {
   }
 };
 
+const deleteShop = async (req, res) => {
+  const shopid = req.params.id;
+  const admin = req.admin;
+  console.log(shopid);
+
+  if (!shopid)
+    return res.status(400).json({
+      error: "Shop id is required.",
+    });
+
+  try {
+    const shop = await Shop.findById(shopid);
+    if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
+    const userID = shop.userID;
+    await Users.findOneAndUpdate({ _id: userID }, { $unset: { shop: "" } });
+
+    await shop.remove();
+
+    return res.status(200).json({ success: true, message: "Shop deleted." });
+  } catch (error) {
+    console.log(error);
+    return res.status(error.status || 500).json({ error: error.message });
+  }
+};
 module.exports = {
   admin,
   getAdmin,
   loginAdmin,
   verifyShop,
+  deleteShop,
 };

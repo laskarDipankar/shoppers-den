@@ -19,10 +19,12 @@ import {
   TextField,
   Card,
   CardHeader,
+  CardMedia,
   CardContent,
   CardActions,
 } from "@mui/material";
 import { api } from "../lib/Axios";
+import BasicModal from "../Component/ADmin/Modal";
 import { boolean } from "yup/lib/locale";
 
 // const [userToken, setUserToken] = useState(() =>
@@ -33,6 +35,7 @@ const Admin = () => {
   const [pending, setpending] = useState<boolean>(false);
   const [verified, setverified] = useState<any>();
   const [shopId, setShopId] = useState<any>();
+  const [open, setOpen] = React.useState(false);
 
   const handleCLick = () => {
     setpending(true);
@@ -40,6 +43,7 @@ const Admin = () => {
   const handlpending = () => {
     setpending(false);
   };
+  const type = "pending";
 
   useEffect(() => {
     api
@@ -52,7 +56,7 @@ const Admin = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [pending]);
+  }, [pending, shopId]);
   // console.log(verified.city);
 
   const handleVerify = (id: any) => {
@@ -68,7 +72,10 @@ const Admin = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          setShopId("done");
+          console.log(res);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -78,11 +85,14 @@ const Admin = () => {
   const handleReject = (id: any) => {
     const token: string = JSON.parse(localStorage.getItem("admintoken") || "");
     api
-      .delete(`/admin/shops/${id}`, {
+      .delete(`/admin/shop/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          setShopId("done");
+          console.log(res);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -130,7 +140,6 @@ const Admin = () => {
                     height: "10vh",
                     width: "28vw",
                     marginTop: "2rem",
-                    // border: "1px solid black",
                   }}
                 >
                   <TextField select fullWidth>
@@ -150,8 +159,11 @@ const Admin = () => {
                     sx={{
                       height: "60vh",
                       width: "80vw",
-                      display: "flex",
-                      justifyContent: "center",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(3, 1fr)",
+                      overflow: "scrollY",
+                      // display: "flex",
+                      // justifyContent: "center",
                     }}
                   >
                     {verified.length < 1 ? (
@@ -165,10 +177,25 @@ const Admin = () => {
                                 <Grid item xs={12} xl={6}>
                                   <Card
                                     sx={{
-                                      height: "20vh",
+                                      width: "20vw",
+                                      // height: "30vh",
                                       margin: "1rem",
+                                      backgroundColor: "rgb(255,232,185)",
+                                    }}
+                                    onClick={() => {
+                                      setOpen(true);
                                     }}
                                   >
+                                    <CardMedia
+                                      sx={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                      }}
+                                      component="img"
+                                      height="240"
+                                      image={item.shopImage}
+                                      alt="green iguana"
+                                    />
                                     <CardHeader
                                       title={item.shopName}
                                       sx={{
@@ -212,6 +239,13 @@ const Admin = () => {
                                       >
                                         Delete
                                       </Button>
+
+                                      <BasicModal
+                                        open={open}
+                                        id={item._id}
+                                        setOpen={setOpen}
+                                        type={type}
+                                      />
                                     </CardActions>
                                   </Card>
                                 </Grid>

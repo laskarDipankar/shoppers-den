@@ -18,6 +18,7 @@ import { shops } from "../Data/Dummy/DUmmyjson";
 import React, { useEffect, useState } from "react";
 import MapModal from "../Component/MapModal/MapModal";
 import SearchIcon from "@mui/icons-material/Search";
+import { Category } from "../Data/Dummy/Category";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { api } from "../lib/Axios";
@@ -55,10 +56,15 @@ const Home = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [shop, setShop] = useState<any>();
   const [age, setAge] = useState("all");
+  const [value, setvalue] = useState("all");
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
   };
+  const handleCategory = (event: SelectChangeEvent) => {
+    setvalue(event.target.value);
+  };
+
   const [coordinates, setCoordinates] = useState<any>({
     lat: 0,
     lng: 0,
@@ -78,13 +84,14 @@ const Home = () => {
   });
 
   const [ram, setram] = useState<string>(``);
+  const [hanuman, sethanuman] = useState<string>(``);
   // hopDetails.isActive=${
   //   filter.available ? true : false || ""
   // }
   console.log(filter.available);
   useEffect(() => {
     api
-      .get(`/shops?verified=true&${ram}`)
+      .get(`/shops?verified=true&${ram}&${hanuman}`)
       .then((res) => {
         setShop(res.data.data);
         console.log(res.data.data);
@@ -92,7 +99,7 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [ram]);
+  }, [ram, hanuman]);
 
   console.log(filter);
   const page = "home";
@@ -126,7 +133,7 @@ const Home = () => {
             <Select
               size="small"
               value={age}
-              onChange={handleChange}
+              onChange={handleCategory}
               sx={{
                 width: "14rem",
               }}
@@ -140,7 +147,7 @@ const Home = () => {
               >
                 Available
               </MenuItem>
-              <MenuItem onClick={() => setram("type=static")} value="Time">
+              <MenuItem onClick={() => setram("type=Static")} value="Time">
                 Static
               </MenuItem>
               <MenuItem
@@ -157,6 +164,32 @@ const Home = () => {
               </MenuItem>
               {/* <MenuItem value="Filter">static</MenuItem> */}
             </Select>
+            <Select
+              size="small"
+              value={age}
+              onChange={handleChange}
+              sx={{
+                width: "14rem",
+              }}
+            >
+              <MenuItem onClick={() => sethanuman("")} value="all">
+                All
+              </MenuItem>
+              {Category.map((item) => {
+                return (
+                  <MenuItem
+                    onClick={() => sethanuman(`category=${item}`)}
+                    value={item}
+                  >
+                    {item}
+                  </MenuItem>
+                );
+              })}
+              <MenuItem onClick={() => setram("type=Static")} value="Time">
+                Static
+              </MenuItem>
+            </Select>
+
             <TextField
               // variant="standard"
               sx={{
@@ -210,18 +243,11 @@ const Home = () => {
                                 marginLeft: "auto",
                                 marginRight: "auto",
                                 padding: "1rem",
-                                // borderTop: "4px solid rgb(109,80,153)",
-                                // borderRight: "4px solid rgb(109,80,153)",
-                                // borderBottom: "4px solid rgb(109,80,153)",
-                                // borderLeft: "4px solid rgb(109,80,153)",
                                 marginBottom: "2rem",
-                                // backgroundColor: " rgba(255, 255, 255, 0.45)",
+
                                 background: " rgb(255,232,185)",
                                 backgroundImage:
                                   "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
-
-                                // boxShadow:
-                                //   " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                                 borderRadius: "10px",
                                 boxShadow:
                                   " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
@@ -234,8 +260,10 @@ const Home = () => {
                               <Card
                                 sx={{
                                   maxWidth: 345,
+                                  // height: "70%",
                                   marginTop: "1rem",
                                   boxShadow: "none",
+
                                   // backgroundClor: "#f9f9f9",
                                   // backgroundImage:
                                   //   "linear-gradient(132deg, #f9f9f9 0%, #a062c5 50%, #f2f2f2 100%)",
@@ -252,7 +280,7 @@ const Home = () => {
                                   }}
                                   component="img"
                                   height="240"
-                                  image={item.shopImage}
+                                  image={item.governmentIDImage}
                                   alt="green iguana"
                                 />
                                 <CardContent sx={{ flexGrow: 1 }}>
