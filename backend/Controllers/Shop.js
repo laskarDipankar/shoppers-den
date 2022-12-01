@@ -25,7 +25,7 @@ const shopRegistration = async (req, res) => {
   ) {
     return res.status(400).json({ error: "please fill all the fields" });
   }
-  console.log("in try");
+  // console.log("in try");
 
   try {
     const shop = new Shop({
@@ -54,7 +54,7 @@ const shopRegistration = async (req, res) => {
 const updatedShopDetails = async (req, res) => {
   const shopid = req.params.id;
 
-  console.log(req.body);
+  // console.log(req.body);
 
   if (!shopid)
     return res.status(400).json({
@@ -67,31 +67,41 @@ const updatedShopDetails = async (req, res) => {
     });
 
   try {
-    console.log("2 shop");
     const shop = await Shop.findById(shopid);
-    // console.log(shop);
+
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
 
-    // console.log(req.body.isActive);
     const updatedShop = await Shop.findOneAndUpdate({ _id: shopid }, req.body, {
       new: true,
     });
-    console.log("3");
-    console.log(updatedShop, "updated");
 
     return res.status(200).json({ success: true, shop: updatedShop });
   } catch (error) {
-    console.log("4");
-    return res.status(error.status || 500).json({ error: "server error" });
+    console.log(error);
+    return res
+      .status(error.status || 500)
+      .json({ error: "occurence of server error" });
   }
 };
 const getAllShopsDetails = async (req, res) => {
+  const { limit, skip, search } = req.query;
+  // const count = req.query.count;
+
+  //
+  // console.log({ shopName: { $regex: `${search}`, $options: "i" } });
+
   console.log(req.query);
   try {
-    const shops = await Shop.find(req.query);
+    const shops = await Shop.find(req.query)
+      .limit(limit)
+      .skip(skip)
+      .sort({})
+      .populate("userID", "firstName lastName email phoneNumber _id");
+
     res.status(200).json({
       message: "data",
       data: shops,
+      count: shops.length,
     });
   } catch (error) {
     console.log(error);
@@ -101,8 +111,6 @@ const getAllShopsDetails = async (req, res) => {
 const updateIsActive = async (req, res) => {
   const shopid = req.params.id;
 
-  console.log(req.body);
-
   if (!shopid)
     return res.status(400).json({
       error: "Shop id is required.",
@@ -114,21 +122,13 @@ const updateIsActive = async (req, res) => {
     });
 
   try {
-    console.log("2 shop");
     const shop = await Shop.findById(shopid);
-    // console.log(shop);
+
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
-
-    console.log("shop de");
-
-    console.log(req.body.shopDetails.isActive);
 
     const updatedShop = await Shop.findOneAndUpdate({ _id: shopid }, req.body, {
       new: true,
     });
-
-    console.log("3");
-    console.log(updatedShop, "updated");
 
     return res.status(200).json({ success: true, shop: updatedShop });
   } catch (error) {
@@ -148,9 +148,9 @@ const getShopDetails = async (req, res) => {
   try {
     const shop = await Shop.findById(shopid).populate(
       "userID",
-      "firstName lastName email phoneNumber -_id"
+      "firstName lastName email phoneNumber _id"
     );
-    console.log(req.query);
+    console.log(shop);
 
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
 
@@ -163,7 +163,6 @@ const getShopDetails = async (req, res) => {
 const deleteShop = async (req, res) => {
   const shopid = req.params.id;
   const user = req.user;
-  console.log(shopid);
 
   if (!shopid)
     return res.status(400).json({

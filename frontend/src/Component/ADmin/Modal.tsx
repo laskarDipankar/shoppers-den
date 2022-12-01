@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { useEffect } from "react";
 import { api } from "../../lib/Axios";
+import { BackgroundBody } from "../CurvedBody/BackgroundBody";
+import { Card, CardMedia, Grid } from "@mui/material";
 
 const style = {
   position: "absolute" as "absolute",
@@ -23,30 +25,34 @@ interface Props {
   id: string;
   setOpen: any;
   type: string;
+  handleOpen: any;
+  handleClose: any;
 }
 
-export default function BasicModal({ open, id, setOpen, type }: Props) {
+export default function BasicModal({
+  open,
+  id,
+  setOpen,
+  handleClose,
+  handleOpen,
+  type,
+}: Props) {
   const [shop, setShop] = React.useState<any>([]);
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  console.log(type);
+  // const handleOpen = () => setOpen(true);
 
-  if (type === "pending") {
-    useEffect(() => {
-      api.get(`/shop/${id}?verified=false`).then((res) => {
+  // console.log(type);
+
+  useEffect(() => {
+    api
+      .get(
+        `/shop/${id}?${type === "pending" ? "verified=false" : "verified=true"}`
+      )
+      .then((res) => {
         setShop(res.data.data);
         console.log(res.data.data);
       });
-    }, []);
-  } else {
-    useEffect(() => {
-      api.get(`/shop/${id}?verified=true`).then((res) => {
-        setShop(res.data.data);
-        console.log(res.data.data);
-      });
-    }, []);
-  }
+  }, []);
 
   //   console.log(props)
 
@@ -64,30 +70,72 @@ export default function BasicModal({ open, id, setOpen, type }: Props) {
           justifyContent: "center",
         }}
       >
-        <Box
-          sx={{
-            height: "70vh",
-            width: "70vw",
-            backgroundColor: "rgba(233,40,50,0.5)",
-          }}
-        >
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            {shop.shopName}
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-          <img className="img" src={shop.shopImage} />
-          <Button
-            sx={{
-              color: "white",
-              marginBottom: "auto",
+        <Grid container>
+          {/* <Box */}
+          {/* sx={{
+              padding: "20px",
+              backgroundColor: "black",
             }}
-            onClick={handleClose}
-          >
-            Close Modal
-          </Button>
-        </Box>
+          > */}
+          <Grid item xs={12}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "70vw",
+                height: "70vh",
+                margin: "auto",
+                backgroundColor: "black",
+              }}
+            >
+              <Box sx={{}}>
+                <img
+                  src={shop.governmentIDImage}
+                  alt="shop"
+                  style={{
+                    width: "20%",
+                    height: "20%",
+                    objectFit: "cover",
+                  }}
+                />
+                <Typography
+                  id="modal-modal-title"
+                  variant="h6"
+                  component="h2"
+                  color="white"
+                  sx={{ mt: 2 }}
+                >
+                  {shop.shopName}
+                </Typography>
+                <Typography
+                  id="modal-modal-description"
+                  sx={{ mt: 2 }}
+                  color="white"
+                >
+                  {shop.governmentID}
+                </Typography>
+                <Typography
+                  id="modal-modal-description"
+                  sx={{ mt: 2 }}
+                  color="white"
+                >
+                  {/* {shop.userID.firstName} {shop.userID.lastName} */}
+                </Typography>
+              </Box>
+            </Box>
+            <Button
+              variant="contained"
+              // sx={{ width: "100%", mt: 2 }}
+              onClick={() => {
+                handleClose();
+              }}
+            >
+              Close
+            </Button>
+          </Grid>
+          {/* </Box> */}
+        </Grid>
       </Modal>
     </div>
   );

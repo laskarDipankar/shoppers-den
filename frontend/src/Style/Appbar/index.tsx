@@ -10,6 +10,7 @@ export const AppbarContainer = styled(Box)(() => ({
   marginTop: "8px",
   // justifyContent: "center",
   // background: "white",
+  // backdropFilter: "blur(15px)",
 
   justifyContent: "space-between",
   alignItems: "center",
@@ -25,8 +26,8 @@ export const AppbarContainer = styled(Box)(() => ({
   boxShadow: " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
   transition: "all 0.5s ease-in-out",
   background: " rgb(255,232,185)",
-  backgroundImage:
-    "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
+  // backgroundImage:
+  //   "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
 }));
 
 export const AppHeader = styled(Typography)(() => ({
@@ -57,7 +58,8 @@ export const ActionIconsMobile = styled(Box)(() => ({
   // background: "#0D4C92",
   backgroundColor: " rgba(255, 255, 255, 0.45)",
   boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
-  backdropFilter: " blur(px)",
+
+  backdropFilter: " blur(5px)",
 
   bottom: 0,
   left: 0,

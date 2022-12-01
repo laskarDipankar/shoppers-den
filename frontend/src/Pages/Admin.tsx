@@ -36,6 +36,10 @@ const Admin = () => {
   const [verified, setverified] = useState<any>();
   const [shopId, setShopId] = useState<any>();
   const [open, setOpen] = React.useState(false);
+  console.log(open);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleCLick = () => {
     setpending(true);
@@ -182,9 +186,9 @@ const Admin = () => {
                                       margin: "1rem",
                                       backgroundColor: "rgb(255,232,185)",
                                     }}
-                                    onClick={() => {
-                                      setOpen(true);
-                                    }}
+                                    // onClick={() => {
+                                    //   setOpen(true);
+                                    // }}
                                   >
                                     <CardMedia
                                       sx={{
@@ -193,7 +197,7 @@ const Admin = () => {
                                       }}
                                       component="img"
                                       height="240"
-                                      image={item.shopImage}
+                                      image={item.governmentIDImage}
                                       alt="green iguana"
                                     />
                                     <CardHeader
@@ -245,6 +249,8 @@ const Admin = () => {
                                         id={item._id}
                                         setOpen={setOpen}
                                         type={type}
+                                        handleOpen={handleOpen}
+                                        handleClose={handleClose}
                                       />
                                     </CardActions>
                                   </Card>

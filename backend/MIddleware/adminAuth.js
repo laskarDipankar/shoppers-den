@@ -10,7 +10,7 @@ const verifyAdminAuth = async (req, res, next) => {
     return res.status(401).send({ error: "Unauthorized" });
   } else {
     try {
-      console.log(req.admin);
+      // console.log(req.admin);
       const adminToken = bearer.split(" ")[1];
       const payload = jwt.verify(adminToken, process.env.JWT_SECRET);
       const admin = await Admin.findById(payload.id);

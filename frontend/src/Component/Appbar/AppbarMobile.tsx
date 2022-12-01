@@ -48,71 +48,13 @@ const AppbarMobile = ({ matches }: Props) => {
     <>
       <AppbarContainer
         width={{
-          xs: "96%",
+          xs: "100%",
         }}
         borderRadius={{
           xs: "0px",
         }}
-        overflow="show"
+        // overflow="show"
       >
-        {/* <List
-          sx={{
-            // background: "yellow",
-            width: "3rem",
-          }}
-        >
-          <ListItem
-            sx={{
-              width: "7 .4rem",
-              //   background: "red",
-              zIndex: 1,
-            }}
-            divider
-          >
-            <ListItemButton
-              sx={{
-                width: "20px",
-                // background: "green",
-              }}
-              onClick={() => setopen(true)}
-            >
-              <ListItemIcon
-                sx={{
-                  width: "20px",
-                  //   background: "blue",
-                }}
-                onClick={() => setopen(false)}
-              >
-                {<MenuIcon />}
-              </ListItemIcon>
-              <ListItemText />
-            </ListItemButton>
-          </ListItem>
-
-          <Collapse in={val}>
-            <List
-              sx={{
-                bgcolor: "grey",
-                width: "300px",
-              }}
-            >
-              {array.map((listELe, index) => (
-                <ListItem
-                  sx={{
-                    width: "50px",
-                    height: "20px",
-                  }}
-                  divider
-                  key={index}
-                >
-                  <ListItemButton onClick={() => setopen(false)}>
-                    <ListItemText primary={listELe} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
-          </Collapse>
-        </List> */}
         <AppHeader
           sx={{
             display: "flex",
@@ -120,7 +62,6 @@ const AppbarMobile = ({ matches }: Props) => {
             // justifyContent: "space-between",
           }}
         >
-          <img className="logo" src={logo} alt="BigCo Inc. logo" />
           <NavLink
             style={{
               textDecoration: "none",

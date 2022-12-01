@@ -9,25 +9,10 @@ import { Category } from "../../Data/Dummy/Category";
 import { useState } from "react";
 
 interface formData {
-  value: string;
-  onChange: any;
-  name: string;
-  helperText: any;
-  error: any;
-  label: string;
-  type: string;
   getData: any;
+  // value: string;
 }
-const SelectField = ({
-  value,
-  onChange,
-  name,
-  helperText,
-  error,
-  label,
-  type,
-  getData,
-}: formData) => {
+const SelectField = ({ getData }: formData) => {
   const [age, setAge] = React.useState<string | number>("");
   const [open, setOpen] = React.useState(false);
 
@@ -62,6 +47,7 @@ const SelectField = ({
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
           open={open}
+          type="text"
           onClose={handleClose}
           onOpen={handleOpen}
           value={age}

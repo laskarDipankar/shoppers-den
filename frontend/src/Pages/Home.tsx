@@ -12,6 +12,7 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
+  CircularProgress,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { shops } from "../Data/Dummy/DUmmyjson";
@@ -19,9 +20,11 @@ import React, { useEffect, useState } from "react";
 import MapModal from "../Component/MapModal/MapModal";
 import SearchIcon from "@mui/icons-material/Search";
 import { Category } from "../Data/Dummy/Category";
+import Pagination from "../Component/Pagination/Pagination";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { api } from "../lib/Axios";
+import VerificationLoader from "../Component/Shop/VerificationLoader";
 
 const theme = createTheme({
   palette: {
@@ -57,6 +60,9 @@ const Home = () => {
   const [shop, setShop] = useState<any>();
   const [age, setAge] = useState("all");
   const [value, setvalue] = useState("all");
+  const [pagein, setpagination] = useState<any>();
+  let pages: number;
+  const limit = 8;
 
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value);
@@ -88,10 +94,12 @@ const Home = () => {
   // hopDetails.isActive=${
   //   filter.available ? true : false || ""
   // }
+
+  const [skip, setskip] = useState<number>(0);
   console.log(filter.available);
   useEffect(() => {
     api
-      .get(`/shops?verified=true&${ram}&${hanuman}`)
+      .get(`/shops?verified=true&${ram}&${hanuman}&limit=${limit}&skip=${skip}`)
       .then((res) => {
         setShop(res.data.data);
         console.log(res.data.data);
@@ -99,12 +107,24 @@ const Home = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [ram, hanuman]);
 
-  console.log(filter);
+    api
+      .get(`/shops?verified=true&${ram}&${hanuman}`)
+      .then((res) => {
+        setpagination(res.data.count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ram, skip, hanuman]);
+
+  pages = Math.floor(pagein / limit);
+  console.log(pages);
+
+  console.log(skip);
   const page = "home";
 
-  console.log(coordinates);
+  console.log(ram);
 
   return (
     <ThemeProvider theme={theme}>
@@ -133,7 +153,7 @@ const Home = () => {
             <Select
               size="small"
               value={age}
-              onChange={handleCategory}
+              onChange={handleChange}
               sx={{
                 width: "14rem",
               }}
@@ -166,8 +186,8 @@ const Home = () => {
             </Select>
             <Select
               size="small"
-              value={age}
-              onChange={handleChange}
+              value={value}
+              onChange={handleCategory}
               sx={{
                 width: "14rem",
               }}
@@ -199,20 +219,19 @@ const Home = () => {
                 borderRadius: "10px 10px 0px 0px ",
               }}
               onChange={(e) => setInputSearch(e.target.value)}
+              // onChange={(e) => setram(`shopName=${e.target.value}`)}
               placeholder="Search shops"
               variant="outlined"
               size="small"
-            >
-              {/* <SearchIcon /> */}
-            </TextField>
+            ></TextField>
           </Box>
           {shop?.length > 0 ? (
             <>
-              {/* <h1>hello{shop.length}</h1> */}
               <Box
                 sx={{
                   marginTop: "2rem",
                   height: "70vh",
+                  textAlign: "center",
                   // overflow: "scroll",
                 }}
               >
@@ -240,14 +259,13 @@ const Home = () => {
                             <Box
                               sx={{
                                 maxWidth: 365,
+                                height: 405,
                                 marginLeft: "auto",
                                 marginRight: "auto",
                                 padding: "1rem",
                                 marginBottom: "2rem",
-
-                                background: " rgb(255,232,185)",
-                                backgroundImage:
-                                  "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
+                                background: "rgba(255,255,255,0.4)",
+                                backdropFilter: "blur(15px)",
                                 borderRadius: "10px",
                                 boxShadow:
                                   " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
@@ -260,17 +278,11 @@ const Home = () => {
                               <Card
                                 sx={{
                                   maxWidth: 345,
-                                  // height: "70%",
                                   marginTop: "1rem",
                                   boxShadow: "none",
-
-                                  // backgroundClor: "#f9f9f9",
-                                  // backgroundImage:
-                                  //   "linear-gradient(132deg, #f9f9f9 0%, #a062c5 50%, #f2f2f2 100%)",
                                   transition: "all 0.3s ease-in-out",
-                                  background: " rgb(255,232,185)",
-                                  backgroundImage:
-                                    "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
+                                  background: "rgba(255,255,255,0.4)",
+                                  // backdropFilter: "blur(15px)",
                                 }}
                               >
                                 <CardMedia
@@ -280,7 +292,7 @@ const Home = () => {
                                   }}
                                   component="img"
                                   height="240"
-                                  image={item.governmentIDImage}
+                                  image={item.shopImage}
                                   alt="green iguana"
                                 />
                                 <CardContent sx={{ flexGrow: 1 }}>
@@ -317,59 +329,86 @@ const Home = () => {
                                   </Typography>
                                   <Typography>{item.category}</Typography>
                                 </CardContent>
-                                <CardActions
-                                  sx={{
-                                    display: "flex",
-                                    justifyContent: "space-around",
-                                  }}
-                                >
-                                  <Button
-                                    size="small"
-                                    variant="outlined"
+                                {item.type ? (
+                                  <CardActions
                                     sx={{
-                                      color: "black",
-                                    }}
-                                    onClick={() => {
-                                      setOpen(true);
-                                      getCoords({
-                                        lat: item.shopDetails.location.lat,
-                                        lng: item.shopDetails.location.lng,
-                                        shopName: item.shopName,
-                                      });
+                                      display: "flex",
+                                      justifyContent: "space-around",
                                     }}
                                   >
-                                    View location
-                                    {/* {console.log(
-                                      item.shopDetails.location.lat,
-                                      item.shopDetails.location.lng
-                                    )} */}
-                                  </Button>
-                                  <MapModal
-                                    setOpen={setOpen}
-                                    coordinates={coordinates}
-                                    open={open}
-                                    page={page}
-                                    getCoords={getCoords}
-                                  />
-                                  <NavLink
-                                    style={{
-                                      textDecoration: "none",
-                                    }}
-                                    to={{
-                                      pathname: `/shop/${item._id}`,
+                                    <Button
+                                      size="small"
+                                      variant="outlined"
+                                      sx={{
+                                        color: "black",
+                                      }}
+                                      onClick={() => {
+                                        setOpen(true);
+                                        getCoords({
+                                          lat: item.shopDetails.location.lat,
+                                          lng: item.shopDetails.location.lng,
+                                          shopName: item.shopName,
+                                        });
+                                      }}
+                                    >
+                                      View location
+                                    </Button>
+                                    <MapModal
+                                      setOpen={setOpen}
+                                      coordinates={coordinates}
+                                      open={open}
+                                      page={page}
+                                      getCoords={getCoords}
+                                    />
+                                    <NavLink
+                                      style={{
+                                        textDecoration: "none",
+                                      }}
+                                      to={{
+                                        pathname: `/shop/${item._id}`,
+                                      }}
+                                    >
+                                      <Button
+                                        variant="outlined"
+                                        sx={{
+                                          color: "black",
+                                        }}
+                                        size="small"
+                                      >
+                                        Detail
+                                      </Button>
+                                    </NavLink>
+                                  </CardActions>
+                                ) : (
+                                  <CardActions
+                                    sx={{
+                                      display: "flex",
+                                      justifyContent: "space-around",
                                     }}
                                   >
+                                    <Button
+                                      size="small"
+                                      variant="outlined"
+                                      disabled
+                                      sx={{
+                                        color: "black",
+                                      }}
+                                    >
+                                      View location
+                                    </Button>
+
                                     <Button
                                       variant="outlined"
                                       sx={{
                                         color: "black",
                                       }}
+                                      disabled
                                       size="small"
                                     >
                                       Detail
                                     </Button>
-                                  </NavLink>
-                                </CardActions>
+                                  </CardActions>
+                                )}
                               </Card>
                             </Box>
                           </Grid>
@@ -377,149 +416,50 @@ const Home = () => {
                       );
                     })}
                 </Grid>
+                <Box
+                  sx={{
+                    marginTop: "15vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+
+                    height: "10vh",
+                    // border: "1px solid black",
+                  }}
+                >
+                  <Pagination
+                    setskip={setskip}
+                    limit={limit}
+                    skip={skip}
+                    pages={pages + 1}
+                  />
+                </Box>
               </Box>
             </>
           ) : (
+            // <VerificationLoader />
             <Box
               sx={{
-                marginTop: "2rem",
+                display: "flex",
                 height: "70vh",
-                // overflow: "scroll",
+                width: "60vw",
+                justifyContent: "center",
+                alignItems: "center",
+                // border: "2px solid black",
+                marginLeft: "20vw",
               }}
             >
-              <Grid
-                container
+              {/* <VerificationLoader /> */}
+              <CircularProgress
                 sx={{
-                  textAlign: "center",
+                  color: "black",
                 }}
-              >
-                {shops.shops
-                  .filter((item) => {
-                    if (
-                      item.shopName.toLowerCase().includes(search.toLowerCase())
-                    ) {
-                      return item;
-                    }
-                  })
-                  .map((item) => {
-                    return (
-                      <>
-                        <Grid item xs={12} sm={6} md={4} lg={3} pl={4} pr={3}>
-                          <Box
-                            sx={{
-                              maxWidth: 365,
-                              marginLeft: "auto",
-                              marginRight: "auto",
-                              padding: "2rem",
-                              marginBottom: "2rem",
-                              // backgroundColor: " rgba(255, 255, 255, 0.45)",
-                              bgcolor: "black",
-                              boxShadow:
-                                " rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
-                              borderRadius: "10px",
-                            }}
-                          >
-                            <Card
-                              sx={{
-                                maxWidth: 345,
-                                marginTop: "1rem",
-                                boxShadow: "none",
-                                backgroundColor: " rgba(255, 255, 255, 0.45)",
-                              }}
-                            >
-                              <CardMedia
-                                component="img"
-                                height="240"
-                                image={item.shopImage}
-                                alt="green iguana"
-                              />
-                              <CardContent>
-                                <NavLink
-                                  style={{ textDecoration: "none" }}
-                                  to={`/shop/${item.id}`}
-                                >
-                                  <Typography
-                                    gutterBottom
-                                    variant="h5"
-                                    component="div"
-                                  >
-                                    {item.shopName}
-                                    {item.online ? (
-                                      <Typography
-                                        variant="subtitle2"
-                                        color="green"
-                                      >
-                                        Online
-                                      </Typography>
-                                    ) : (
-                                      <Typography
-                                        variant="subtitle2"
-                                        color="error"
-                                      >
-                                        Offline
-                                      </Typography>
-                                    )}
-                                  </Typography>
-                                </NavLink>
-                                <Typography
-                                  variant="body2"
-                                  color="text.secondary"
-                                >
-                                  {item.shopCategory}
-                                </Typography>
-                              </CardContent>
-                              <CardActions
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                }}
-                              >
-                                <NavLink
-                                  style={{
-                                    textDecoration: "none",
-                                    // color: "blue",
-                                  }}
-                                  to={`/shop/${item.id}`}
-                                >
-                                  <Button size="small">Detail</Button>
-                                </NavLink>
-
-                                <Button
-                                  onClick={() => {
-                                    {
-                                      setOpen(true);
-                                    }
-                                    {
-                                      setCoordinates({
-                                        lat: item.location.lat,
-                                        lng: item.location.lng,
-                                        shopName: item.shopName,
-                                      });
-                                    }
-                                  }}
-                                  size="small"
-                                >
-                                  Map
-                                </Button>
-                              </CardActions>
-                              <MapModal
-                                setOpen={setOpen}
-                                coordinates={coordinates}
-                                open={open}
-                                page={page}
-                                getCoords={getCoords}
-                              />
-                            </Card>
-                          </Box>
-                        </Grid>
-                      </>
-                    );
-                  })}
-              </Grid>
+              />
             </Box>
           )}
         </Box>
       </Grid>
+      <Box>{/* <Footer /> */}</Box>
     </ThemeProvider>
   );
 };

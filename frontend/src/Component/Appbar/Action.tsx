@@ -15,10 +15,11 @@ import Person from "@mui/icons-material/Person2Outlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import { api } from "../../lib/Axios";
 
 interface Props {
   matches: boolean;
@@ -40,8 +41,34 @@ const getUserFromLocalStorage = (key: "user") => {
 const Actions = ({ matches }: Props) => {
   const Components = matches ? ActionIconsMobile : ActionIconsContainerDesktop;
   const [drawer, setType] = useState<boolean>(false);
-  const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
+  const [userId, setUserId] = useState<any>(() =>
+    getUserFromLocalStorage("user")
+  );
   const type = "shop";
+  const [shopId, setShopId] = useState<any>();
+
+  // // console.log(userId);
+
+  const id = !userId ? "" : `_id=${userId.user}`;
+
+  useEffect(() => {
+    // api.get(`/?`+``_id=${!userId ? "" : userId.user}`).then((res) => {
+
+    api.get(`/?${id}`).then((res) => {
+      console.log(res.data[0]);
+      setShopId(res.data[0]);
+    });
+  }, [id]);
+
+  // ${!userId? "" : "_id="userId.user}
+
+  // if (!userId) {
+  //   console.log("no user");
+  // } else {
+  //   console.log("user", userId.user);
+  // }
+
+  console.log(id);
 
   const location = useLocation();
   return (
@@ -56,14 +83,13 @@ const Actions = ({ matches }: Props) => {
             // paddingLeft: "24px",
           }}
         >
-          {/* <Divider variant="middle" orientation="vertical" flexItem /> */}
           <ListItemButton
             sx={{
               display: "flex",
               justifyContent: "center",
             }}
           >
-            {!userId ? (
+            {!shopId ? (
               <NavLink
                 to="/admin"
                 style={{
@@ -79,21 +105,10 @@ const Actions = ({ matches }: Props) => {
                     <Button>DashBoard</Button>
                   </ListItemIcon>
                 ) : (
-                  <NavLink to={`/signup`}>SIgnup</NavLink>
+                  <NavLink to={`/signup`}>Signup</NavLink>
                 )}
               </NavLink>
-            ) : userId.shop ? (
-              <NavLink to={`/shop/${userId?.shop}`}>
-                <ListItemIcon
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <StoreSharpIcon />
-                </ListItemIcon>
-              </NavLink>
-            ) : (
+            ) : !shopId.shop ? (
               <NavLink state={type} to={`/signup`}>
                 <ListItemIcon
                   sx={{
@@ -101,7 +116,27 @@ const Actions = ({ matches }: Props) => {
                     justifyContent: "center",
                   }}
                 >
+                  <Button>Register your shop</Button>
                   <AddBusinessSharpIcon />
+                </ListItemIcon>
+              </NavLink>
+            ) : (
+              <NavLink to={`/shop/${userId?.shop || shopId.shop}`}>
+                <ListItemIcon
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  {" "}
+                  <Button
+                    sx={{
+                      textDecorations: "none",
+                    }}
+                  >
+                    To your shop
+                    <StoreSharpIcon />
+                  </Button>
                 </ListItemIcon>
               </NavLink>
             )}
@@ -130,15 +165,8 @@ const Actions = ({ matches }: Props) => {
                     lg: "90%",
                     xl: "92%",
                   },
-                  marginTop: {
-                    xs: "70vh",
-                    sm: "70vh",
-                    md: "1vh",
-                    lg: "1vh",
-                    xl: "1vh",
-                  },
 
-                  marginBottom: "2rem",
+                  positon: "relative",
                 }}
                 // horizontal="bottom"
                 id="basic-menu"
@@ -150,36 +178,31 @@ const Actions = ({ matches }: Props) => {
                 }}
               >
                 {!userId ? (
-                  <MenuItem>
-                    <NavLink
-                      to="/admin"
-                      style={{
-                        textDecoration: "none",
-                        color: "black",
+                  <>
+                    <MenuItem>
+                      <NavLink
+                        to="/admin"
+                        style={{
+                          textDecoration: "none",
+                          color: "black",
+                        }}
+                      >
+                        dashBoard
+                      </NavLink>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        localStorage.removeItem("admintoken");
+                        // localStorage.removeItem("user");
+                        window.location.href = "/admin";
+                        {
+                          setType(false);
+                        }
                       }}
                     >
-                      dashBoard
-                    </NavLink>
-                  </MenuItem>
-                ) : (
-                  <MenuItem onClick={() => setType(false)}>
-                    <NavLink to={`/profile/${userId.user}`}>Profile</NavLink>
-                  </MenuItem>
-                )}
-                {/* <MenuItem onClick={() => setType(false)}>My account</MenuItem> */}
-                {!userId ? (
-                  <MenuItem
-                    onClick={() => {
-                      localStorage.removeItem("admintoken");
-                      // localStorage.removeItem("user");
-                      window.location.href = "/admin";
-                      {
-                        setType(false);
-                      }
-                    }}
-                  >
-                    Logout
-                  </MenuItem>
+                      Logout
+                    </MenuItem>
+                  </>
                 ) : (
                   <MenuItem
                     onClick={() => {
@@ -194,6 +217,7 @@ const Actions = ({ matches }: Props) => {
                     Logout
                   </MenuItem>
                 )}
+                {/* <MenuItem onClick={() => setType(false)}>My account</MenuItem> */}
               </Menu>
             </ListItemIcon>
           </ListItemButton>
@@ -205,3 +229,7 @@ const Actions = ({ matches }: Props) => {
 };
 
 export default Actions;
+
+// <MenuItem onClick={() => setType(false)}>
+//   <NavLink to={`/profile/${userId.user}`}>Profile</NavLink>
+// </MenuItem>

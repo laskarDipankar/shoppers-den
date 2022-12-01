@@ -8,7 +8,8 @@ export const Category: string[] = [
   "Medical",
   "Travel",
   "Software",
-  "Sports & Outdoors",
+  "Sports",
+  "fitness",
   "HardWare",
   "stall",
 ];

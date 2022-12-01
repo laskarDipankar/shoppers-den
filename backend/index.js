@@ -23,16 +23,6 @@ app.use(
 
 app.use("/api/users", Home_route);
 
-// app.use((req, res, next) => {
-//   next(createError.NotFound());
-// });
-
-// app.use((err, req, res) =>
-//   res
-//     .status(err.status || 500)
-//     .json({ error: err.message || "Internal server error" })
-// );
-
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });

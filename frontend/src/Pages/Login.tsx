@@ -109,7 +109,6 @@ const Login = ({ email, password }: MyFormValues) => {
                                   })
                                 );
                                 window.location.reload();
-                                // navigate("/feed");
                               }
                             }
                           } catch (error) {

@@ -69,12 +69,12 @@ const Signup = (
   // console.log(selectedfiles, "shop");
   console.log(selectedidImage);
   const [singupdata, setsingupdata] = useState<SignupProp>({
-    shopName: "YENagma",
-    State: "UP",
-    City: "Lucknow",
+    shopName: "",
+    State: "",
+    City: "",
     phoneNumber: 0,
-    governmentIDImage: `imageid`,
-    shopImage: `image`,
+    governmentIDImage: ``,
+    shopImage: ``,
     governmentID: "",
   });
 
@@ -101,8 +101,8 @@ const Signup = (
             state: data.State,
             city: data.City,
             governmentID: data.governmentID,
-            governmentIDImage: selectedfiles,
-            shopImage: selectedidImage,
+            governmentIDImage: selectedidImage,
+            shopImage: selectedfiles,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -111,9 +111,9 @@ const Signup = (
         .then((res: any) => {
           if (res.status === 201) {
             console.log(res.data);
-            localStorage.removeItem("usertoken");
-            window.location.reload();
+            // localStorage.removeItem("usertoken");
             navigate("/");
+            window.location.reload();
           } else {
             console.log(res);
           }
@@ -148,15 +148,6 @@ const Signup = (
 
   const user = location.state;
   const gender = ["male", "female", "others"];
-
-  // console.log(selectedidImage?.name, "location.state");
-
-  // useEffect(() => {
-  //   setsingupdata((value) => ({
-  //     ...value,
-  //     ]: selectedfiles?.name,
-  //   }));
-  // }, [selectedfiles]);
 
   return (
     <>
