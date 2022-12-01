@@ -62,7 +62,7 @@ const Detail = ({ shopDetail }: Props) => {
           sx={{
             height: "100%",
             width: "80vw",
-            // border: "2px solid red",
+            border: "2px solid red",
             //   boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
             paddingRight: "5%",
             paddingLeft: "5%",
@@ -76,11 +76,14 @@ const Detail = ({ shopDetail }: Props) => {
             WebkitBackdropFilter: " blur( 11.5px )",
             marginLeft: {
               // xl:"5rem"
-              xs: "0.3rem",
+              // xs: "0.3rem",
               sm: "0rem",
             },
             display: "flex",
             justifyContent: "center",
+            marginRight: {
+              // xs: "18vw",
+            },
           }}
         >
           <Box
@@ -101,6 +104,7 @@ const Detail = ({ shopDetail }: Props) => {
                       sm: "96%",
                       xs: "100vw",
                     },
+
                     marginLeft: {
                       // xs: "10rem",
                       // lg: "10rem",
@@ -121,6 +125,7 @@ const Detail = ({ shopDetail }: Props) => {
                           xl: "flex-start",
                           lg: "flex-start",
                           md: "space-between",
+                          xs: "space-between",
                         },
                         alignItems: "center",
                         marginTop: "2rem",
@@ -131,11 +136,22 @@ const Detail = ({ shopDetail }: Props) => {
                         // border: "2px solid red",
                       }}
                     >
+                      {/* <Typography
+                        // variant="subtitle"
+                        component="span"
+                        sx={{
+                          borderRadius: "50%",
+                          height: "7vh",
+                          border: "2px solid red",
+                          width: "5vw",
+                        }}
+                      > */}
                       <img
                         src={shopDetail?.shopDetails?.gallery?.shopLogo}
                         alt="logo"
                         style={{
-                          height: "10%",
+                          fontSize: "10px",
+                          height: "20%",
                           width: "10%",
                           borderRadius: "50%",
                           objectFit: "cover",
@@ -148,6 +164,7 @@ const Detail = ({ shopDetail }: Props) => {
                           // },
                         }}
                       />
+                      {/* </Typography> */}
                       {shopDetail.shopName.toUpperCase()}
                     </Typography>
                     {/* <Box

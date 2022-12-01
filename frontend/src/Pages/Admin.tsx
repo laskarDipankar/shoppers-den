@@ -127,22 +127,27 @@ const Admin = () => {
                 display: "flex",
                 justifyContent: "center",
               }}
+              // position="fixed"
             >
               <Box
                 sx={{
-                  height: "100%",
+                  height: "80vh",
                   width: "88vw",
                   display: "flex",
                   flexDirection: "column",
                   gap: "1rem",
                   justifyContent: "center",
                   alignItems: "center",
+
+                  overflow: "scroll",
+                  overflowX: "clip",
                 }}
               >
                 <Box
                   sx={{
                     height: "10vh",
                     width: "28vw",
+
                     marginTop: "2rem",
                   }}
                 >
@@ -165,7 +170,7 @@ const Admin = () => {
                       width: "80vw",
                       display: "grid",
                       gridTemplateColumns: "repeat(3, 1fr)",
-                      overflow: "scrollY",
+
                       // display: "flex",
                       // justifyContent: "center",
                     }}

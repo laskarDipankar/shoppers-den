@@ -8,11 +8,8 @@ interface TYpe {
 export const AppbarContainer = styled(Box)(() => ({
   display: "flex",
   marginTop: "8px",
-  // justifyContent: "center",
-  // background: "white",
-  // backdropFilter: "blur(15px)",
-
   justifyContent: "space-between",
+
   alignItems: "center",
   width: "96%",
   height: "8vh",
@@ -21,7 +18,7 @@ export const AppbarContainer = styled(Box)(() => ({
   marginRight: "auto",
   borderRadius: "10px",
 
-  // borderBottom: "2px solid black",
+  borderBottom: "2px solid black",
   // boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
   boxShadow: " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
   transition: "all 0.5s ease-in-out",

@@ -30,6 +30,8 @@ import { api } from "../lib/Axios";
 import VerificationLoader from "../Component/Shop/VerificationLoader";
 import WaitVerify from "../Component/Shop/WaitVerify";
 import Detail from "../Component/Shop/Detail";
+import { useRecoilValue } from "recoil";
+import { Owner } from "../Recoil/Localstorage";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const myvalidationSchema = Yup.object({
@@ -54,9 +56,9 @@ const myvalidationSchema = Yup.object({
   // category: Yup.string().required("Required"),
   governmentID: Yup.string().required("Required"),
   // governmentIDImage: Yup.string().required("Required"),
-  shopImage: Yup.string().required("Required"),
-  userID: Yup.string().required("Required"),
-  verified: Yup.string().required("Required"),
+  // shopImage: Yup.string().required("Required"),
+  // userID: Yup.string().required("Required"),
+  // verified: Yup.string().required("Required"),
 });
 
 const getUserFromLocalStorage = (key: "user") => {
@@ -76,6 +78,7 @@ const Shop = () => {
   const [edit, setEdit] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [online, setOnline] = useState<boolean>(false);
+  // const [user, setuser] = useRecoilValue<any>(Owner);
   const [cat, setcategory] = useState<any>({
     Delivery: "",
     CCat: "",
@@ -89,7 +92,9 @@ const Shop = () => {
     lng: 0,
   });
 
-  // const [loading, setloading] = useState<boolean>(false);
+  const recoil = useRecoilValue(Owner);
+
+  console.log(recoil);
 
   const page = "shop";
   const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
@@ -102,7 +107,7 @@ const Shop = () => {
     setcategory({ ...cat, CCat: data });
   };
 
-  // getData(data)
+  // console.log("recoil", user);
 
   useEffect(() => {
     api
@@ -129,19 +134,10 @@ const Shop = () => {
     reader.readAsDataURL(file);
   };
 
-  // console.log(
-  //   shopDetail?.shopDetails?.location
-  //     ? shopDetail.shopDetails.location
-  //     : "no location"
-  // );
   const coordinates = {
     lat: shopDetail?.shopDetails?.location?.lat || 26.1158,
-    // :,shopDetail.shopDetails.location === null
-    // ?
+
     lng: shopDetail?.shopDetails?.location?.lng || 91.7086,
-    // shopDetail.shopDetails.location === null
-    //   ?
-    //   : ,
   };
   const getCoords = (data: any) => {
     setmapLoc({
@@ -149,8 +145,8 @@ const Shop = () => {
       lng: data.lng,
     });
   };
-  // validationSchema: myvalidationSchema,
   const formik = useFormik({
+    validationSchema: myvalidationSchema,
     initialValues: {
       shopName: shopDetail?.shopName || "",
       state: shopDetail?.State || "",
@@ -214,8 +210,13 @@ const Shop = () => {
         }
       )
       .then((res) => {
-        console.log(res);
-        setdialog(false);
+        if (res.status === 200) {
+          setdialog((prev) => !prev);
+
+          // window.location.reload();
+        } else {
+          alert("something went wrong");
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -290,7 +291,9 @@ const Shop = () => {
       .then((res) => {
         if (res.status === 200) {
           console.log(res.data.data);
-          window.location.reload();
+          setEdit(false);
+
+          // window.location.reload();
         } else {
           alert("something went wrong");
         }
@@ -349,21 +352,10 @@ const Shop = () => {
                 <Button onClick={handleActive} color="primary">
                   Change Status
                 </Button>
-                {/* <Button onClick={handleClose}>Disagree</Button>
-                <Button onClick={handleClose} autoFocus> */}
-                {/* Agree
-                </Button> */}
               </DialogActions>
             </Dialog>
             <Body>
               <Grid item xs={12}>
-                {/* <BackgroundBody
-                  sx={{
-                    overflowX: "clip",
-
-                    overflowY: "scroll",
-                  }}
-                > */}
                 <BodyContent
                   sx={{
                     width: "92vw",
@@ -372,13 +364,13 @@ const Shop = () => {
                 >
                   <Box
                     sx={{
-                      width: "60%",
+                      width: "100%",
                       height: "5vh",
                       marginTop: "60px",
-                      marginLeft: "18vw",
+                      // marginLeft: "18vw",
                       display: "flex",
-                      justifyContent: "center",
-                      gap: "50px",
+                      justifyContent: "space-around",
+                      // gap: "50px",
                       // border: "2px solid red",
                     }}
                   >
@@ -727,9 +719,9 @@ const Shop = () => {
                                     </>
                                   )}
 
-                                  {!userId ? (
+                                  {!recoil ? (
                                     ""
-                                  ) : shopDetail._id === userId.shop ? (
+                                  ) : shopDetail._id === recoil.shopid ? (
                                     <Box
                                       sx={{
                                         display: "flex",
@@ -739,13 +731,6 @@ const Shop = () => {
                                     >
                                       {edit ? (
                                         <>
-                                          <Button
-                                            variant="outlined"
-                                            size="small"
-                                            onClick={() => setEdit(false)}
-                                          >
-                                            submit
-                                          </Button>
                                           <Button
                                             type="submit"
                                             size="small"

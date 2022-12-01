@@ -13,6 +13,7 @@ import {
   Select,
   SelectChangeEvent,
   CircularProgress,
+  InputLabel,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { shops } from "../Data/Dummy/DUmmyjson";
@@ -25,6 +26,7 @@ import Pagination from "../Component/Pagination/Pagination";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { api } from "../lib/Axios";
 import VerificationLoader from "../Component/Shop/VerificationLoader";
+import { throttle } from "throttle-debounce";
 
 const theme = createTheme({
   palette: {
@@ -57,17 +59,18 @@ const theme = createTheme({
 const Home = () => {
   const [search, setInputSearch] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-  const [shop, setShop] = useState<any>();
+  const [shop, setShop] = useState<any>([]);
   const [age, setAge] = useState("all");
   const [value, setvalue] = useState("all");
   const [pagein, setpagination] = useState<any>();
+  const [loading, setLoading] = useState<boolean>(false);
   let pages: number;
   const limit = 8;
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: any) => {
     setAge(event.target.value);
   };
-  const handleCategory = (event: SelectChangeEvent) => {
+  const handleCategory = (event: any) => {
     setvalue(event.target.value);
   };
 
@@ -98,10 +101,15 @@ const Home = () => {
   const [skip, setskip] = useState<number>(0);
   console.log(filter.available);
   useEffect(() => {
+    setLoading(true);
+
     api
-      .get(`/shops?verified=true&${ram}&${hanuman}&limit=${limit}&skip=${skip}`)
+      .get(
+        `/shops?verified=true&search=${search}&${ram}&${hanuman}&limit=${limit}&skip=${skip}`
+      )
       .then((res) => {
-        setShop(res.data.data);
+        setLoading(false);
+        setShop(res.data.data || []);
         console.log(res.data.data);
       })
       .catch((err) => {
@@ -111,15 +119,16 @@ const Home = () => {
     api
       .get(`/shops?verified=true&${ram}&${hanuman}`)
       .then((res) => {
+        setLoading(false);
         setpagination(res.data.count);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [ram, skip, hanuman]);
+  }, [ram, skip, search, hanuman]);
 
   pages = Math.floor(pagein / limit);
-  console.log(pages);
+  console.log("pages", pages);
 
   console.log(skip);
   const page = "home";
@@ -150,9 +159,12 @@ const Home = () => {
               alignItems: "center",
             }}
           >
-            <Select
+            {/* <InputLabel></InputLabel> */}
+            <TextField
+              select
               size="small"
               value={age}
+              label="Filter by"
               onChange={handleChange}
               sx={{
                 width: "14rem",
@@ -183,9 +195,11 @@ const Home = () => {
                 Delivery-Available
               </MenuItem>
               {/* <MenuItem value="Filter">static</MenuItem> */}
-            </Select>
-            <Select
+            </TextField>
+            <TextField
+              select
               size="small"
+              label="category"
               value={value}
               onChange={handleCategory}
               sx={{
@@ -208,10 +222,10 @@ const Home = () => {
               <MenuItem onClick={() => setram("type=Static")} value="Time">
                 Static
               </MenuItem>
-            </Select>
+            </TextField>
 
             <TextField
-              // variant="standard"
+              variant="standard"
               sx={{
                 // borderBottom: "1px solid black",
                 minWidth: "15%",
@@ -221,11 +235,42 @@ const Home = () => {
               onChange={(e) => setInputSearch(e.target.value)}
               // onChange={(e) => setram(`shopName=${e.target.value}`)}
               placeholder="Search shops"
-              variant="outlined"
+              // variant="outlined"
               size="small"
             ></TextField>
           </Box>
-          {shop?.length > 0 ? (
+          {loading && (
+            <Box
+              sx={{
+                display: "flex",
+                height: "70vh",
+                width: "60vw",
+                justifyContent: "center",
+                alignItems: "center",
+                // border: "2px solid black",
+                marginLeft: "20vw",
+              }}
+            >
+              {/* <VerificationLoader /> */}
+              <CircularProgress
+                sx={{
+                  color: "black",
+                }}
+              />
+            </Box>
+          )}
+          {!loading && shop.length === 0 && (
+            <Typography
+              style={{
+                fontSize: "35px",
+                fontWeight: "bold",
+                marginTop: "80px",
+              }}
+            >
+              No items found for this filter. Try another one.
+            </Typography>
+          )}
+          {shop?.length > 0 && !loading && (
             <>
               <Box
                 sx={{
@@ -243,19 +288,26 @@ const Home = () => {
                   spacing={2}
                 >
                   {shop
-                    .filter((item: any) => {
-                      if (
-                        item.shopName
-                          .toLowerCase()
-                          .includes(search.toLowerCase())
-                      ) {
-                        return item;
-                      }
-                    })
+                    // .filter((item: any) => {
+                    //   if (
+                    //     item.shopName
+                    //       .toLowerCase()
+                    //       .includes(search.toLowerCase())
+                    //   ) {
+                    //     return item;
+                    //   }
+                    // })
                     .map((item: any) => {
                       return (
                         <>
-                          <Grid item xs={12} sm={6} md={4} lg={3}>
+                          <Grid
+                            item
+                            xs={12}
+                            sm={6}
+                            md={4}
+                            lg={3}
+                            key={item._id}
+                          >
                             <Box
                               sx={{
                                 maxWidth: 365,
@@ -436,26 +488,6 @@ const Home = () => {
                 </Box>
               </Box>
             </>
-          ) : (
-            // <VerificationLoader />
-            <Box
-              sx={{
-                display: "flex",
-                height: "70vh",
-                width: "60vw",
-                justifyContent: "center",
-                alignItems: "center",
-                // border: "2px solid black",
-                marginLeft: "20vw",
-              }}
-            >
-              {/* <VerificationLoader /> */}
-              <CircularProgress
-                sx={{
-                  color: "black",
-                }}
-              />
-            </Box>
           )}
         </Box>
       </Grid>

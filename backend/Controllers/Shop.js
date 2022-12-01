@@ -90,9 +90,13 @@ const getAllShopsDetails = async (req, res) => {
   //
   // console.log({ shopName: { $regex: `${search}`, $options: "i" } });
 
+  const filter = search
+    ? { shopName: { $regex: `${search}`, $options: "i" } }
+    : req.query;
+
   console.log(req.query);
   try {
-    const shops = await Shop.find(req.query)
+    const shops = await Shop.find(filter)
       .limit(limit)
       .skip(skip)
       .sort({})

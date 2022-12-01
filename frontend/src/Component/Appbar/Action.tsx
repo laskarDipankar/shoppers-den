@@ -17,9 +17,11 @@ import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { api } from "../../lib/Axios";
+import { Owner } from "../../Recoil/Localstorage";
 
 interface Props {
   matches: boolean;
@@ -47,28 +49,23 @@ const Actions = ({ matches }: Props) => {
   const type = "shop";
   const [shopId, setShopId] = useState<any>();
 
-  // // console.log(userId);
+  const [user, setUser] = useRecoilState(Owner);
+
+  console.log("recoils", user);
 
   const id = !userId ? "" : `_id=${userId.user}`;
 
   useEffect(() => {
-    // api.get(`/?`+``_id=${!userId ? "" : userId.user}`).then((res) => {
-
     api.get(`/?${id}`).then((res) => {
       console.log(res.data[0]);
+      setUser((prev) => ({
+        shopid: res.data[0].shop,
+        userid: res.data[0]._id,
+      }));
+
       setShopId(res.data[0]);
     });
   }, [id]);
-
-  // ${!userId? "" : "_id="userId.user}
-
-  // if (!userId) {
-  //   console.log("no user");
-  // } else {
-  //   console.log("user", userId.user);
-  // }
-
-  console.log(id);
 
   const location = useLocation();
   return (
