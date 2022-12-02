@@ -4,7 +4,7 @@ const Admin = require("../Model/Admin");
 const verifyAdminAuth = async (req, res, next) => {
   const bearer = req.headers.authorization;
 
-  // console.log(adminToken);
+  console.log("auth");
 
   if (!bearer) {
     return res.status(401).send({ error: "Unauthorized" });

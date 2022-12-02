@@ -11,6 +11,7 @@ import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import rocket from "../img/rocket.json";
 import { api } from "../lib/Axios";
 import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 
 interface MyFormValues {
   email: string;
@@ -100,8 +101,14 @@ const Login = ({ email, password }: MyFormValues) => {
                                   "usertoken",
                                   JSON.stringify(res.data.token)
                                 );
+                                localStorage.setItem(
+                                  "user",
+                                  JSON.stringify({
+                                    user: res.data.user._id,
+                                    shop: res.data.user.shop,
+                                  })
+                                );
                                 window.location.reload();
-                                // navigate("/feed");
                               }
                             }
                           } catch (error) {
@@ -152,7 +159,10 @@ const Login = ({ email, password }: MyFormValues) => {
                       </Box>
                     </Form>
                   </Formik>
-                  {/* <Button onClick={() => setedit(!edit)}>EDIT</Button> */}
+                  <Button onClick={() => setedit(!edit)} size="small">
+                    don't have an account ?{" "}
+                    <NavLink to="/signup"> signup</NavLink>
+                  </Button>
                 </Box>
                 {/* </Grid> */}
               </Box>

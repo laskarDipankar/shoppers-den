@@ -4,12 +4,14 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { AppbarContainer, AppHeader, Mylist } from "../../Style/Appbar/index";
 import SearchIcon from "@mui/icons-material/Search";
 import StoreSharpIcon from "@mui/icons-material/StoreSharp";
 import Actions from "../Appbar/Action";
 import { useNavigate, useLocation, NavLink } from "react-router-dom";
+import logo from "../../img/logo.png";
+import { WindowTwoTone } from "@mui/icons-material";
 
 const type = "shop";
 
@@ -20,6 +22,15 @@ interface Props {
 interface TYpe {
   type: String;
 }
+const getUserFromLocalStorage = (key: "user") => {
+  try {
+    const user = localStorage.getItem(key);
+    if (user) return JSON.parse(user);
+    return null;
+  } catch (e) {
+    return null;
+  }
+};
 
 const navItem = [
   { name: "FEED", link: "/home" },
@@ -30,26 +41,23 @@ const navItem = [
 ];
 
 const AppbarPC = ({ matches }: Props) => {
+  const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   const location = useLocation();
+
+  // if(MouseEvent("click"){
+  //   console.log("clicked")
+  // }
+
   return (
     <>
-      <AppbarContainer
-        sx={
-          {
-            // justifyContent: "center",
-            // gap: "0.5rem",
-            // background: "yellow",
-            // border: "1px solid red",
-          }
-        }
-      >
+      <AppbarContainer>
         <AppHeader
-          sx={
-            {
-              // marginRight: "auto",
-            }
-          }
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
         >
+          {/* <img className="logo" src={logo} alt="BigCo Inc. logo" /> */}
           <NavLink
             style={{
               textDecoration: "none",
@@ -62,21 +70,8 @@ const AppbarPC = ({ matches }: Props) => {
             SHOPPERS-DEN
           </NavLink>
         </AppHeader>
-        {/* <Mylist type="row"> */}
-        {/*
-          <ListItemButton>
-            <ListItemIcon
-              sx={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <StoreSharpIcon />
-            </ListItemIcon>
-          </ListItemButton> */}
 
         <Actions matches={matches} />
-        {/* </Mylist> */}
       </AppbarContainer>
     </>
   );

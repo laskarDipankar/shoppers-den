@@ -37,11 +37,15 @@ const ShopSchema = new Schema({
     email: {
       type: String,
     },
-    gallery: [
-      {
+    gallery: {
+      shopLogo: {
         type: String,
       },
-    ],
+      shopServicesImage: {
+        type: String,
+      },
+    },
+
     timings: {
       openingTime: {
         type: String,
@@ -77,7 +81,6 @@ const ShopSchema = new Schema({
   },
   governmentID: {
     type: String,
-
     trim: true,
   },
   governmentIDImage: {

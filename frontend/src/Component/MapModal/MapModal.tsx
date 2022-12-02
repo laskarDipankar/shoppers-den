@@ -82,14 +82,14 @@ const MapModal = ({ open, setOpen, coordinates, page, getCoords }: Props) => {
           }}
           sx={{
             background: "rgba(255,255,255,0.6)",
-            opacity: 0.6,
+            // opacity: 0.6,
           }}
         >
           <Box
             sx={{
               width: "60vw",
               height: "60vh",
-              background: "black",
+              background: "white",
               margin: "auto",
               marginTop: "20vh",
             }}

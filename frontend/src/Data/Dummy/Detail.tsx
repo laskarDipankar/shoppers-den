@@ -1,11 +1,11 @@
-export const Details = [
+export let Details = [
   {
     shopName: "Chai",
     State: "punjab",
     city: "Jalandhar",
     isActive: true,
     landmark: "near bhatinda bus stop",
-    pincode: "144001",
+    pincode: 144001,
     address: "near bhatinda bus stop",
     phone: "1234567890",
     email: "chaiwala@gmail.com",
@@ -18,8 +18,8 @@ export const Details = [
     governmentID: "1234567890",
     governmentIDImage: "https://source.unsplash.com/random?goverment",
     shopImage: "https://source.unsplash.com/random?chai",
-
     userID: "12345667",
     verified: true,
+    delivery: true,
   },
 ];

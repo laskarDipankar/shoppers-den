@@ -11,6 +11,7 @@ import Login from "./Pages/Login";
 import Shop from "./Pages/Shop";
 import Signup from "./Pages/Signup";
 import Profile from "./Pages/Profile";
+import Pic from "./Pages/Pic";
 
 const getTokenFromLocalStorage = (key: "usertoken" | "admintoken") => {
   try {
@@ -36,8 +37,8 @@ function App() {
     setAdminToken(getTokenFromLocalStorage("admintoken"));
   }, []);
 
-  console.log({ userToken });
-  console.log({ adminToken });
+  // console.log({ userToken });
+  // console.log({ adminToken });
 
   return (
     <>
@@ -63,7 +64,7 @@ function App() {
                 phoneNumber={0}
                 governmentIDImage={""}
                 shopImage={""}
-                governmentID={0}
+                governmentID={""}
               />
             }
           />
@@ -86,13 +87,14 @@ function App() {
           <Route path="/home" element={<Feed />} />
           <Route path="*" element={<h1>404: Not Found</h1>} />
           {userToken ? (
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile />} />
           ) : (
             <Route
-              path="/Profile"
+              path="/profile/:id"
               element={<Login email={"email"} password={"password"} />}
             />
           )}
+          <Route path="/pic" element={<Pic />} />
         </Routes>
       </BrowserRouter>
     </>

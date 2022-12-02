@@ -27,6 +27,7 @@ const UserSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Shop",
   },
+
   role: {
     type: String,
     default: "USER",

@@ -13,7 +13,7 @@ export interface fromValues {
   closingTime: String;
   type: String;
   category: String;
-  governmentID: Number;
+  governmentID: String;
   governmentIDImage: String;
   shopImage: String;
   userID: Number;

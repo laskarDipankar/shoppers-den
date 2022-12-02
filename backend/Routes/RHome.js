@@ -13,12 +13,15 @@ const {
   getAdmin,
   verifyShop,
   loginAdmin,
+  deleteShop: removeShop,
 } = require("../Controllers/Admin");
 const {
   shopRegistration,
   updatedShopDetails,
   getShopDetails,
   getAllShopsDetails,
+  deleteShop,
+  updateIsActive,
 } = require("../Controllers/Shop");
 
 router.get("/home", getHome);
@@ -33,5 +36,8 @@ router.patch("/shop/:id", userAuth, updatedShopDetails);
 router.patch("/admin/shop/:id", adminAuth, verifyShop);
 router.get("/shop/:id", getShopDetails);
 router.get("/shops", getAllShopsDetails);
+router.delete("/shop/:id", userAuth, deleteShop);
+router.delete("/admin/shop/:id", adminAuth, removeShop);
+router.patch("/shop/active/:id", userAuth, updateIsActive);
 
 module.exports = router;

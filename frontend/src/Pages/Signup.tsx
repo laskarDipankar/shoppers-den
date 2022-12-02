@@ -43,19 +43,39 @@ const Signup = (
   // const [sstate, setstate] = useState<string>("");
   const [sstate, setstate] = useState<string>("");
   const location = useLocation();
-  const [selectedfiles, setSelected] = useState<File>();
-  const [selectedidImage, setSelectedImage] = useState<File>();
+  const [selectedfiles, setSelected] = useState<any>();
+  const [selectedidImage, setSelectedImage] = useState<any>();
 
   const navigate = useNavigate();
+  const handleImageChange = (e: any) => {
+    // console.log(e.target.name);
 
+    console.log(e.target.files[0]);
+    let file = e.target.files[0];
+    const reader = new FileReader();
+
+    console.log(e.target.name);
+    reader.onloadend = () => {
+      if (e.target.name === "governmentID") {
+        setSelectedImage(reader.result);
+      }
+
+      setSelected(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  // console.log(selectedfiles, "shop");
+  console.log(selectedidImage);
   const [singupdata, setsingupdata] = useState<SignupProp>({
-    shopName: "YENagma",
-    State: "UP",
-    City: "Lucknow",
+    shopName: "",
+    State: "",
+    City: "",
     phoneNumber: 0,
-    governmentIDImage: `imageid`,
-    shopImage: `image`,
-    governmentID,
+    governmentIDImage: ``,
+    shopImage: ``,
+    governmentID: "",
   });
 
   const [userSignup, setuserSignup] = useState<UserSignup>({
@@ -81,8 +101,8 @@ const Signup = (
             state: data.State,
             city: data.City,
             governmentID: data.governmentID,
-            governmentIDImage: data.governmentIDImage,
-            shopImage: data.shopImage,
+            governmentIDImage: selectedidImage,
+            shopImage: selectedfiles,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -91,7 +111,9 @@ const Signup = (
         .then((res: any) => {
           if (res.status === 201) {
             console.log(res.data);
+            // localStorage.removeItem("usertoken");
             navigate("/");
+            window.location.reload();
           } else {
             console.log(res);
           }
@@ -126,15 +148,6 @@ const Signup = (
 
   const user = location.state;
   const gender = ["male", "female", "others"];
-
-  // console.log(selectedidImage?.name, "location.state");
-
-  // useEffect(() => {
-  //   setsingupdata((value) => ({
-  //     ...value,
-  //     ]: selectedfiles?.name,
-  //   }));
-  // }, [selectedfiles]);
 
   return (
     <>
@@ -544,14 +557,11 @@ const Signup = (
                             variant="outlined"
                             component="label"
                           >
-                            {selectedidImage?.name == undefined
-                              ? "upload ID Image"
-                              : selectedidImage?.name}
+                            Upload File
                             <input
+                              name="governmentID"
                               accept="image/*"
-                              onChange={(e) =>
-                                setSelectedImage(e.target.files?.[0])
-                              }
+                              onChange={handleImageChange}
                               type="file"
                               hidden
                             />
@@ -587,14 +597,10 @@ const Signup = (
                               variant="outlined"
                               component="label"
                             >
-                              {selectedfiles?.name == undefined
-                                ? "upload Image"
-                                : selectedfiles?.name}
+                              Upload shop Image
                               <input
                                 accept="image/*"
-                                onChange={(e) =>
-                                  setSelected(e.target.files?.[0])
-                                }
+                                onChange={handleImageChange}
                                 type="file"
                                 hidden
                               />

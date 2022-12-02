@@ -46,7 +46,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await Users.findOne({ email });
-    console.log(user);
+    // console.log(user);
     if (!user) {
       return res.status(400).send({ error: "Invalid credentials" });
     }
@@ -55,10 +55,11 @@ const loginUser = async (req, res) => {
       console.log("password ");
       return res.status(400).send({ error: "Invalid credentials" });
     }
-    console.log(user._id);
+    // console.log(user._id);
     const token = generateToken(user._id);
     res.status(200).send({
       ok: "success",
+      user,
       token,
     });
   } catch (err) {
@@ -67,8 +68,10 @@ const loginUser = async (req, res) => {
 };
 
 const getUsers = async (req, res) => {
+  console.log(req.query);
+
   try {
-    const users = await Users.find();
+    const users = await Users.find(req.query);
     res.status(200).send(users);
   } catch (err) {
     console.log(err);
