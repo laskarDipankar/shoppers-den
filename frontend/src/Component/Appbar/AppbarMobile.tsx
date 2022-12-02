@@ -15,6 +15,8 @@ import { useState } from "react";
 import Person from "@mui/icons-material/Person2Outlined";
 import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 import StoreSharpIcon from "@mui/icons-material/StoreSharp";
+import { useRecoilValue } from "recoil";
+import { Owner } from "../../Recoil/Localstorage";
 import {
   ActionIconsMobile,
   AppbarContainer,
@@ -43,12 +45,17 @@ const AppbarMobile = ({ matches }: Props) => {
   const type = "shop";
   const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
   const [val, setopen] = useState(false);
-  console.log(val);
+
+  const recoil = useRecoilValue(Owner);
+
+  console.log(recoil, "mobile");
   return (
     <>
       <AppbarContainer
         width={{
-          xs: "100%",
+          xs: "94%",
+          marginLeft: "auto",
+          marginRight: "auto",
         }}
         borderRadius={{
           xs: "0px",
@@ -72,9 +79,9 @@ const AppbarMobile = ({ matches }: Props) => {
             SHOPPERS-DEN
           </NavLink>
         </AppHeader>
-        {userId.shop ? (
+        {recoil.shopid ? (
           <>
-            <NavLink state={type} to={`/shop/${userId.shop}`}>
+            <NavLink state={type} to={`/shop/${recoil.shopid}`}>
               <IconButton>
                 <StoreSharpIcon
                   sx={{
@@ -96,11 +103,7 @@ const AppbarMobile = ({ matches }: Props) => {
           </NavLink>
         )}
 
-        <Actions
-          // className="glass"
-
-          matches={matches}
-        />
+        <Actions matches={matches} />
       </AppbarContainer>
     </>
   );

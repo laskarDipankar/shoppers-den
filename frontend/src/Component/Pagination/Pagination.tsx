@@ -18,6 +18,11 @@ export default function PaginationComponent({
   return (
     <Stack spacing={2}>
       <Pagination
+        sx={{
+          height: "20vh",
+        }}
+        page={skip / limit + 1}
+        shape="rounded"
         count={pages}
         onChange={(event, value) => {
           console.log(value);

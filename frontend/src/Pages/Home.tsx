@@ -64,6 +64,7 @@ const Home = () => {
   const [value, setvalue] = useState("all");
   const [pagein, setpagination] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
+  const [firstRender, setFistRender] = useState<boolean>(true);
   let pages: number;
   const limit = 8;
 
@@ -109,11 +110,15 @@ const Home = () => {
       )
       .then((res) => {
         setLoading(false);
+
         setShop(res.data.data || []);
         console.log(res.data.data);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setFistRender(false);
       });
 
     api
@@ -124,6 +129,9 @@ const Home = () => {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setFistRender(false);
       });
   }, [ram, skip, search, hanuman]);
 
@@ -259,7 +267,7 @@ const Home = () => {
               />
             </Box>
           )}
-          {!loading && shop.length === 0 && (
+          {!loading && shop.length === 0 && !firstRender && (
             <Typography
               style={{
                 fontSize: "35px",
@@ -287,158 +295,144 @@ const Home = () => {
                   container
                   spacing={2}
                 >
-                  {shop
-                    // .filter((item: any) => {
-                    //   if (
-                    //     item.shopName
-                    //       .toLowerCase()
-                    //       .includes(search.toLowerCase())
-                    //   ) {
-                    //     return item;
-                    //   }
-                    // })
-                    .map((item: any) => {
-                      return (
-                        <>
-                          <Grid
-                            item
-                            xs={12}
-                            sm={6}
-                            md={4}
-                            lg={3}
-                            key={item._id}
+                  {shop.map((item: any) => {
+                    return (
+                      <>
+                        <Grid item xs={12} sm={6} md={4} lg={3} key={item._id}>
+                          <Box
+                            sx={{
+                              maxWidth: 335,
+                              // height: 405,
+                              marginLeft: "auto",
+                              marginRight: "auto",
+                              padding: "1rem",
+                              marginBottom: "2rem",
+                              background: "rgba(255,255,255,0.4)",
+                              backdropFilter: "blur(15px)",
+                              borderRadius: "10px",
+                              boxShadow:
+                                " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
+                              transition: "all 0.3s ease-in-out",
+                              "&:hover": {
+                                transform: "scale(1.05)",
+                              },
+                            }}
                           >
-                            <Box
+                            <Card
                               sx={{
-                                maxWidth: 365,
-                                height: 405,
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                padding: "1rem",
-                                marginBottom: "2rem",
-                                background: "rgba(255,255,255,0.4)",
-                                backdropFilter: "blur(15px)",
-                                borderRadius: "10px",
-                                boxShadow:
-                                  " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
+                                maxWidth: 335,
+                                marginTop: "1rem",
+                                boxShadow: "none",
                                 transition: "all 0.3s ease-in-out",
-                                "&:hover": {
-                                  transform: "scale(1.05)",
-                                },
+                                background: "rgba(255,255,255,0.4)",
+                                // backdropFilter: "blur(15px)",
                               }}
                             >
-                              <Card
+                              <CardMedia
                                 sx={{
-                                  maxWidth: 345,
-                                  marginTop: "1rem",
-                                  boxShadow: "none",
-                                  transition: "all 0.3s ease-in-out",
-                                  background: "rgba(255,255,255,0.4)",
-                                  // backdropFilter: "blur(15px)",
+                                  display: "flex",
+                                  justifyContent: "center",
                                 }}
-                              >
-                                <CardMedia
+                                component="img"
+                                height="240"
+                                image={item.shopImage}
+                                alt="green iguana"
+                              />
+                              <CardContent sx={{ flexGrow: 1 }}>
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
                                   sx={{
                                     display: "flex",
+                                    alignItems: "center",
                                     justifyContent: "center",
+                                    gap: "1rem",
+                                    fontSize: "1.0rem",
                                   }}
-                                  component="img"
-                                  height="240"
-                                  image={item.shopImage}
-                                  alt="green iguana"
-                                />
-                                <CardContent sx={{ flexGrow: 1 }}>
-                                  <Typography
-                                    gutterBottom
-                                    variant="h6"
-                                    component="h2"
+                                >
+                                  {item.shopName.toUpperCase()}
+                                  {item.shopDetails.isActive ? (
+                                    <Typography
+                                      sx={{
+                                        color: "green",
+                                      }}
+                                    >
+                                      ONLINE
+                                    </Typography>
+                                  ) : (
+                                    <Typography
+                                      sx={{
+                                        color: "red",
+                                      }}
+                                    >
+                                      OFFLINE
+                                    </Typography>
+                                  )}
+                                </Typography>
+                                <Typography>{item.category}</Typography>
+                              </CardContent>
+                              {item.type ? (
+                                <CardActions
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                  }}
+                                >
+                                  <Button
+                                    size="small"
+                                    variant="outlined"
                                     sx={{
-                                      display: "flex",
-                                      alignItems: "center",
-                                      justifyContent: "center",
-                                      gap: "1rem",
-                                      fontSize: "1.0rem",
+                                      color: "black",
+                                    }}
+                                    onClick={() => {
+                                      setOpen(true);
+                                      getCoords({
+                                        lat: item.shopDetails.location.lat,
+                                        lng: item.shopDetails.location.lng,
+                                        shopName: item.shopName,
+                                      });
                                     }}
                                   >
-                                    {item.shopName.toUpperCase()}
-                                    {item.shopDetails.isActive ? (
-                                      <Typography
-                                        sx={{
-                                          color: "green",
-                                        }}
-                                      >
-                                        ONLINE
-                                      </Typography>
-                                    ) : (
-                                      <Typography
-                                        sx={{
-                                          color: "red",
-                                        }}
-                                      >
-                                        OFFLINE
-                                      </Typography>
-                                    )}
-                                  </Typography>
-                                  <Typography>{item.category}</Typography>
-                                </CardContent>
-                                {item.type ? (
-                                  <CardActions
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "space-around",
+                                    View location
+                                  </Button>
+                                  <MapModal
+                                    setOpen={setOpen}
+                                    coordinates={coordinates}
+                                    open={open}
+                                    page={page}
+                                    getCoords={getCoords}
+                                  />
+                                  <NavLink
+                                    style={{
+                                      textDecoration: "none",
+                                    }}
+                                    to={{
+                                      pathname: `/shop/${item._id}`,
                                     }}
                                   >
                                     <Button
-                                      size="small"
                                       variant="outlined"
                                       sx={{
                                         color: "black",
                                       }}
-                                      onClick={() => {
-                                        setOpen(true);
-                                        getCoords({
-                                          lat: item.shopDetails.location.lat,
-                                          lng: item.shopDetails.location.lng,
-                                          shopName: item.shopName,
-                                        });
-                                      }}
+                                      size="small"
                                     >
-                                      View location
+                                      Detail
                                     </Button>
-                                    <MapModal
-                                      setOpen={setOpen}
-                                      coordinates={coordinates}
-                                      open={open}
-                                      page={page}
-                                      getCoords={getCoords}
-                                    />
-                                    <NavLink
-                                      style={{
-                                        textDecoration: "none",
-                                      }}
-                                      to={{
-                                        pathname: `/shop/${item._id}`,
-                                      }}
-                                    >
-                                      <Button
-                                        variant="outlined"
-                                        sx={{
-                                          color: "black",
-                                        }}
-                                        size="small"
-                                      >
-                                        Detail
-                                      </Button>
-                                    </NavLink>
-                                  </CardActions>
-                                ) : (
-                                  <CardActions
-                                    sx={{
-                                      display: "flex",
-                                      justifyContent: "space-around",
-                                    }}
-                                  >
-                                    <Button
+                                  </NavLink>
+                                </CardActions>
+                              ) : (
+                                <CardActions
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "space-around",
+                                  }}
+                                >
+                                  <Button disabled>
+                                    {item.shopName} <br /> (Coming Soon)
+                                  </Button>
+                                  {/* <Button
                                       size="small"
                                       variant="outlined"
                                       disabled
@@ -458,25 +452,22 @@ const Home = () => {
                                       size="small"
                                     >
                                       Detail
-                                    </Button>
-                                  </CardActions>
-                                )}
-                              </Card>
-                            </Box>
-                          </Grid>
-                        </>
-                      );
-                    })}
+                                    </Button> */}
+                                </CardActions>
+                              )}
+                            </Card>
+                          </Box>
+                        </Grid>
+                      </>
+                    );
+                  })}
                 </Grid>
                 <Box
                   sx={{
-                    marginTop: "15vh",
+                    // marginTop: "15vh",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-
-                    height: "10vh",
-                    // border: "1px solid black",
                   }}
                 >
                   <Pagination
@@ -491,7 +482,6 @@ const Home = () => {
           )}
         </Box>
       </Grid>
-      <Box>{/* <Footer /> */}</Box>
     </ThemeProvider>
   );
 };

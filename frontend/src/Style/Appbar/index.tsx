@@ -22,17 +22,17 @@ export const AppbarContainer = styled(Box)(() => ({
   // boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
   boxShadow: " 2px 3px 5px 0px rgba(29, 28, 31,0.75)",
   transition: "all 0.5s ease-in-out",
-  background: " rgb(255,232,185)",
-  // backgroundImage:
-  //   "linear-gradient(75deg, rgba(255,232,185,1) 27%, rgba(238,238,238,1) 100%, rgba(220,233,166,1) 100%, rgba(230,241,230,0.7315301120448179) 100%)",
+  // background: " rgb(255,232,185)",
+  background: " rgba(255,255,255,0.6)",
 }));
 
 export const AppHeader = styled(Typography)(() => ({
   padding: "4px",
   // flexGrow: 1,
-  frontSize: "6em",
+  frontSize: "8em",
   fontWeight: "bolder",
   color: "black",
+  fontFamily: ["Bebas Neue", "cursive"],
 }));
 
 export const Mylist = styled(List)(({ type }: TYpe) => ({
@@ -47,12 +47,10 @@ export const ActionIconsContainerDesktop = styled(Box)(() => ({
 }));
 
 export const ActionIconsMobile = styled(Box)(() => ({
-  marginTop: "4px",
+  marginTop: "10px",
   display: "flex",
   position: "fixed",
-  // top:'100%',
-
-  // background: "#0D4C92",
+  // position: "absolute",
   backgroundColor: " rgba(255, 255, 255, 0.45)",
   boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
 
@@ -62,5 +60,6 @@ export const ActionIconsMobile = styled(Box)(() => ({
   left: 0,
   width: "100%",
   alignItems: "center",
+
   zIndex: 99,
 }));

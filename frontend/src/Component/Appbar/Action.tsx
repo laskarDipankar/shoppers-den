@@ -145,6 +145,7 @@ const Actions = ({ matches }: Props) => {
             sx={{
               display: "flex",
               justifyContent: "center",
+              position: "relative",
             }}
           >
             <ListItemIcon
@@ -162,8 +163,17 @@ const Actions = ({ matches }: Props) => {
                     lg: "90%",
                     xl: "92%",
                   },
+                  // backgroundColor: "red",
+                  // bottom: {
+                  //   xs: "50%",
+                  //   md: "50%",
+                  //   lg: "50%",
+                  //   xl: "50%",
+                  // },
 
-                  positon: "relative",
+                  // border: "1px solid black",
+                  positon: "absolute",
+                  // padingBottom: "10vh",
                 }}
                 // horizontal="bottom"
                 id="basic-menu"
@@ -202,6 +212,15 @@ const Actions = ({ matches }: Props) => {
                   </>
                 ) : (
                   <MenuItem
+                    sx={{
+                      marginBottom: "84vh",
+                      height: "4vh",
+                      backgroundColor: "transparent",
+                      // borderBottom: "1px solid black",
+                      // position: "absolute",
+                      // bottom: "100%",
+                      // left: "0",
+                    }}
                     onClick={() => {
                       localStorage.removeItem("usertoken");
                       localStorage.removeItem("user");

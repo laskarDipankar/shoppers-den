@@ -99,7 +99,7 @@ const getAllShopsDetails = async (req, res) => {
     const shops = await Shop.find(filter)
       .limit(limit)
       .skip(skip)
-      .sort({})
+      .sort("createdAt")
       .populate("userID", "firstName lastName email phoneNumber _id");
 
     res.status(200).json({

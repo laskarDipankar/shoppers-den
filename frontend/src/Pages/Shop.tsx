@@ -36,25 +36,25 @@ const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const myvalidationSchema = Yup.object({
   shopName: Yup.string().required("Required"),
-  state: Yup.string().required("Required"),
-  city: Yup.string().required("Required"),
+  // state: Yup.string().required("Required"),
+  // city: Yup.string().required("Required"),
 
   // isActive: Yup.boolean().required("Required"),
   landmark: Yup.string().required("Required"),
-  pincode: Yup.string().required("Required"),
+  pincode: Yup.number().required("Required"),
   address: Yup.string().required("Required"),
-  phone: Yup.string().required("Required"),
+  phone: Yup.number().required("Required"),
   email: Yup.string().required("Required"),
 
   // shopLogo: Yup.string().required("Required"),
-  shopServicesImage: Yup.string().required("Required"),
+  // shopServicesImage: Yup.string().required("Required"),
 
   // openingTime: Yup.date().required("Required"),
   // closingTime: Yup.date().required("Required"),
 
-  type: Yup.string().required("Required"),
+  // type: Yup.string().required("Required"),
   // category: Yup.string().required("Required"),
-  governmentID: Yup.string().required("Required"),
+  // governmentID: Yup.string().required("Required"),
   // governmentIDImage: Yup.string().required("Required"),
   // shopImage: Yup.string().required("Required"),
   // userID: Yup.string().required("Required"),
@@ -87,6 +87,10 @@ const Shop = () => {
   const [dialog, setdialog] = useState<boolean>(false);
   const [selectedfiles, setSelected] = useState<any>();
   const [selectedidImage, setSelectedImage] = useState<any>();
+  const [selectedshopImages, setSelectedshopImage] = useState<any>({
+    shop1: "",
+    shop2: "",
+  });
   const [mapLoc, setmapLoc] = useState<any>({
     lat: 0,
     lng: 0,
@@ -125,10 +129,13 @@ const Shop = () => {
 
     reader.onloadend = () => {
       if (e.target.name === "shopLogo") {
+        setSelectedshopImage({ ...selectedshopImages, shop1: file.name });
+        console.log("shop1", selectedshopImages.shop1);
         setSelectedImage(reader.result);
       }
 
       setSelected(reader.result);
+      setSelectedshopImage({ ...selectedshopImages, shop2: file.name });
     };
 
     reader.readAsDataURL(file);
@@ -162,7 +169,7 @@ const Shop = () => {
       //   shopDetail?.shopDetails?.gallery?.shopServicesImage || "",
       openingTime: shopDetail?.shopDetails?.timings?.openingTime || "",
       closingTime: shopDetail?.shopDetails?.timings?.closingTime || "",
-      // type: shopDetail?.type || "",
+      type: shopDetail?.type || "",
       // category: shopDetail?.category || "",
       governmentID: shopDetail?.governmentID || "",
       governmentIDImage: shopDetail?.governmentIDImage || "",
@@ -241,8 +248,6 @@ const Shop = () => {
         console.log(err);
       });
   };
-  // console.log(typeof shopDetail.shopDetails.location.lat);
-
   const patchShopData = async (values: any) => {
     console.log({ values }, "inside");
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
@@ -364,10 +369,11 @@ const Shop = () => {
                 >
                   <Box
                     sx={{
-                      width: "100%",
+                      width: "50%",
+                      marginLeft: "auto",
+                      marginRight: "auto",
                       height: "5vh",
                       marginTop: "60px",
-                      // marginLeft: "18vw",
                       display: "flex",
                       justifyContent: "space-around",
                       // gap: "50px",
@@ -395,14 +401,28 @@ const Shop = () => {
                     ) : (
                       ""
                     )}
-                    {shopDetail._id === userId.shop ? (
+                    {shopDetail._id === recoil.shopid ? (
                       <>
-                        <Switch
-                          {...label}
-                          defaultChecked={shopDetail.shopDetails.isActive}
-                          checked={shopDetail.shopDetails.isActive}
-                          onChange={handleSwicth}
-                        />
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          sx={{
+                            background: shopDetail.shopDetails.isActive
+                              ? " rgb(255,232,185)"
+                              : "rgb(255, 0, 0)",
+                          }}
+                        >
+                          {shopDetail.shopDetails.isActive
+                            ? "Online"
+                            : "Offline"}
+
+                          <Switch
+                            {...label}
+                            defaultChecked={shopDetail.shopDetails.isActive}
+                            checked={shopDetail.shopDetails.isActive}
+                            onChange={handleSwicth}
+                          />
+                        </Button>
                       </>
                     ) : (
                       ""
@@ -416,7 +436,7 @@ const Shop = () => {
                       size="small"
                       onClick={() => setgallery(true)}
                     >
-                      Gallery
+                      Services
                     </Button>
                     <Button
                       variant="outlined"
@@ -494,11 +514,11 @@ const Shop = () => {
                                         value={formik.values.shopName}
                                         onChange={formik.handleChange}
                                         name="shopName"
-                                        // helperText={formik.errors.shopName}
-                                        // error={
-                                        //   formik.touched.shopName &&
-                                        //   Boolean(formik.errors.shopName)
-                                        // }
+                                        helperText={formik.errors.shopName}
+                                        error={
+                                          formik.touched.shopName &&
+                                          Boolean(formik.errors.shopName)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         type="text"
@@ -506,11 +526,11 @@ const Shop = () => {
                                         value={formik.values.address}
                                         onChange={formik.handleChange}
                                         name="address"
-                                        // helperText={formik.errors.address}
-                                        // error={
-                                        //   formik.touched.address &&
-                                        //   Boolean(formik.errors.address)
-                                        // }
+                                        helperText={formik.errors.address}
+                                        error={
+                                          formik.touched.address &&
+                                          Boolean(formik.errors.address)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         label="email"
@@ -518,11 +538,11 @@ const Shop = () => {
                                         value={formik.values.email}
                                         onChange={formik.handleChange}
                                         name="email"
-                                        // helperText={formik.errors.email}
-                                        // error={
-                                        //   formik.touched.email &&
-                                        //   Boolean(formik.errors.email)
-                                        // }
+                                        helperText={formik.errors.email}
+                                        error={
+                                          formik.touched.email &&
+                                          Boolean(formik.errors.email)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         label="pincode"
@@ -530,11 +550,11 @@ const Shop = () => {
                                         value={formik.values.pincode}
                                         onChange={formik.handleChange}
                                         name="pincode"
-                                        // helperText={formik.errors.pincode}
-                                        // error={
-                                        //   formik.touched.pincode &&
-                                        //   Boolean(formik.errors.pincode)
-                                        // }
+                                        helperText={formik.errors.pincode}
+                                        error={
+                                          formik.touched.pincode &&
+                                          Boolean(formik.errors.pincode)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         label="phone"
@@ -542,21 +562,24 @@ const Shop = () => {
                                         value={formik.values.phone}
                                         onChange={formik.handleChange}
                                         name="phone"
-                                        // helperText={formik.errors.phone}
-                                        // error={
-                                        //   formik.touched.phone &&
-                                        //   Boolean(formik.errors.phone)
-                                        // }
+                                        helperText={formik.errors.phone}
+                                        error={
+                                          formik.touched.phone &&
+                                          Boolean(formik.errors.phone)
+                                        }
                                       />
                                       <Button
                                         sx={{
                                           minWidth: "240px",
+                                          fontSize: "16px",
                                         }}
                                         size="small"
                                         variant="outlined"
                                         component="label"
                                       >
-                                        Upload shop logo
+                                        {selectedshopImages.shop1
+                                          ? selectedshopImages.shop1
+                                          : "Upload shop logo"}
                                         <input
                                           name="shopLogo"
                                           accept="image/*"
@@ -573,7 +596,9 @@ const Shop = () => {
                                         variant="outlined"
                                         component="label"
                                       >
-                                        Upload service image
+                                        {selectedshopImages.shop2
+                                          ? selectedshopImages.shop2
+                                          : "Upload service image"}
                                         <input
                                           name="shopServiceImage"
                                           accept="image/*"
@@ -588,11 +613,11 @@ const Shop = () => {
                                         value={formik.values.openingTime}
                                         onChange={formik.handleChange}
                                         name="openingTime"
-                                        // helperText={formik.errors.openingTime}
-                                        // error={
-                                        //   formik.touched.openingTime &&
-                                        //   Boolean(formik.errors.openingTime)
-                                        // }
+                                        helperText={formik.errors.openingTime}
+                                        error={
+                                          formik.touched.openingTime &&
+                                          Boolean(formik.errors.openingTime)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         label="closingTime"
@@ -600,11 +625,11 @@ const Shop = () => {
                                         value={formik.values.closingTime}
                                         onChange={formik.handleChange}
                                         name="closingTime"
-                                        // helperText={formik.errors.closingTime}
-                                        // error={
-                                        //   formik.touched.shopName &&
-                                        //   Boolean(formik.errors.closingTime)
-                                        // }
+                                        helperText={formik.errors.closingTime}
+                                        error={
+                                          formik.touched.shopName &&
+                                          Boolean(formik.errors.closingTime)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         type="text"
@@ -612,11 +637,11 @@ const Shop = () => {
                                         value={formik.values.landmark}
                                         onChange={formik.handleChange}
                                         name="landmark"
-                                        // helperText={formik.errors.landmark}
-                                        // error={
-                                        //   formik.touched.landmark &&
-                                        //   Boolean(formik.errors.landmark)
-                                        // }
+                                        helperText={formik.errors.landmark}
+                                        error={
+                                          formik.touched.landmark &&
+                                          Boolean(formik.errors.landmark)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         type="text"
@@ -624,11 +649,11 @@ const Shop = () => {
                                         value={formik.values.state}
                                         onChange={formik.handleChange}
                                         name="state"
-                                        // helperText={formik.errors.state}
-                                        // error={
-                                        //   formik.touched.state &&
-                                        //   Boolean(formik.errors.state)
-                                        // }
+                                        helperText={formik.errors.state}
+                                        error={
+                                          formik.touched.state &&
+                                          Boolean(formik.errors.state)
+                                        }
                                       />
                                       <TextFieldShopForm
                                         type="text"
@@ -636,14 +661,22 @@ const Shop = () => {
                                         value={formik.values.city}
                                         onChange={formik.handleChange}
                                         name="city"
-                                        // helperText={formik.errors.city}
-                                        // error={
-                                        //   formik.touched.city &&
-                                        //   Boolean(formik.errors.city)
-                                        // }
+                                        helperText={formik.errors.city}
+                                        error={
+                                          formik.touched.city &&
+                                          Boolean(formik.errors.city)
+                                        }
                                       />
-
-                                      <Select
+                                      <Button
+                                        size="small"
+                                        sx={{ display: "block", mt: 2 }}
+                                        // onClick={handleOpen}
+                                      >
+                                        Select your Type
+                                      </Button>
+                                      <TextField
+                                        id="outlined-select-currency-native"
+                                        select
                                         sx={{
                                           width: {
                                             lg: "600px",
@@ -654,6 +687,12 @@ const Shop = () => {
                                         label="Type"
                                         value={cat.type}
                                         name="type"
+                                        // type="text"
+                                        // helperText={formik.errors.type}
+                                        // error={
+                                        //   formik.touched.type &&
+                                        //   Boolean(formik.errors.type)
+                                        // }
                                       >
                                         <MenuItem
                                           onClick={(e: any) => {
@@ -677,8 +716,15 @@ const Shop = () => {
                                         >
                                           Non-Static
                                         </MenuItem>
-                                      </Select>
+                                      </TextField>
                                       <SelectField getData={getData} />
+                                      <Button
+                                        size="small"
+                                        sx={{ display: "block", mt: 2 }}
+                                        // onClick={handleOpen}
+                                      >
+                                        Delivery Available ?
+                                      </Button>
                                       <Select
                                         sx={{
                                           width: {
@@ -734,7 +780,7 @@ const Shop = () => {
                                           <Button
                                             type="submit"
                                             size="small"
-                                            variant="outlined"
+                                            variant="contained"
                                           >
                                             save
                                           </Button>
@@ -742,7 +788,7 @@ const Shop = () => {
                                       ) : (
                                         <Button
                                           size="small"
-                                          variant="outlined"
+                                          variant="contained"
                                           // type="submit"
                                           onClick={() => {
                                             setEdit(true);
@@ -779,14 +825,27 @@ const Shop = () => {
                         </>
                       ) : (
                         <>
-                          <Box>
-                            <img
-                              src={
-                                shopDetail.shopDetails.gallery.shopServicesImage
-                              }
-                              className="image"
-                            />
-                          </Box>
+                          {!shopDetail?.shopDetails?.gallery
+                            ?.shopServicesImage ? (
+                            <Typography
+                              sx={{
+                                fontSize: "1.5rem",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              There's no image
+                            </Typography>
+                          ) : (
+                            <Box>
+                              <img
+                                src={
+                                  shopDetail.shopDetails.gallery
+                                    .shopServicesImage
+                                }
+                                className="image"
+                              />
+                            </Box>
+                          )}
                         </>
                       )}
                     </BodyMain>

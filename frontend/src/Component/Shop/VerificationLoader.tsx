@@ -38,7 +38,7 @@ const VerificationLoader = () => {
                 animationData={LOADING}
                 loop={true}
               />
-              <Typography>verifying.....</Typography>
+              <Typography>Verifying.....</Typography>
             </Box>
           </BackgroundBody>
         </Grid>

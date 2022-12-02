@@ -6,8 +6,8 @@ interface formData {
   value: string;
   onChange: any;
   name: string;
-  // helperText: any;
-  // error: any;
+  helperText: any;
+  error: any;
   label: string;
   type: string;
 }
@@ -16,8 +16,8 @@ const TextFieldShopForm = ({
   value,
   onChange,
   name,
-  // helperText,
-  // error,
+  helperText,
+  error,
   label,
   type,
 }: formData) => {
@@ -34,8 +34,8 @@ const TextFieldShopForm = ({
         value={value}
         onChange={onChange}
         name={name}
-        // helperText={helperText}
-        // error={error}
+        helperText={helperText}
+        error={error}
         label={label}
         type={type}
       />

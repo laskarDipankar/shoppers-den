@@ -23,7 +23,7 @@ const WaitVerify = ({ firstName, lastName, shopName }: Props) => {
         position="fixed"
       >
         <Grid item xs={12}>
-          <BackgroundBody>
+          <Box>
             <Box
               sx={{
                 height: "80vh",
@@ -36,25 +36,37 @@ const WaitVerify = ({ firstName, lastName, shopName }: Props) => {
                 gap: "3rem",
               }}
             >
-              <Typography
+              {/* <Typography
                 sx={{
                   color: "red",
                 }}
                 variant="h4"
               >
                 {shopName.toUpperCase()}
-              </Typography>
+              </Typography> */}
 
-              <Typography variant="h6">
-                {firstName + " " + lastName}
+              <Typography variant="h4">
+                {firstName.toUpperCase() + " " + lastName.toUpperCase()}
 
                 <Typography
                   sx={{
                     color: "blue",
+                    fontSize: "2.3rem",
                   }}
-                  variant="subtitle2"
+                  // variant="h5"
                 >
-                  Thank you for choosing us , your shop is being Verified.
+                  Thank you for choosing us , your shop{" "}
+                  <Typography
+                    sx={{
+                      color: "red",
+                      fontSize: "2.3rem",
+                    }}
+                    component="span"
+                    // variant="h5"
+                  >
+                    " {shopName.toUpperCase()} " {""}
+                  </Typography>
+                  is being Verified.{" "}
                 </Typography>
               </Typography>
 
@@ -66,7 +78,7 @@ const WaitVerify = ({ firstName, lastName, shopName }: Props) => {
                 loop={true}
               />
             </Box>
-          </BackgroundBody>
+          </Box>
         </Grid>
       </Box>
     </div>
