@@ -1,5 +1,5 @@
-const Shop = require("../Model/Shop");
-const User = require("../Model/User");
+const Shop = require('../Model/Shop');
+const User = require('../Model/User');
 
 const shopRegistration = async (req, res) => {
   const user = req.user;
@@ -12,7 +12,6 @@ const shopRegistration = async (req, res) => {
     governmentIDImage,
     shopImage,
   } = req.body;
-  console.log(req.body);
 
   if (
     !shopName ||
@@ -23,9 +22,8 @@ const shopRegistration = async (req, res) => {
     !governmentIDImage ||
     !shopImage
   ) {
-    return res.status(400).json({ error: "please fill all the fields" });
+    return res.status(400).json({ error: 'please fill all the fields' });
   }
-  // console.log("in try");
 
   try {
     const shop = new Shop({
@@ -44,7 +42,7 @@ const shopRegistration = async (req, res) => {
 
     return res.status(201).json({
       data: shop,
-      message: "shop registration done",
+      message: 'shop registration done',
     });
   } catch (err) {
     return res.status(500).json({ error: err.message });
@@ -52,109 +50,93 @@ const shopRegistration = async (req, res) => {
 };
 
 const updatedShopDetails = async (req, res) => {
-  const shopid = req.params.id;
+  const shopId = req.params.id;
 
-  // console.log(req.body);
-
-  if (!shopid)
+  if (!shopId)
     return res.status(400).json({
-      error: "Shop id is required.",
+      error: 'Shop id is required.',
     });
 
-  if (req.user.shop.toString() !== shopid.toString())
+  if (req.user.shop.toString() !== shopId.toString())
     return res.status(400).json({
       error: "You can't update others shop details.",
     });
 
   try {
-    const shop = await Shop.findById(shopid);
-
+    const shop = await Shop.findById(shopId);
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
 
-    const updatedShop = await Shop.findOneAndUpdate({ _id: shopid }, req.body, {
+    const updatedShop = await Shop.findOneAndUpdate({ _id: shopId }, req.body, {
       new: true,
     });
 
     return res.status(200).json({ success: true, shop: updatedShop });
   } catch (error) {
-    console.log(error);
-    return res
-      .status(error.status || 500)
-      .json({ error: "occurence of server error" });
+    return res.status(500).json({ error: 'Something went wrong' });
   }
 };
+
 const getAllShopsDetails = async (req, res) => {
   const { limit, skip, search } = req.query;
-  // const count = req.query.count;
-
-  //
-  // console.log({ shopName: { $regex: `${search}`, $options: "i" } });
-
   const filter = search
-    ? { shopName: { $regex: `${search}`, $options: "i" } }
+    ? { shopName: { $regex: `${search}`, $options: 'i' } }
     : req.query;
 
-  console.log(req.query);
   try {
     const shops = await Shop.find(filter)
       .limit(limit)
       .skip(skip)
       .sort({})
-      .populate("userID", "firstName lastName email phoneNumber _id");
+      .populate('userID', 'firstName lastName email phoneNumber _id');
 
     res.status(200).json({
-      message: "data",
+      message: 'data',
       data: shops,
       count: shops.length,
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({ error: 'Something went wrong' });
   }
 };
 
 const updateIsActive = async (req, res) => {
-  const shopid = req.params.id;
+  const shopId = req.params.id;
 
-  if (!shopid)
+  if (!shopId)
     return res.status(400).json({
-      error: "Shop id is required.",
+      error: 'Shop id is required.',
     });
 
-  if (req.user.shop.toString() !== shopid.toString())
+  if (req.user.shop.toString() !== shopId.toString())
     return res.status(400).json({
       error: "You can't update others shop details.",
     });
 
   try {
-    const shop = await Shop.findById(shopid);
-
+    const shop = await Shop.findById(shopId);
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
-
-    const updatedShop = await Shop.findOneAndUpdate({ _id: shopid }, req.body, {
+    const updatedShop = await Shop.findOneAndUpdate({ _id: shopId }, req.body, {
       new: true,
     });
 
     return res.status(200).json({ success: true, shop: updatedShop });
   } catch (error) {
-    console.log("4");
-    return res.status(error.status || 500).json({ error: "server error" });
+    return res.status(error.status || 500).json({ error: 'server error' });
   }
 };
 
 const getShopDetails = async (req, res) => {
-  const shopid = req.params.id;
-
-  if (!shopid)
+  const shopId = req.params.id;
+  if (!shopId)
     return res.status(400).json({
-      error: "Shop id is required.",
+      error: 'Shop id is required.',
     });
 
   try {
-    const shop = await Shop.findById(shopid).populate(
-      "userID",
-      "firstName lastName email phoneNumber _id"
+    const shop = await Shop.findById(shopId).populate(
+      'userID',
+      'firstName lastName email phoneNumber _id'
     );
-    console.log(shop);
 
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
 
@@ -165,27 +147,27 @@ const getShopDetails = async (req, res) => {
 };
 
 const deleteShop = async (req, res) => {
-  const shopid = req.params.id;
+  const shopId = req.params.id;
   const user = req.user;
 
-  if (!shopid)
+  if (!shopId)
     return res.status(400).json({
-      error: "Shop id is required.",
+      error: 'Shop id is required.',
     });
 
-  if (user.shop.toString() !== shopid.toString())
+  if (user.shop.toString() !== shopId.toString())
     return res.status(400).json({
       error: "You can't delete others shop.",
     });
 
   try {
-    const shop = await Shop.findById(shopid);
+    const shop = await Shop.findById(shopId);
     if (!shop) return res.status(404).json({ error: "Shop doesn't exist." });
 
-    await User.findOneAndUpdate({ _id: shop.userID }, { $unset: { shop: "" } });
+    await User.findOneAndUpdate({ _id: shop.userID }, { $unset: { shop: '' } });
     await shop.remove();
 
-    return res.status(200).json({ success: true, message: "Shop deleted." });
+    return res.status(200).json({ success: true, message: 'Shop deleted.' });
   } catch (error) {
     console.log(error);
     return res.status(error.status || 500).json({ error: error.message });
