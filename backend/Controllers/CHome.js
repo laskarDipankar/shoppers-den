@@ -42,6 +42,41 @@ const signup = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  email = req.body.email;
+
+  old_password = req.body.old_password;
+  new_password = req.body.new_password;
+
+  console.log(req.body);
+
+  if (!email) {
+    return res.status(400).json({
+      error: "email is required",
+    });
+  }
+
+  const user = await Users.findOne({ email: email });
+  if (!user) {
+    return res.status(400).send({ error: "Invalid credentials" });
+  }
+
+  const isMatch = await bcrypt.compare(old_password, user.password);
+
+  if (!isMatch)
+    return res.status(400).send({ error: "password is not correct" });
+
+  const hash = await bcrypt.hash(new_password, 10);
+
+  user.password = hash;
+
+  await user.save();
+
+  res.status(201).json({
+    success: "password changed successfully",
+  });
+};
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -83,4 +118,5 @@ module.exports = {
   signup,
   getUsers,
   loginUser,
+  forgotPassword,
 };

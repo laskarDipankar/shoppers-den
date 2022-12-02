@@ -26,9 +26,6 @@ const Login = ({ email, password }: MyFormValues) => {
   });
   const navigate = useNavigate();
 
-  // const initialValues: MyFormValues = { email: "", password: "" };
-
-  // console.log(valueL);
   return (
     <>
       {/* <Box
@@ -162,6 +159,9 @@ const Login = ({ email, password }: MyFormValues) => {
                   <Button onClick={() => setedit(!edit)} size="small">
                     don't have an account ?{" "}
                     <NavLink to="/signup"> signup</NavLink>
+                  </Button>
+                  <Button>
+                    <NavLink to="/forgotpassword">forgot password</NavLink>
                   </Button>
                 </Box>
                 {/* </Grid> */}

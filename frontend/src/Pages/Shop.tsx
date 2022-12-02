@@ -383,9 +383,13 @@ const Shop = () => {
                     {shopDetail?.shopDetails?.location?.lat && !edit ? (
                       <Button
                         size="small"
-                        variant="outlined"
+                        variant="contained"
                         sx={{
+                          color: "black",
                           background: " rgb(255,232,185)",
+                          ":selected": {
+                            background: "red",
+                          },
                         }}
                         onClick={() => {
                           setOpen(true);
@@ -405,11 +409,15 @@ const Shop = () => {
                       <>
                         <Button
                           size="small"
-                          variant="outlined"
+                          variant="contained"
                           sx={{
                             background: shopDetail.shopDetails.isActive
-                              ? " rgb(255,232,185)"
-                              : "rgb(255, 0, 0)",
+                              ? " green"
+                              : "blue",
+
+                            ":selected": {
+                              background: "red",
+                            },
                           }}
                         >
                           {shopDetail.shopDetails.isActive
@@ -428,10 +436,23 @@ const Shop = () => {
                       ""
                     )}
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{
                         background: " rgb(255,232,185)",
+                        color: "black",
                         // border: "2px solid rgb(255,232,185)",
+                        ":selected": {
+                          background: "red",
+                        },
+                        ":hover": {
+                          background: "rgb(255,232,185)",
+                        },
+                        ":focus": {
+                          background: "rgb(255,232,185)",
+                        },
+                        focusVisible: {
+                          background: "rgb(255,232,185)",
+                        },
                       }}
                       size="small"
                       onClick={() => setgallery(true)}
@@ -439,9 +460,10 @@ const Shop = () => {
                       Services
                     </Button>
                     <Button
-                      variant="outlined"
+                      variant="contained"
                       sx={{
                         background: " rgb(255,232,185)",
+                        color: "black",
                       }}
                       size="small"
                       onClick={() => setgallery(false)}
