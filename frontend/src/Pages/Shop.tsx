@@ -369,13 +369,20 @@ const Shop = () => {
                 >
                   <Box
                     sx={{
-                      width: "50%",
+                      width: {
+                        xs: "100%",
+                        sm: "100%",
+                        md: "50%",
+                      },
                       marginLeft: "auto",
                       marginRight: "auto",
                       height: "5vh",
                       marginTop: "60px",
+                      // marginLeft: "20px",
                       display: "flex",
-                      justifyContent: "space-around",
+                      flexWrap: "wrap",
+                      justifyContent: "space-evenly",
+
                       // gap: "50px",
                       // border: "2px solid red",
                     }}
@@ -386,6 +393,7 @@ const Shop = () => {
                         variant="contained"
                         sx={{
                           color: "black",
+                          marginLeft: "20px",
                           background: " rgb(255,232,185)",
                           ":selected": {
                             background: "red",
@@ -474,9 +482,10 @@ const Shop = () => {
                       <>
                         {edit ? (
                           <Button
-                            variant="outlined"
+                            variant="contained"
                             sx={{
                               background: " rgb(255,232,185)",
+                              color: "black",
 
                               border: "2px solid rgb(255,232,185)",
                             }}

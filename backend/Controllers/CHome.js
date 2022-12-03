@@ -45,14 +45,13 @@ const signup = async (req, res) => {
 const forgotPassword = async (req, res) => {
   email = req.body.email;
 
-  old_password = req.body.old_password;
   new_password = req.body.new_password;
 
   console.log(req.body);
 
   if (!email) {
     return res.status(400).json({
-      error: "email is required",
+      error: "email and password is required",
     });
   }
 
@@ -61,10 +60,10 @@ const forgotPassword = async (req, res) => {
     return res.status(400).send({ error: "Invalid credentials" });
   }
 
-  const isMatch = await bcrypt.compare(old_password, user.password);
+  // const isMatch = await bcrypt.compare(old_password, user.password);
 
-  if (!isMatch)
-    return res.status(400).send({ error: "password is not correct" });
+  // if (!isMatch)
+  //   return res.status(400).send({ error: "password is not correct" });
 
   const hash = await bcrypt.hash(new_password, 10);
 

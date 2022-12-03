@@ -13,23 +13,27 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { api } from "../lib/Axios";
-
+import { useNavigate } from "react-router";
 const theme = createTheme();
 
 export default function ForgotPassword() {
+  const naviagte = useNavigate();
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    if (data.get("confirm_password") !== data.get("new_password")) {
+      alert("Passwords do not match");
+      return;
+    }
 
     api
       .patch("/forgot", {
         email: data.get("email"),
-        old_password: data.get("old_password"),
         new_password: data.get("new_password"),
       })
       .then((res) => {
-        if (res.status === 200) {
-          window.location.href = "/";
+        if (res.status === 201) {
+          naviagte("/");
         }
       })
 
@@ -84,20 +88,20 @@ export default function ForgotPassword() {
               margin="normal"
               required
               fullWidth
-              name="old_password"
-              label="old_password"
+              name="new_password"
+              label="new_password"
               type="password"
-              id="password"
+              id="password1"
               //   autoComplete="current-password"
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="new_password"
-              label="new_password"
+              name="confirm_password"
+              label="confirm_password"
               type="password"
-              id="password1"
+              id="password"
               //   autoComplete="current-password"
             />
             <FormControlLabel
