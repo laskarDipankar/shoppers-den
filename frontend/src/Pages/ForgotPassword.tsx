@@ -28,12 +28,14 @@ export default function ForgotPassword() {
         new_password: data.get("new_password"),
       })
       .then((res) => {
-        console.log(res);
+        if (res.status === 200) {
+          window.location.href = "/";
+        }
       })
-      .catch((err) => {
-        console.log(err);
+
+      .catch((res) => {
+        alert(res.data.error);
       });
-    console.log({});
   };
 
   const changePassword = (event: React.FormEvent<HTMLFormElement>) => {
