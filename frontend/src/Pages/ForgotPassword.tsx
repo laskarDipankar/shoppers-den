@@ -21,19 +21,16 @@ export default function ForgotPassword() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    if (data.get("confirm_password") !== data.get("new_password")) {
-      alert("Passwords do not match");
-      return;
-    }
 
     api
-      .patch("/forgot", {
+      .post("/forgot", {
         email: data.get("email"),
-        new_password: data.get("new_password"),
+        // new_password: data.get("new_password"),
       })
       .then((res) => {
-        if (res.status === 201) {
+        if (res.status === 200) {
           naviagte("/");
+          console.log("email sent");
         }
       })
 
@@ -42,15 +39,15 @@ export default function ForgotPassword() {
       });
   };
 
-  const changePassword = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-      confirmPassword: data.get("confirmPassword"),
-    });
-  };
+  // const changePassword = (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   const data = new FormData(event.currentTarget);
+  //   console.log({
+  //     email: data.get("email"),
+  //     password: data.get("password"),
+  //     confirmPassword: data.get("confirmPassword"),
+  //   });
+  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -84,7 +81,7 @@ export default function ForgotPassword() {
               autoComplete="email"
               autoFocus
             />
-            <TextField
+            {/* <TextField
               margin="normal"
               required
               fullWidth
@@ -103,7 +100,7 @@ export default function ForgotPassword() {
               type="password"
               id="password"
               //   autoComplete="current-password"
-            />
+            /> */}
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

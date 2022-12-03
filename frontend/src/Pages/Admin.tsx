@@ -49,6 +49,18 @@ const Admin = () => {
   };
   const type = "pending";
 
+  // const sendEmail = (email: string) => {
+  //   window.Email.send({
+  //     Host: "smtp.yourisp.com",
+  //     Username: "username",
+  //     Password: "password",
+  //     To: email,
+  //     From: "dipankar.laskar45@gmail.com",
+  //     Subject: "This is the subject",
+  //     Body: "And this is the body",
+  //   }).then(alert("email sent"));
+  // };
+
   useEffect(() => {
     api
       .get(`/shops?verified=${pending}`)
@@ -61,9 +73,10 @@ const Admin = () => {
         console.log(err);
       });
   }, [pending, shopId]);
-  // console.log(verified.city);
 
-  const handleVerify = (id: any) => {
+  console.log(verified);
+
+  const handleVerify = (id: any, email: string) => {
     const token: string = JSON.parse(localStorage.getItem("admintoken") || "");
     api
       .patch(
@@ -77,7 +90,9 @@ const Admin = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          // dipankar.laskar45@gmail.com
           setShopId("done");
+
           console.log(res);
         }
       })
@@ -223,7 +238,10 @@ const Admin = () => {
                                       {!pending ? (
                                         <Button
                                           onClick={() => {
-                                            handleVerify(item._id);
+                                            handleVerify(
+                                              item._id,
+                                              item.userID.email
+                                            );
                                           }}
                                           sx={{
                                             bgcolor:

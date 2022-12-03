@@ -8,6 +8,40 @@ const port = process.env.PORT || 5006;
 const connectDB = require("./Database/conn");
 const Home_route = require("./Routes/RHome");
 const Fpassword_route = require("./Routes/Extras");
+const Sib = require("sib-api-v3-sdk");
+const defaultClient = Sib.ApiClient.instance;
+const apiKey = defaultClient.authentications["api-key"];
+
+const Api = process.env.SENDINBLUE_API_KEY;
+
+apiKey.apiKey = Api;
+
+// const tranEmailapiInstance = new Sib.TransactionalEmailsApi();
+
+// const sender = {
+//   name: "Shoppersden",
+//   email: " shoppersdenn@gmail.com",
+// };
+
+// const receivers = [
+//   {
+//     email: "dipankar.laskar45@gmail.com",
+//   },
+// ];
+
+// tranEmailapiInstance
+//   .sendTransacEmail({
+//     sender: sender,
+//     to: receivers,
+//     subject: "Welcome to Shoppersden",
+//     htmlContent: "Welcome to Shoppersden",
+//   })
+//   .then((data, response) => {
+//     console.log("API called successfully. Returned data: " + data);
+//   })
+//   .catch((error) => {
+//     console.error(error);
+//   });
 
 const cors = require("cors");
 connectDB();

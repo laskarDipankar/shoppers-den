@@ -13,6 +13,7 @@ import Signup from "./Pages/Signup";
 import Profile from "./Pages/Profile";
 import Pic from "./Pages/Pic";
 import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 
 const getTokenFromLocalStorage = (key: "usertoken" | "admintoken") => {
   try {
@@ -97,6 +98,7 @@ function App() {
           )}
           <Route path="/pic" element={<Pic />} />
           <Route path="forgotpassword" element={<ForgotPassword />} />
+          <Route path="/reset/:id/:token" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </>
