@@ -109,31 +109,45 @@ const Actions = ({ matches }: Props) => {
                     <Button>DashBoard</Button>
                   </ListItemIcon>
                 ) : (
-                  <NavLink state={type} to={`/signup`}>
+                  <NavLink to={`/signup`}>
                     <ListItemIcon
                       sx={{
                         display: "flex",
                         justifyContent: "center",
                       }}
                     >
-                      <Button>Register your shop</Button>
-                      <AddBusinessSharpIcon />
+                      <Button>Register yourself</Button>
+                      {/* <AddBusinessSharpIcon /> */}
                     </ListItemIcon>
                   </NavLink>
                 )}
               </NavLink>
             ) : !user.shopid ? (
-              <NavLink state={type} to={`/signup`}>
-                <ListItemIcon
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button>Register your shop</Button>
-                  <AddBusinessSharpIcon />
-                </ListItemIcon>
-              </NavLink>
+              !user.userid ? (
+                <NavLink to={`/signup`}>
+                  <ListItemIcon
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button>signup</Button>
+                    <AddBusinessSharpIcon />
+                  </ListItemIcon>
+                </NavLink>
+              ) : (
+                <NavLink state={type} to={`/signup`}>
+                  <ListItemIcon
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Button>egister your shop</Button>
+                    <AddBusinessSharpIcon />
+                  </ListItemIcon>
+                </NavLink>
+              )
             ) : (
               <NavLink to={`/shop/${user.shopid}`}>
                 <ListItemIcon

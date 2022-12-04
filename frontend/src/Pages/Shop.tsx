@@ -295,11 +295,12 @@ const Shop = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          console.log("success");
           console.log(res.data.data);
           setEdit(false);
-
-          // window.location.reload();
+          window.location.reload();
         } else {
+          setEdit(false);
           alert("something went wrong");
         }
       })
@@ -750,7 +751,10 @@ const Shop = () => {
                                       </TextField>
                                       <SelectField
                                         getData={getData}
-                                        value={formik.values.category}
+                                        value={
+                                          shopDetail?.shopDetails?.delivery ||
+                                          cat.delivery
+                                        }
                                       />
                                       <Button
                                         size="small"
