@@ -18,7 +18,7 @@ import { BackgroundBody } from "../Component/CurvedBody/BackgroundBody";
 import Switch from "@mui/material/Switch";
 import { Form, FormikProvider, useFormik } from "formik";
 import Lottie from "lottie-react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import * as Yup from "yup";
 import { Body, BodyContent, BodyMain } from "../Component/Layout/Layout";
 import MapModal from "../Component/MapModal/MapModal";
@@ -72,6 +72,7 @@ const getUserFromLocalStorage = (key: "user") => {
 };
 
 const Shop = () => {
+  const navigate = useNavigate();
   const params = useParams();
   const [gallery, setgallery] = useState<boolean>(false);
   const [shopDetail, setshop] = useState<any>();
@@ -242,8 +243,9 @@ const Shop = () => {
       })
       .then((res) => {
         if (res.status === 200) {
-          // location.removeItem("user");
-          window.location.reload();
+          localStorage.removeItem("user");
+          navigate("/");
+          // window.location.reload();
         }
       })
       .catch((err) => {
@@ -377,9 +379,18 @@ const Shop = () => {
                         sm: "100%",
                         md: "50%",
                       },
+
                       marginLeft: "auto",
                       marginRight: "auto",
-                      height: "5vh",
+                      height: {
+                        xs: "10vh",
+                        sm: "10vh",
+                        md: "5vh",
+                        xl: "5vh",
+                      },
+                      marginBottom: {
+                        xs: "3rem",
+                      },
                       marginTop: "60px",
                       // marginLeft: "20px",
                       display: "flex",
@@ -387,7 +398,7 @@ const Shop = () => {
                       justifyContent: "space-evenly",
 
                       // gap: "50px",
-                      // border: "2px solid red",
+                      border: "2px solid red",
                     }}
                   >
                     {shopDetail?.shopDetails?.location?.lat && !edit ? (
@@ -534,10 +545,8 @@ const Shop = () => {
                                     gap: "16px",
                                     flexDirection: "column",
                                     alignItems: "center",
+                                    marginTop: "3rem",
                                     justifyContent: "center",
-                                    // marginTop: "20px",
-
-                                    // marginLeft: "30px",
                                   }}
                                 >
                                   {edit ? (

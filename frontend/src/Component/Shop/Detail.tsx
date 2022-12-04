@@ -151,8 +151,8 @@ const Detail = ({ shopDetail }: Props) => {
                         alt="logo"
                         style={{
                           fontSize: "10px",
-                          height: "20%",
-                          width: "10%",
+                          height: "5rem",
+                          width: "5rem",
                           borderRadius: "50%",
                           objectFit: "cover",
                           transition: "all 0.3s ease-in-out",
@@ -178,7 +178,12 @@ const Detail = ({ shopDetail }: Props) => {
                         marginTop: "5rem",
                         padding: "2rem",
                         display: "flex",
-                        alignItems: "flex-start",
+                        alignItems: {
+                          xl: "flex-start",
+                          lg: "flex-start",
+                          md: "center",
+                          xs: "center",
+                        },
                         flexDirection: "column",
                         gap: "1.3rem",
                         // width: "100%",
