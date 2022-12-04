@@ -49,23 +49,30 @@ const Actions = ({ matches }: Props) => {
   const type = "shop";
   const [shopId, setShopId] = useState<any>();
 
+  // console.log(userId.user);
+
   const [user, setUser] = useRecoilState(Owner);
 
-  console.log("recoils", user);
+  // console.log("recoils", user);
+  console.log("locstor", userId);
 
-  const id = !userId ? "" : `_id=${userId.user}`;
+  const GetUser = () => {
+    useEffect(() => {
+      api.get(`/user/${userId.user}`).then((res) => {
+        console.log("user", res.data.data);
+        console.log(res);
+        setUser((prev) => ({
+          shopid: res.data.data.shop,
+          userid: res.data.data._id,
+        }));
 
-  useEffect(() => {
-    api.get(`/?${id}`).then((res) => {
-      console.log(res.data[0]);
-      setUser((prev) => ({
-        shopid: res.data[0].shop,
-        userid: res.data[0]._id,
-      }));
-
-      setShopId(res.data[0]);
-    });
-  }, [id]);
+        setShopId(res.data[0]);
+      });
+    }, []);
+  };
+  if (userId) {
+    GetUser();
+  }
 
   const location = useLocation();
   return (
@@ -86,7 +93,7 @@ const Actions = ({ matches }: Props) => {
               justifyContent: "center",
             }}
           >
-            {!shopId ? (
+            {!user.shopid ? (
               <NavLink
                 to="/admin"
                 style={{
@@ -102,10 +109,20 @@ const Actions = ({ matches }: Props) => {
                     <Button>DashBoard</Button>
                   </ListItemIcon>
                 ) : (
-                  <NavLink to={`/signup`}>Signup</NavLink>
+                  <NavLink state={type} to={`/signup`}>
+                    <ListItemIcon
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Button>Register your shop</Button>
+                      <AddBusinessSharpIcon />
+                    </ListItemIcon>
+                  </NavLink>
                 )}
               </NavLink>
-            ) : !shopId.shop ? (
+            ) : !user.shopid ? (
               <NavLink state={type} to={`/signup`}>
                 <ListItemIcon
                   sx={{
@@ -118,7 +135,7 @@ const Actions = ({ matches }: Props) => {
                 </ListItemIcon>
               </NavLink>
             ) : (
-              <NavLink to={`/shop/${userId?.shop || shopId.shop}`}>
+              <NavLink to={`/shop/${user.shopid}`}>
                 <ListItemIcon
                   sx={{
                     display: "flex",
@@ -163,21 +180,10 @@ const Actions = ({ matches }: Props) => {
                     lg: "90%",
                     xl: "92%",
                   },
-                  // backgroundColor: "red",
-                  // bottom: {
-                  //   xs: "50%",
-                  //   md: "50%",
-                  //   lg: "50%",
-                  //   xl: "50%",
-                  // },
 
-                  // border: "1px solid black",
                   positon: "absolute",
-                  // padingBottom: "10vh",
                 }}
-                // horizontal="bottom"
                 id="basic-menu"
-                // anchorEl={anchorEl}
                 open={drawer}
                 onClose={() => setType(false)}
                 MenuListProps={{
@@ -224,6 +230,11 @@ const Actions = ({ matches }: Props) => {
                     onClick={() => {
                       localStorage.removeItem("usertoken");
                       localStorage.removeItem("user");
+                      setUser((prev) => ({
+                        shopid: "",
+                        userid: "",
+                      }));
+
                       window.location.href = "/";
                       {
                         setType(false);

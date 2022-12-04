@@ -190,17 +190,21 @@ const loginUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   console.log(req.query);
-
-  const filter =
-    parseInt(req.query) === mongoose.Types.ObjectId ? req.query : {};
-
-  if (req.query === mongoose.Types.ObjectId) {
-    return res.status(400).send({ error: "invalid id" });
-  }
-
   try {
-    const users = await Users.find(filter);
+    const users = await Users.find(req.query);
     res.status(200).send(users);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getSingleUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await Users.findById(id);
+    res.status(200).json({
+      data: user,
+    });
   } catch (err) {
     console.log(err);
   }
@@ -213,4 +217,5 @@ module.exports = {
   loginUser,
   forgotPassword,
   resetPassword,
+  getSingleUser,
 };

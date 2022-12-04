@@ -170,13 +170,13 @@ const Shop = () => {
       openingTime: shopDetail?.shopDetails?.timings?.openingTime || "",
       closingTime: shopDetail?.shopDetails?.timings?.closingTime || "",
       type: shopDetail?.type || "",
-      // category: shopDetail?.category || "",
+      category: shopDetail?.category || "",
       governmentID: shopDetail?.governmentID || "",
       governmentIDImage: shopDetail?.governmentIDImage || "",
       shopImage: shopDetail?.shopImage || "",
       // userID: shopDetail?.userID || "",
       // verified: shopDetail?.verified || "",
-      // delivery: shopDetail?.shopDetails?.delivery || "",
+      delivery: shopDetail?.shopDetails?.delivery || "",
     },
     onSubmit: (values) => {
       patchShopData(values);
@@ -716,7 +716,7 @@ const Shop = () => {
                                         }}
                                         type="text"
                                         label="Type"
-                                        value={cat.type}
+                                        value={shopDetail?.type || cat.type}
                                         name="type"
                                         // type="text"
                                         // helperText={formik.errors.type}
@@ -748,7 +748,10 @@ const Shop = () => {
                                           Non-Static
                                         </MenuItem>
                                       </TextField>
-                                      <SelectField getData={getData} />
+                                      <SelectField
+                                        getData={getData}
+                                        value={formik.values.category}
+                                      />
                                       <Button
                                         size="small"
                                         sx={{ display: "block", mt: 2 }}
@@ -764,7 +767,10 @@ const Shop = () => {
                                           },
                                           marginBottom: "20px",
                                         }}
-                                        value={cat.Delivery}
+                                        value={
+                                          cat.Delivery ||
+                                          shopDetail?.shopDetails?.delivery
+                                        }
                                       >
                                         <MenuItem
                                           onClick={() => {
@@ -808,13 +814,33 @@ const Shop = () => {
                                     >
                                       {edit ? (
                                         <>
-                                          <Button
-                                            type="submit"
-                                            size="small"
-                                            variant="contained"
+                                          <Box
+                                            sx={{
+                                              display: "flex",
+                                              justifyContent: "space-between",
+                                              width: "100%",
+                                            }}
                                           >
-                                            save
-                                          </Button>
+                                            <Button
+                                              variant="contained"
+                                              size="small"
+                                              sx={{
+                                                marginLeft: "5px",
+                                              }}
+                                              onClick={() => {
+                                                setEdit(false);
+                                              }}
+                                            >
+                                              Cancel Edit
+                                            </Button>
+                                            <Button
+                                              type="submit"
+                                              size="small"
+                                              variant="contained"
+                                            >
+                                              save changes
+                                            </Button>
+                                          </Box>
                                         </>
                                       ) : (
                                         <Button

@@ -10,10 +10,10 @@ import { useState } from "react";
 
 interface formData {
   getData: any;
-  // value: string;
+  value: string;
 }
-const SelectField = ({ getData }: formData) => {
-  const [age, setAge] = React.useState<string | number>("");
+const SelectField = ({ getData, value }: formData) => {
+  const [age, setAge] = React.useState<string | number>(value);
   const [open, setOpen] = React.useState(false);
 
   const handleChange = (event: SelectChangeEvent<typeof age>) => {

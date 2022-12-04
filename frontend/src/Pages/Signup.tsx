@@ -124,6 +124,10 @@ const Signup = (
   };
 
   const UserPostData = (data: any) => {
+    if (data.password !== data.confirmPassword) {
+      alert("Password not match");
+      return;
+    }
     try {
       api
         .post("/signup", {

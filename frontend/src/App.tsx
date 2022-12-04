@@ -56,6 +56,7 @@ function App() {
             path="/login"
             element={<Login email={"email"} password={"password"} />}
           /> */}
+
           <Route
             path="/signup"
             element={
