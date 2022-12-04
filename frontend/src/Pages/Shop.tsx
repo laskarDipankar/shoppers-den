@@ -80,7 +80,7 @@ const Shop = () => {
   const [online, setOnline] = useState<boolean>(false);
   // const [user, setuser] = useRecoilValue<any>(Owner);
   const [cat, setcategory] = useState<any>({
-    Delivery: "",
+    Delivery: false,
     CCat: "",
     type: "",
   });
@@ -184,6 +184,8 @@ const Shop = () => {
     },
   });
 
+  console.log(shopDetail?.shopDetails?.delivery);
+
   const handleActive = () => {
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
     api
@@ -282,8 +284,8 @@ const Shop = () => {
               lng: shopDetail?.shopDetails?.location?.lng || mapLoc.lng,
             },
           },
-          type: cat.type,
-          category: cat.CCat,
+          type: cat.type == "" ? shopDetail?.type : cat.type,
+          category: cat.CCat === "" ? shopDetail?.category : cat.CCat,
           governmentID: values.governmentID,
           governmentIDImage: values.governmentIDImage,
           shopImage: values.shopImage,
@@ -297,7 +299,7 @@ const Shop = () => {
         if (res.status === 200) {
           console.log("success");
           console.log(res.data.data);
-          setEdit(false);
+          // setEdit(false);
           window.location.reload();
         } else {
           setEdit(false);
@@ -717,7 +719,7 @@ const Shop = () => {
                                         }}
                                         type="text"
                                         label="Type"
-                                        value={shopDetail?.type || cat.type}
+                                        value={formik.values.type || cat.type}
                                         name="type"
                                         // type="text"
                                         // helperText={formik.errors.type}
@@ -752,8 +754,7 @@ const Shop = () => {
                                       <SelectField
                                         getData={getData}
                                         value={
-                                          shopDetail?.shopDetails?.delivery ||
-                                          cat.delivery
+                                          formik.values.category || cat.CCat
                                         }
                                       />
                                       <Button
@@ -772,8 +773,7 @@ const Shop = () => {
                                           marginBottom: "20px",
                                         }}
                                         value={
-                                          cat.Delivery ||
-                                          shopDetail?.shopDetails?.delivery
+                                          formik.values.delivery || cat.Delivery
                                         }
                                       >
                                         <MenuItem
