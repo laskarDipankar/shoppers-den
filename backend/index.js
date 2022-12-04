@@ -16,33 +16,6 @@ const Api = process.env.SENDINBLUE_API_KEY;
 
 apiKey.apiKey = Api;
 
-// const tranEmailapiInstance = new Sib.TransactionalEmailsApi();
-
-// const sender = {
-//   name: "Shoppersden",
-//   email: " shoppersdenn@gmail.com",
-// };
-
-// const receivers = [
-//   {
-//     email: "dipankar.laskar45@gmail.com",
-//   },
-// ];
-
-// tranEmailapiInstance
-//   .sendTransacEmail({
-//     sender: sender,
-//     to: receivers,
-//     subject: "Welcome to Shoppersden",
-//     htmlContent: "Welcome to Shoppersden",
-//   })
-//   .then((data, response) => {
-//     console.log("API called successfully. Returned data: " + data);
-//   })
-//   .catch((error) => {
-//     console.error(error);
-//   });
-
 const cors = require("cors");
 connectDB();
 
@@ -57,6 +30,10 @@ app.use(
 
 app.use("/api/users", Home_route);
 app.use("/api/users", Fpassword_route);
+
+app.get("/", (req, res) => {
+  res.status(200).send({ message: "connected" });
+});
 
 app.listen(port, () => {
   console.log(`server is running on port ${port}`);
