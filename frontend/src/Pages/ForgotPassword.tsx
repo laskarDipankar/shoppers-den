@@ -29,6 +29,7 @@ export default function ForgotPassword() {
       })
       .then((res) => {
         if (res.status === 200) {
+          alert("Password reset link sent to your email");
           naviagte("/");
           console.log("email sent");
         }
@@ -38,16 +39,6 @@ export default function ForgotPassword() {
         alert(res.data.error);
       });
   };
-
-  // const changePassword = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //     confirmPassword: data.get("confirmPassword"),
-  //   });
-  // };
 
   return (
     <ThemeProvider theme={theme}>
@@ -81,30 +72,10 @@ export default function ForgotPassword() {
               autoComplete="email"
               autoFocus
             />
-            {/* <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="new_password"
-              label="new_password"
-              type="password"
-              id="password1"
-              //   autoComplete="current-password"
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="confirm_password"
-              label="confirm_password"
-              type="password"
-              id="password"
-              //   autoComplete="current-password"
-            /> */}
-            <FormControlLabel
+            {/* <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
-            />
+            /> */}
             <Button
               type="submit"
               fullWidth
@@ -113,13 +84,13 @@ export default function ForgotPassword() {
             >
               change password
             </Button>
-            <Grid container>
+            {/* <Grid container>
               <Grid item xs>
                 <Link href="/" variant="body2">
                   log in
                 </Link>
               </Grid>
-            </Grid>
+            </Grid> */}
           </Box>
         </Box>
       </Container>

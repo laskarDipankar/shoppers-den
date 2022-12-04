@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Formik, FormikProps, FormikValues } from "formik";
 import TextFIeldCO from "../Component/Textfield/TextFIeldCO";
-import { Button, Box, Grid, InputLabel } from "@mui/material";
+import { Button, Box, Grid, InputLabel, Typography } from "@mui/material";
 import { useState } from "react";
 import bg4 from "../img/bg4.jpg";
 import bg3 from "../img/bg3.json";
@@ -13,6 +13,8 @@ import { api } from "../lib/Axios";
 import { useNavigate } from "react-router";
 import { NavLink } from "react-router-dom";
 
+// import CustomizedSnackbars from "../Component/Snackbar/Snackabar";
+
 interface MyFormValues {
   email: string;
   password: string;
@@ -20,17 +22,20 @@ interface MyFormValues {
 
 const Login = ({ email, password }: MyFormValues) => {
   const [edit, setedit] = useState<boolean>(false);
+  const [message, setMessage] = useState<any>({
+    message: "",
+    color: "",
+  });
   const [valueL, setvaluesL] = useState<MyFormValues>({
     email: "",
     password: "",
   });
   const navigate = useNavigate();
 
+  console.log(message);
+
   return (
     <>
-      {/* <Box
-        
-      > */}
       <Grid container xs={12}>
         <Grid
           item
@@ -59,7 +64,6 @@ const Login = ({ email, password }: MyFormValues) => {
                   alignItems: "center",
                 }}
               >
-                {/* <Grid item xs={12}> */}
                 <Box
                   sx={{
                     // margin: "auto",
@@ -75,7 +79,14 @@ const Login = ({ email, password }: MyFormValues) => {
                     // borderRadius: "5%",
                   }}
                 >
-                  {" "}
+                  <Button
+                    // disabled
+                    sx={{
+                      color: message.color,
+                    }}
+                  >
+                    {message.message}
+                  </Button>
                   <Lottie
                     style={{
                       height: "150px",
@@ -93,6 +104,11 @@ const Login = ({ email, password }: MyFormValues) => {
                           try {
                             console.log(res.data);
                             if (res.status === 200) {
+                              console.log(res);
+                              setMessage({
+                                message: res.data.message,
+                                color: "greenyellow",
+                              });
                               if (res.data.token) {
                                 localStorage.setItem(
                                   "usertoken",
@@ -109,10 +125,16 @@ const Login = ({ email, password }: MyFormValues) => {
                               }
                             }
                           } catch (error) {
+                            console.log(res.data);
+                            setMessage(res.data.error);
                             console.log(error);
                           }
                         })
                         .catch((err) => {
+                          setMessage({
+                            message: err.response.data.error,
+                            color: "red",
+                          });
                           console.log(err);
                         });
                     }}
