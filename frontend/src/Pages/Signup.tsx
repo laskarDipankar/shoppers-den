@@ -80,8 +80,8 @@ const Signup = (
     State: "",
     City: "",
     phoneNumber: 0,
-    governmentIDImage: !imagename.gd ? "" : imagename.gd,
-    shopImage: !imagename.si ? "" : imagename.si,
+    governmentIDImage: "",
+    shopImage: "",
     governmentID: "",
   });
 
@@ -591,7 +591,9 @@ const Signup = (
                               marginTop: "10px",
                             }}
                           >
-                            Upload your photo along with your shop
+                            {imagename.gd === ""
+                              ? "Upload your photo along with your shop"
+                              : imagename.gd}
                           </Typography>
                           <Box
                             sx={{
@@ -609,7 +611,9 @@ const Signup = (
                               variant="outlined"
                               component="label"
                             >
-                              Upload shop Image
+                              {imagename.si === ""
+                                ? "Upload File"
+                                : imagename.si}
                               <input
                                 accept="image/*"
                                 onChange={handleImageChange}
@@ -639,7 +643,7 @@ const Signup = (
                             type="submit"
                           >
                             {/* signup */}
-                            Register
+                            Signup
                           </Button>
 
                           <Typography>

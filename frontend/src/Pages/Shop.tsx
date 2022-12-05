@@ -248,6 +248,7 @@ const Shop = () => {
       .then((res) => {
         if (res.status === 200) {
           localStorage.removeItem("user");
+
           navigate("/");
           // window.location.reload();
         }
