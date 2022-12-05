@@ -36,7 +36,7 @@ const Admin = () => {
   const [verified, setverified] = useState<any>();
   const [shopId, setShopId] = useState<any>();
   const [open, setOpen] = React.useState(false);
-  console.log(open);
+  // console.log(open);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -48,18 +48,6 @@ const Admin = () => {
     setpending(false);
   };
   const type = "pending";
-
-  // const sendEmail = (email: string) => {
-  //   window.Email.send({
-  //     Host: "smtp.yourisp.com",
-  //     Username: "username",
-  //     Password: "password",
-  //     To: email,
-  //     From: "dipankar.laskar45@gmail.com",
-  //     Subject: "This is the subject",
-  //     Body: "And this is the body",
-  //   }).then(alert("email sent"));
-  // };
 
   useEffect(() => {
     api
@@ -90,10 +78,7 @@ const Admin = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          // dipankar.laskar45@gmail.com
           setShopId("done");
-
-          console.log(res);
         }
       })
       .catch((err) => {
@@ -110,7 +95,6 @@ const Admin = () => {
       .then((res) => {
         if (res.status === 200) {
           setShopId("done");
-          console.log(res);
         }
       })
       .catch((err) => {

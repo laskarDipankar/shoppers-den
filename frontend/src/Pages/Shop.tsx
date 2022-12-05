@@ -99,7 +99,7 @@ const Shop = () => {
 
   const recoil = useRecoilValue(Owner);
 
-  console.log(recoil);
+  // console.log(recoil);
 
   const page = "shop";
   const [userId, setUserId] = useState(() => getUserFromLocalStorage("user"));
@@ -119,7 +119,7 @@ const Shop = () => {
       .get(`/shop/${params.id ? params.id : userId.shop}`)
       .then((res) => {
         setshop(res.data.data);
-        console.log(res.data.data);
+        // console.log(res.data.data);
       })
       .catch((err) => console.log(err));
   }, [params.id, userId.shop, dialog]);
@@ -131,7 +131,7 @@ const Shop = () => {
     reader.onloadend = () => {
       if (e.target.name === "shopLogo") {
         setSelectedshopImage({ ...selectedshopImages, shop1: file.name });
-        console.log("shop1", selectedshopImages.shop1);
+        // console.log("shop1", selectedshopImages.shop1);
         setSelectedImage(reader.result);
       }
 
@@ -181,11 +181,11 @@ const Shop = () => {
     },
     onSubmit: (values) => {
       patchShopData(values);
-      console.log({ values });
+      // console.log({ values });
     },
   });
 
-  console.log(shopDetail?.shopDetails?.delivery);
+  // console.log(shopDetail?.shopDetails?.delivery);
 
   const handleActive = () => {
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
@@ -253,7 +253,7 @@ const Shop = () => {
       });
   };
   const patchShopData = async (values: any) => {
-    console.log({ values }, "inside");
+    // console.log({ values }, "inside");
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
     await api
       .patch(
@@ -299,8 +299,8 @@ const Shop = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log("success");
-          console.log(res.data.data);
+          // console.log("success");
+          // console.log(res.data.data);
           // setEdit(false);
           window.location.reload();
         } else {
@@ -397,8 +397,8 @@ const Shop = () => {
                       flexWrap: "wrap",
                       justifyContent: "space-evenly",
 
-                      // gap: "50px",
-                      border: "2px solid red",
+                      gap: "20px",
+                      // border: "2px solid red",
                     }}
                   >
                     {shopDetail?.shopDetails?.location?.lat && !edit ? (
@@ -409,6 +409,12 @@ const Shop = () => {
                           color: "black",
                           marginLeft: "20px",
                           background: " rgb(255,232,185)",
+                          height: {
+                            xs: "50%",
+                            sm: "50%",
+                            md: "100%",
+                            xl: "100%",
+                          },
                           ":selected": {
                             background: "red",
                           },
@@ -439,6 +445,12 @@ const Shop = () => {
 
                             ":selected": {
                               background: "red",
+                            },
+                            height: {
+                              xs: "50%",
+                              sm: "50%",
+                              md: "100%",
+                              xl: "100%",
                             },
                           }}
                         >
@@ -475,6 +487,12 @@ const Shop = () => {
                         focusVisible: {
                           background: "rgb(255,232,185)",
                         },
+                        height: {
+                          xs: "50%",
+                          sm: "50%",
+                          md: "100%",
+                          xl: "100%",
+                        },
                       }}
                       size="small"
                       onClick={() => setgallery(true)}
@@ -486,6 +504,12 @@ const Shop = () => {
                       sx={{
                         background: " rgb(255,232,185)",
                         color: "black",
+                        height: {
+                          xs: "50%",
+                          sm: "50%",
+                          md: "100%",
+                          xl: "100%",
+                        },
                       }}
                       size="small"
                       onClick={() => setgallery(false)}
@@ -500,6 +524,7 @@ const Shop = () => {
                             sx={{
                               background: " rgb(255,232,185)",
                               color: "black",
+                              height: "50%",
 
                               border: "2px solid rgb(255,232,185)",
                             }}

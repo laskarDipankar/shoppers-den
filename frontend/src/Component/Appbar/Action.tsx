@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Divider,
   ListItemButton,
@@ -18,6 +19,8 @@ import AddBusinessSharpIcon from "@mui/icons-material/AddBusinessSharp";
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import LogoutIcon from "@mui/icons-material/Logout";
+// import Signupicon from "@mui/icons-material/Signup";
 
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { api } from "../../lib/Axios";
@@ -90,7 +93,7 @@ const Actions = ({ matches }: Props) => {
           <ListItemButton
             sx={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-around",
             }}
           >
             {!user.shopid ? (
@@ -104,10 +107,39 @@ const Actions = ({ matches }: Props) => {
                 }}
               >
                 {location.pathname === "/admin" ? (
-                  <ListItemIcon>
-                    <AdminPanelSettingsIcon />
-                    <Button>DashBoard</Button>
-                  </ListItemIcon>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      // border: "1px solid black",
+                      width: {
+                        xs: "45rem",
+                        sm: "45rem",
+                        md: "45rem",
+                        lg: "20rem",
+                        xl: "20rem",
+                      },
+                    }}
+                  >
+                    <ListItemIcon>
+                      <Button>
+                        <AdminPanelSettingsIcon />
+                        DashBoard
+                      </Button>
+                    </ListItemIcon>
+                    <ListItemIcon>
+                      <Button
+                        onClick={() => {
+                          localStorage.removeItem("admintoken");
+                          // localStorage.removeItem("user");
+                          window.location.href = "/admin";
+                        }}
+                      >
+                        <LogoutIcon />
+                        Logout
+                      </Button>
+                    </ListItemIcon>
+                  </Box>
                 ) : (
                   <NavLink to={`/signup`}>
                     <ListItemIcon
@@ -129,9 +161,19 @@ const Actions = ({ matches }: Props) => {
                     sx={{
                       display: "flex",
                       justifyContent: "center",
+                      width: {
+                        xs: "45rem",
+                        sm: "45rem",
+                        md: "45rem",
+                        lg: "20rem",
+                        xl: "20rem",
+                      },
                     }}
                   >
-                    <Button>signup</Button>
+                    <Button>
+                      {/* <Signupicon />. */}
+                      signup
+                    </Button>
                     <AddBusinessSharpIcon />
                   </ListItemIcon>
                 </NavLink>
@@ -143,17 +185,53 @@ const Actions = ({ matches }: Props) => {
                       justifyContent: "center",
                     }}
                   >
-                    <Button>egister your shop</Button>
                     <AddBusinessSharpIcon />
+                    <Button>Register your shop</Button>
                   </ListItemIcon>
                 </NavLink>
               )
             ) : (
-              <NavLink to={`/shop/${user.shopid}`}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  width: {
+                    xs: "45rem",
+                    sm: "45rem",
+                    md: "45rem",
+                    lg: "20rem",
+                    xl: "20rem",
+                  },
+                }}
+              >
+                <NavLink
+                  style={{
+                    textDecoration: "none",
+                  }}
+                  to={`/shop/${user.shopid}`}
+                >
+                  <ListItemIcon
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {" "}
+                    <Button
+                      sx={{
+                        textDecorations: "none",
+                      }}
+                    >
+                      To your shop
+                      <StoreSharpIcon />
+                    </Button>
+                  </ListItemIcon>
+                </NavLink>
+                <Divider variant="middle" orientation="vertical" flexItem />
                 <ListItemIcon
                   sx={{
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent: "space-around",
                   }}
                 >
                   {" "}
@@ -161,18 +239,28 @@ const Actions = ({ matches }: Props) => {
                     sx={{
                       textDecorations: "none",
                     }}
+                    onClick={() => {
+                      localStorage.removeItem("usertoken");
+                      localStorage.removeItem("user");
+                      setUser((prev) => ({
+                        shopid: "",
+                        userid: "",
+                      }));
+
+                      window.location.href = "/";
+                    }}
                   >
-                    To your shop
-                    <StoreSharpIcon />
+                    <LogoutIcon />
+                    Logout
                   </Button>
                 </ListItemIcon>
-              </NavLink>
+              </Box>
             )}
           </ListItemButton>
 
           <Divider variant="middle" orientation="vertical" flexItem />
 
-          <ListItemButton
+          {/* <ListItemButton
             sx={{
               display: "flex",
               justifyContent: "center",
@@ -181,7 +269,12 @@ const Actions = ({ matches }: Props) => {
           >
             <ListItemIcon
               sx={{
-                display: "flex",
+                display: {
+                  xl: "none",
+                  lg: "none",
+                  md: "none",
+                  xs: "none",
+                },
                 justifyContent: "center",
               }}
             >
@@ -233,7 +326,7 @@ const Actions = ({ matches }: Props) => {
                 ) : (
                   <MenuItem
                     sx={{
-                      marginBottom: "84vh",
+                      // marginBottom: "84vh",
                       height: "4vh",
                       backgroundColor: "transparent",
                       // borderBottom: "1px solid black",
@@ -259,9 +352,11 @@ const Actions = ({ matches }: Props) => {
                   </MenuItem>
                 )}
                 {/* <MenuItem onClick={() => setType(false)}>My account</MenuItem> */}
-              </Menu>
+          {/* </Menu>
             </ListItemIcon>
           </ListItemButton>
+           */}
+
           {/* <Divider variant="middle" orientation="vertical" flexItem /> */}
         </Mylist>
       </Components>

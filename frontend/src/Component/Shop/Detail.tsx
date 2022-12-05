@@ -53,7 +53,7 @@ const theme = createTheme({
 });
 
 const Detail = ({ shopDetail }: Props) => {
-  console.log(shopDetail);
+  // console.log(shopDetail);
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -66,7 +66,7 @@ const Detail = ({ shopDetail }: Props) => {
             //   boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
             paddingRight: "5%",
             paddingLeft: "5%",
-            // marginRight: "10rem",
+            // marginBottom: "5rem",
             borderRadius: "20px",
             background: "rgba( 255, 255, 255, 0.4 )",
             boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
@@ -129,8 +129,8 @@ const Detail = ({ shopDetail }: Props) => {
                         },
                         alignItems: "center",
                         marginTop: "2rem",
-                        paddingLeft: "2rem",
-                        paddingRight: "2rem",
+                        paddingLeft: "4rem",
+                        paddingRight: "4rem",
                         gap: { xl: "4rem", xs: "1rem" },
                         height: "100%",
                         // border: "2px solid red",
