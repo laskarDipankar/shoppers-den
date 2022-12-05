@@ -62,7 +62,7 @@ const Detail = ({ shopDetail }: Props) => {
           sx={{
             height: "100%",
             width: "80vw",
-            border: "2px solid red",
+            // border: "2px solid red",
             //   boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.25)",
             paddingRight: "5%",
             paddingLeft: "5%",
@@ -436,6 +436,12 @@ const Detail = ({ shopDetail }: Props) => {
                     <Card
                       sx={{
                         margin: "2rem",
+                        boxShadow: "0 0 20px 0 rgba(0,0,0,0.2)",
+                        borderRadius: "10px",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                          boxShadow: "0 0 10px 1px rgba(0, 0, 0, 0.55)",
+                        },
                       }}
                     >
                       <CardMedia

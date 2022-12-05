@@ -86,8 +86,8 @@ const Shop = () => {
     type: "",
   });
   const [dialog, setdialog] = useState<boolean>(false);
-  const [selectedfiles, setSelected] = useState<any>();
-  const [selectedidImage, setSelectedImage] = useState<any>();
+  const [selectedfiles, setSelected] = useState<any>("");
+  const [selectedidImage, setSelectedImage] = useState<any>("");
   const [selectedshopImages, setSelectedshopImage] = useState<any>({
     shop1: "",
     shop2: "",
@@ -119,6 +119,8 @@ const Shop = () => {
       .get(`/shop/${params.id ? params.id : userId.shop}`)
       .then((res) => {
         setshop(res.data.data);
+        setSelected(res.data.data.shopDetails.gallery.shopServicesImage);
+        setSelectedImage(res.data.data.shopDetails.gallery.shopLogo);
         // console.log(res.data.data);
       })
       .catch((err) => console.log(err));
@@ -254,6 +256,9 @@ const Shop = () => {
         console.log(err);
       });
   };
+  console.log("services", selectedfiles);
+  console.log("services", selectedidImage);
+
   const patchShopData = async (values: any) => {
     // console.log({ values }, "inside");
     const token: string = JSON.parse(localStorage.getItem("usertoken") || "");
@@ -274,10 +279,14 @@ const Shop = () => {
             delivery: cat.Delivery,
             gallery: {
               shopServicesImage:
-                shopDetail?.shopDetails?.gallery?.shopServicesImage ||
-                selectedfiles,
+                selectedfiles === ""
+                  ? shopDetail?.shopDetails?.gallery?.shopServicesImage
+                  : selectedfiles,
+
               shopLogo:
-                shopDetail?.shopDetails?.gallery?.shopLogo || selectedidImage,
+                selectedidImage === ""
+                  ? shopDetail?.shopDetails?.gallery?.shopLogo
+                  : selectedidImage,
             },
             timings: {
               openingTime: values.openingTime,
