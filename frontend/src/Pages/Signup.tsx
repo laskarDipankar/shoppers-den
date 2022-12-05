@@ -639,7 +639,7 @@ const Signup = (
                             type="submit"
                           >
                             {/* signup */}
-                            Signup
+                            Register
                           </Button>
 
                           <Typography>
