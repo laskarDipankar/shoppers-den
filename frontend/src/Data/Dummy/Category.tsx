@@ -2,6 +2,8 @@ export const Category: string[] = [
   "Electronics",
   "Fashion",
   "Stationary",
+  "Decor",
+
   "Grocery",
   "Personal Care",
   "Medical",
