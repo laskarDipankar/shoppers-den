@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import {
   MapContainer,
   TileLayer,
@@ -11,6 +11,7 @@ import {
 } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from "leaflet";
+import { AddBox } from "@mui/icons-material";
 
 interface Props {
   open: boolean;
@@ -96,11 +97,20 @@ const MapModal = ({ open, setOpen, coordinates, page, getCoords }: Props) => {
           >
             <div>
               <Box>
-                {position === null ? null : (
-                  <>
-                    <h4>{position.lat}</h4>
-                    <h4>{position.lng}</h4>
-                  </>
+                {position === null ? (
+                  <Typography>
+                    Double click on the location to set the longitude and
+                    latidute of the location, once you have set the location the
+                    map will close automatically{" "}
+                  </Typography>
+                ) : (
+                  <Box>
+                    {/* <h4>{position.lat}</h4>
+                    <h4>{position.lng}</h4> */}
+
+                    <Typography>Latitude: {position.lat}</Typography>
+                    <Typography>Longitude: {position.lng}</Typography>
+                  </Box>
                 )}
                 <MapContainer
                   style={{ height: "60vh", width: "60vw" }}

@@ -256,8 +256,8 @@ const Shop = () => {
         console.log(err);
       });
   };
-  console.log("services", selectedfiles);
-  console.log("services", selectedidImage);
+  // console.log("services", selectedfiles);
+  // console.log("services", selectedidImage);
 
   const patchShopData = async (values: any) => {
     // console.log({ values }, "inside");
