@@ -141,17 +141,33 @@ const Actions = ({ matches }: Props) => {
                     </ListItemIcon>
                   </Box>
                 ) : (
-                  <NavLink to={`/signup`}>
-                    <ListItemIcon
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <Button>Register yourself</Button>
-                      {/* <AddBusinessSharpIcon /> */}
-                    </ListItemIcon>
-                  </NavLink>
+                  <>
+                    {!userId ? (
+                      <NavLink to={`/signup`}>
+                        <ListItemIcon
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button>Register yourself</Button>
+                          {/* <AddBusinessSharpIcon /> */}
+                        </ListItemIcon>
+                      </NavLink>
+                    ) : (
+                      <NavLink to={`/signup`}>
+                        <ListItemIcon
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button>Register yourself</Button>
+                          {/* <AddBusinessSharpIcon /> */}
+                        </ListItemIcon>
+                      </NavLink>
+                    )}
+                  </>
                 )}
               </NavLink>
             ) : !user.shopid ? (

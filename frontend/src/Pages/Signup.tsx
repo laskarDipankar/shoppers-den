@@ -45,6 +45,7 @@ const Signup = (
   const location = useLocation();
   const [selectedfiles, setSelected] = useState<any>();
   const [selectedidImage, setSelectedImage] = useState<any>();
+  const [message, setMessage] = useState<string>("");
 
   const navigate = useNavigate();
   const handleImageChange = (e: any) => {
@@ -80,8 +81,8 @@ const Signup = (
 
   const [userSignup, setuserSignup] = useState<UserSignup>({
     firstName: "",
-    lastName: "Ghalib",
-    email: "MirzaGhalib@gmail.com",
+    lastName: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -125,7 +126,7 @@ const Signup = (
 
   const UserPostData = (data: any) => {
     if (data.password !== data.confirmPassword) {
-      alert("Password not match");
+      setMessage("Password not match");
       return;
     }
     try {
@@ -225,6 +226,7 @@ const Signup = (
                       marginRight: "90px",
                     }}
                   >
+                    <Button>{message}</Button>
                     <Box
                       sx={{
                         display: "flex",
