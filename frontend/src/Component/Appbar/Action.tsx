@@ -155,14 +155,15 @@ const Actions = ({ matches }: Props) => {
                         </ListItemIcon>
                       </NavLink>
                     ) : (
-                      <NavLink to={`/signup`}>
+                      <NavLink state={type} to={`/signup`}>
                         <ListItemIcon
                           sx={{
                             display: "flex",
                             justifyContent: "center",
                           }}
                         >
-                          <Button>Register yourself</Button>
+                          <AddBusinessSharpIcon />
+                          <Button>Register your shop</Button>
                           {/* <AddBusinessSharpIcon /> */}
                         </ListItemIcon>
                       </NavLink>
