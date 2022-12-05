@@ -130,13 +130,15 @@ const Shop = () => {
 
     reader.onloadend = () => {
       if (e.target.name === "shopLogo") {
+        console.log("shoplogo");
         setSelectedshopImage({ ...selectedshopImages, shop1: file.name });
-        // console.log("shop1", selectedshopImages.shop1);
+        console.log("shop1", e.target.name, selectedshopImages.shop1);
         setSelectedImage(reader.result);
+      } else {
+        setSelected(reader.result);
+        setSelectedshopImage({ ...selectedshopImages, shop2: file.name });
+        console.log("not shoplogo");
       }
-
-      setSelected(reader.result);
-      setSelectedshopImage({ ...selectedshopImages, shop2: file.name });
     };
 
     reader.readAsDataURL(file);
@@ -663,6 +665,7 @@ const Shop = () => {
                                       <Button
                                         sx={{
                                           minWidth: "240px",
+                                          fontSize: "16px",
                                         }}
                                         size="small"
                                         variant="outlined"
