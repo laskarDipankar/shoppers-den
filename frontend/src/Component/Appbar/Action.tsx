@@ -110,12 +110,12 @@ const Actions = ({ matches }: Props) => {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "space-around",
-                      // border: "1px solid black",
+                      justifyContent: "space-evenly",
+
                       width: {
-                        xs: "45rem",
-                        sm: "45rem",
-                        md: "45rem",
+                        xs: "23rem",
+                        sm: "35rem",
+                        md: "20rem",
                         lg: "20rem",
                         xl: "20rem",
                       },
@@ -194,14 +194,16 @@ const Actions = ({ matches }: Props) => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "space-around",
+                  justifyContent: "space-evenly",
+
                   width: {
-                    xs: "45rem",
-                    sm: "45rem",
-                    md: "45rem",
+                    xs: "23rem",
+                    sm: "35rem",
+                    md: "20rem",
                     lg: "20rem",
                     xl: "20rem",
                   },
+                  // border: "5px solid black",
                 }}
               >
                 <NavLink
@@ -231,7 +233,7 @@ const Actions = ({ matches }: Props) => {
                 <ListItemIcon
                   sx={{
                     display: "flex",
-                    justifyContent: "space-around",
+                    justifyContent: "center",
                   }}
                 >
                   {" "}

@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemText,
   Divider,
+  Button,
 } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -48,7 +49,8 @@ const AppbarMobile = ({ matches }: Props) => {
 
   const recoil = useRecoilValue(Owner);
 
-  console.log(recoil, "mobile");
+  // console.log(recoil, "mobile");
+  console.log(!userId ? "true" : "false");
   return (
     <>
       <AppbarContainer
@@ -90,16 +92,35 @@ const AppbarMobile = ({ matches }: Props) => {
               </IconButton>
             </NavLink>
           </>
+        ) : !userId ? (
+          <>
+            <NavLink to="/signup">
+              <IconButton>
+                <Button>
+                  <Person
+                    sx={
+                      {
+                        // marginRight: "2rem",
+                      }
+                    }
+                  />
+                  SIGNUP
+                </Button>
+              </IconButton>
+            </NavLink>
+          </>
         ) : (
-          <NavLink state={type} to="/signup">
-            <IconButton>
-              <AddBusinessSharpIcon
-                sx={{
-                  marginRight: "2rem",
-                }}
-              />
-            </IconButton>
-          </NavLink>
+          <>
+            <NavLink state={type} to="/signup">
+              <IconButton>
+                <AddBusinessSharpIcon
+                  sx={{
+                    marginRight: "2rem",
+                  }}
+                />
+              </IconButton>
+            </NavLink>
+          </>
         )}
 
         <Actions matches={matches} />
