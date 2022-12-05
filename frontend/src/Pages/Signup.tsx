@@ -47,6 +47,11 @@ const Signup = (
   const [selectedidImage, setSelectedImage] = useState<any>();
   const [message, setMessage] = useState<string>("");
 
+  const [imagename, setImageName] = useState<any>({
+    si: "",
+    gd: "",
+  });
+
   const navigate = useNavigate();
   const handleImageChange = (e: any) => {
     // console.log(e.target.name);
@@ -58,9 +63,10 @@ const Signup = (
     console.log(e.target.name);
     reader.onloadend = () => {
       if (e.target.name === "governmentID") {
+        setImageName({ ...imagename, gd: file.name });
         setSelectedImage(reader.result);
       }
-
+      setImageName({ ...imagename, si: file.name });
       setSelected(reader.result);
     };
 
@@ -74,8 +80,8 @@ const Signup = (
     State: "",
     City: "",
     phoneNumber: 0,
-    governmentIDImage: ``,
-    shopImage: ``,
+    governmentIDImage: imagename.gd ? imagename.gd : "",
+    shopImage: imagename.si ? imagename.si : "",
     governmentID: "",
   });
 

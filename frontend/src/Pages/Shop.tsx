@@ -516,7 +516,7 @@ const Shop = () => {
                     >
                       Detail
                     </Button>
-                    {shopDetail._id === userId.shop ? (
+                    {shopDetail._id === recoil.shopid ? (
                       <>
                         {edit ? (
                           <Button
@@ -524,8 +524,12 @@ const Shop = () => {
                             sx={{
                               background: " rgb(255,232,185)",
                               color: "black",
-                              height: "50%",
-
+                              height: {
+                                xs: "50%",
+                                sm: "50%",
+                                md: "100%",
+                                xl: "100%",
+                              },
                               border: "2px solid rgb(255,232,185)",
                             }}
                             // background=" rgb(255,232,185)"
