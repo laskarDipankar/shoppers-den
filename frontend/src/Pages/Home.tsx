@@ -197,7 +197,7 @@ const Home = () => {
                 Non-Static
               </MenuItem>
               <MenuItem
-                onClick={() => setram("shopDetails.delivery=false")}
+                onClick={() => setram("shopDetails.delivery=true")}
                 value="Filter"
               >
                 Delivery-Available

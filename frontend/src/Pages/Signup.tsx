@@ -80,8 +80,8 @@ const Signup = (
     State: "",
     City: "",
     phoneNumber: 0,
-    governmentIDImage: imagename.gd ? imagename.gd : "",
-    shopImage: imagename.si ? imagename.si : "",
+    governmentIDImage: !imagename.gd ? "" : imagename.gd,
+    shopImage: !imagename.si ? "" : imagename.si,
     governmentID: "",
   });
 
