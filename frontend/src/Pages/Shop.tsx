@@ -294,8 +294,8 @@ const Shop = () => {
               closingTime: values.closingTime,
             },
             location: {
-              lat: shopDetail?.shopDetails?.location?.lat || mapLoc.lat,
-              lng: shopDetail?.shopDetails?.location?.lng || mapLoc.lng,
+              lat:  mapLoc.lat || shopDetail?.shopDetails?.location?.lat,
+              lng:mapLoc.lng|| shopDetail?.shopDetails?.location?.lng ,
             },
           },
           type: cat.type == "" ? shopDetail?.type : cat.type,
