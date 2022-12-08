@@ -97,15 +97,7 @@ const Actions = ({ matches }: Props) => {
             }}
           >
             {!user.shopid ? (
-              <NavLink
-                to="/admin"
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
+              <>
                 {location.pathname === "/admin" ? (
                   <Box
                     sx={{
@@ -121,24 +113,44 @@ const Actions = ({ matches }: Props) => {
                       },
                     }}
                   >
-                    <ListItemIcon>
-                      <Button>
-                        <AdminPanelSettingsIcon />
-                        DashBoard
-                      </Button>
-                    </ListItemIcon>
-                    <ListItemIcon>
-                      <Button
-                        onClick={() => {
-                          localStorage.removeItem("admintoken");
-                          // localStorage.removeItem("user");
-                          window.location.href = "/admin";
-                        }}
-                      >
-                        <LogoutIcon />
-                        Logout
-                      </Button>
-                    </ListItemIcon>
+                    <NavLink
+                      to="/admin"
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Button>
+                          <AdminPanelSettingsIcon />
+                          DashBoard
+                        </Button>
+                      </ListItemIcon>
+                    </NavLink>
+                    <NavLink
+                      to="/admin"
+                      style={{
+                        textDecoration: "none",
+                        color: "black",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Button
+                          onClick={() => {
+                            localStorage.removeItem("admintoken");
+                            // localStorage.removeItem("user");
+                            window.location.href = "/admin";
+                          }}
+                        >
+                          <LogoutIcon />
+                          Logout
+                        </Button>
+                      </ListItemIcon>
+                    </NavLink>
                   </Box>
                 ) : (
                   <>
@@ -225,18 +237,18 @@ const Actions = ({ matches }: Props) => {
                                 userid: "",
                               }));
 
-                              // window.location.href = "/";
+                              window.location.href = "/";
                             }}
                           >
                             <LogoutIcon />
-                            Logout
+                            Logoutt
                           </Button>
                         </ListItemIcon>
                       </>
                     )}
                   </>
                 )}
-              </NavLink>
+              </>
             ) : !user.shopid ? (
               !user.userid ? (
                 <NavLink to={`/signup`}>
@@ -332,7 +344,7 @@ const Actions = ({ matches }: Props) => {
                         userid: "",
                       }));
 
-                      // window.location.href = "/";
+                      window.location.href = "/";
                     }}
                   >
                     <LogoutIcon />
