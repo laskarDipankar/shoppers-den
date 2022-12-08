@@ -295,7 +295,7 @@ const Shop = () => {
             },
             location: {
               lat:  mapLoc.lat || shopDetail?.shopDetails?.location?.lat,
-              lng:mapLoc.lng|| shopDetail?.shopDetails?.location?.lng ,
+              lng: mapLoc.lng|| shopDetail?.shopDetails?.location?.lng ,
             },
           },
           type: cat.type == "" ? shopDetail?.type : cat.type,

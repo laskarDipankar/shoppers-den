@@ -143,30 +143,96 @@ const Actions = ({ matches }: Props) => {
                 ) : (
                   <>
                     {!userId ? (
-                      <NavLink to={`/signup`}>
-                        <ListItemIcon
+                      <>
+                        <NavLink to={`/signup`}>
+                          <ListItemIcon
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <Button>Register yourself</Button>
+                            {/* <AddBusinessSharpIcon /> */}
+                          </ListItemIcon>
+                        </NavLink>
+                        <Divider
+                          variant="middle"
+                          orientation="vertical"
+                          flexItem
+                        />
+                        {/* <ListItemIcon
                           sx={{
                             display: "flex",
                             justifyContent: "center",
                           }}
                         >
-                          <Button>Register yourself</Button>
-                          {/* <AddBusinessSharpIcon /> */}
-                        </ListItemIcon>
-                      </NavLink>
+                          {" "}
+                          <Button
+                            sx={{
+                              textDecorations: "none",
+                            }}
+                            onClick={() => {
+                              localStorage.removeItem("usertoken");
+                              localStorage.removeItem("user");
+                              setUser((prev) => ({
+                                shopid: "",
+                                userid: "",
+                              }));
+
+                              window.location.href = "/";
+                            }}
+                          >
+                            <LogoutIcon />
+                            Logout
+                          </Button>
+                        </ListItemIcon> */}
+                      </>
                     ) : (
-                      <NavLink state={type} to={`/signup`}>
+                      <>
+                        <NavLink state={type} to={`/signup`}>
+                          <ListItemIcon
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                            }}
+                          >
+                            <AddBusinessSharpIcon />
+                            <Button>Register your shop</Button>
+                            {/* <AddBusinessSharpIcon /> */}
+                          </ListItemIcon>
+                        </NavLink>
+                        <Divider
+                          variant="middle"
+                          orientation="vertical"
+                          flexItem
+                        />
                         <ListItemIcon
                           sx={{
                             display: "flex",
                             justifyContent: "center",
                           }}
                         >
-                          <AddBusinessSharpIcon />
-                          <Button>Register your shop</Button>
-                          {/* <AddBusinessSharpIcon /> */}
+                          {" "}
+                          <Button
+                            sx={{
+                              textDecorations: "none",
+                            }}
+                            onClick={() => {
+                              localStorage.removeItem("usertoken");
+                              localStorage.removeItem("user");
+                              setUser((prev) => ({
+                                shopid: "",
+                                userid: "",
+                              }));
+
+                              // window.location.href = "/";
+                            }}
+                          >
+                            <LogoutIcon />
+                            Logout
+                          </Button>
                         </ListItemIcon>
-                      </NavLink>
+                      </>
                     )}
                   </>
                 )}
@@ -266,7 +332,7 @@ const Actions = ({ matches }: Props) => {
                         userid: "",
                       }));
 
-                      window.location.href = "/";
+                      // window.location.href = "/";
                     }}
                   >
                     <LogoutIcon />
